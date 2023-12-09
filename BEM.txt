@@ -1,0 +1,31 @@
+Blocks, Elements and Modifiers
+
+1)when it comes to larger, more complex projects, how you organize your code is the key to efficiency in at least these three ways: 
+	it affects how long it takes you to write code, how much of that code you’ll have to write and how much loading your browser will have to do. 
+	This becomes especially important when you’re working with teams of themers, and when high performance is essential.
+	
+2)There are plenty of methodologies out there aiming to reduce the CSS footprint, organize cooperation among programmers and maintain large CSS codebases.
+	Why BEM over the others?
+		No matter what methodology you choose to use in your projects, you will benefit from the advantages of more structured CSS and UI. Some styles are less 
+		strict and more flexible, while others are easier to understand and adapt in a team.
+
+		The reason I choose BEM over other methodologies comes down to this: it is less confusing than the other methods 
+		but still provides us the good architecture we want and with a recognizable terminology.
+		
+Block
+Standalone entity that is meaningful on its own.
+
+Examples
+header, container, menu, checkbox, input
+
+Element
+A part of a block that has no standalone meaning and is semantically tied to its block.
+
+Examples
+menu item, list item, checkbox caption, header title
+
+Modifier
+A flag on a block or element. Use them to change appearance or behavior.
+
+Examples
+disabled, highlighted, checked, fixed, size big, color yellow

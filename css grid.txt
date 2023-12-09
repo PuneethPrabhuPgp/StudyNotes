@@ -1,0 +1,135 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------
+														CSS GRID(NET NINJA TUTORIAL)
+-----------------------------------------------------------------------------------------------------------------------------------------------
+<div id="content" style="max-width:90%">
+	<div id="one">1</div>
+	<div id="two">2</div>
+	<div id="three">3</div>
+	<div id="four">
+		<p>41</p>
+		<p>42</p>
+		<p>43</p>
+		<p>44</p>
+	</div>
+	<div>5</div>
+		 .
+		 .
+		 .
+</div>
+
+#content{--->
+
+1)"display:grid"  (displays the given id in grid).(tip:same Id give max width).
+
+2)"grid-template-columns: 20% 20% 20% 20% 20%" (creates 5 columns whose width is 20% total always should be 100%).	
+
+3)"grid-template-columns:1fr 1fr 1fr 1fr 1fr"	we can use fraction insted of %, 1fr 2fr... 
+
+4)"grid-template-columns:repeat(10,10%)" creates 5 columns whose width is 10%.
+
+5)"grid-auto-rows:200px" As soon as we give column property it will take height:auto to keep it fixed we use this property.
+
+6)"grid-auto-rows:minmax(200px,auto)" min height will be 200px and max will be auto.
+
+7)"grid-template-rows: 200px 300px"  sets 1st row height 200px and 2nd row height 300px.can be used when diffrent height for different rows.
+
+8)"grid-template-rows: repeat(3,"200px") 3 rows 200px each.
+
+9)"grid-template-rows: repeat(3,minmax("200px",auto) 3 rows 200px each min height and max height auto.
+
+10)"grid-column-gap: 10px" space between columns.
+
+11)"grid-row-gap: 10px" space between rows.
+
+12)"grid-gap:10px" combination of both.
+}
+
+#one{--->
+13)If there are x columns/rows there will be x+1 column-line/row-line.
+
+14)"grid-column-start : 1" it will start from line no. 1(column).
+
+15)"grid-column-end : 3" it will start from line no. 1 and end at no. 3(column).
+
+16)"grid-column: 1/3" combining both start and end. ("grid-column : 3" valid).
+
+17)"grid-row: 2/4" it will start from line no. 1 and end at no. 3(row). (grid-row: 2 valid).
+
+18)"grid-column : span 3" (works exactly as 16)
+
+(we can give negative value for reverse condition ex:if there are 6 grid line and u have to specify grid-column-end 6th grid line is -1)
+}
+
+#four(--->
+19)"dispaly:grid" (start with this for nested grid).
+
+20)u can use all the property used above here.
+}
+
+#content{--->
+21)"align-content: start" The align-content property is used to vertically align the whole grid inside the container.
+							values: start,center,end,space-evenly,space-around,space-between  (vertical);
+
+22)"justify-content : start" The justify-content property is used to align the whole grid inside the container. 		
+							values: start,center,end,space-evenly,space-around,space-between  (horizontal);
+}
+
+#one{--->
+23)"align-self : start" end,stretch,center.
+
+24)"justify-self :start" end,stretch,center.
+
+25)"grid-area: 1 / 2 / 5 / 6"
+The grid-area property can be used as a shorthand property for the grid-row-start, grid-column-start, grid-row-end and the grid-column-end properties.
+}
+
+
+26)grid area--------->
+naming a grid:
+#content{
+grid-template-areas:
+"one one one one"(#one will take 4 columns)
+"two two three"
+"four . four";(. leaves space)(it has "" or '' for every line)
+}
+
+#one{
+	grid-area:one;
+}
+#two{
+	grid-area:two;
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+														CSS GRID(GARDEN GAME)
+-----------------------------------------------------------------------------------------------------------------------------------------------
+1)grid-column-start: 3;
+will water the area starting at the 3rd vertical grid line, which is another way of saying the 3rd vertical border from the left in the grid.
+
+2)When pairing grid-column-start and grid-column-end, 
+you might assume that the end value has to be greater than the start value. But this turns out not the case!
+
+3)If you want to count grid lines from the right instead of the left, you can give grid-column-start and grid-column-end negative values. 
+For example, you can set it to -1 to specify the first grid line from the right.
+
+4)Instead of defining a grid item based on the start and end positions of the grid lines, 
+you can define it based on your desired column width using the span keyword. Keep in mind that span only works with positive values.
+
+5)If typing out both grid-column and grid-row is too much for you, 
+there's yet another shorthand for that. grid-area accepts four values separated by slashes: grid-row-start, 
+grid-column-start, grid-row-end, followed by grid-column-end.
+One example of this would be grid-area: 1 / 1 / 3 / 6.
+
+6)If grid items aren't explicitly placed with grid-area, grid-column, grid-row, etc., 
+they are automatically placed according to their order in the source code. We can override this using the order property, 
+which is one of the advantages of grid over table-based layout.
+By default, all grid items have an order of 0, but this can be set to any positive or negative value, similar to z-index.
+
+7)Grid also introduces a new unit, the fractional fr. 
+Each fr unit allocates one share of the available space. For example, if two elements are set to 1fr and 3fr respectively, 
+the space is divided into 4 equal shares; 
+the first element occupies 1/4 and the second element 3/4 of any leftover space.
+
+8)grid-template is a shorthand property that combines grid-template-rows and grid-template-columns.
+For example, grid-template: 50% 50% / 200px; will create a grid with two rows that are 50% each,
+ and one column that is 200 pixels wide.

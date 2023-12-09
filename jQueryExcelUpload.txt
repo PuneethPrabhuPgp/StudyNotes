@@ -1,0 +1,36 @@
+how to upload excel from jQury:
+<form name="uploadForm" id="uploadForm" action="javascript:;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'
+						+'<input type="file" name="file" id="file"/>
+						
+function uploadValidation(){
+	if($("#file").val()){
+		var data = new FormData();
+		data.append('multiFile', $('#file').prop('files')[0]);
+		$.ajax({
+			type: 'POST',               
+			processData: false, // important
+			contentType: false, // important
+			data: data,
+			url: baseURL + "/ddbulkupload.htm",
+			dataType : 'json',  
+			success: function(jd){
+				//closeuplodFileModal();
+				data = JSON.parse(jd.model.model);
+				var returnMsg = data.returnMessage;
+				$("#respContent").empty();
+				$("#respContent").text(returnMsg);
+				
+				if(data.returnStatus=="VALIDATION_FAILED"){
+					$('#hiddenDownloader').attr('src', baseURL + "/validationsforentityuploaderrorfile.htm");
+				}
+			},
+			error:function(xhr,status,error){
+				$("#respContent").empty();
+				$("#respContent").text("Invalid file format.");
+			}
+			
+		}); 
+	}else{
+		alert("Please select a file to upload");
+	}
+}

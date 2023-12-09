@@ -1,0 +1,549 @@
+Transpilers, or source-to-source compilers, are tools that read source code written in one programming language.
+
+A tip on hyphens and underscore in Sass: Hyphens and underscores are considered to be the same. 
+This means that @mixin important-text { } and @mixin important_text { } are considered as the same mixin!
+
+Sass keeps the CSS code DRY (Don't Repeat Yourself). One way to write DRY code is to keep related code in separate files.
+
+1)sass: Syntactically Awesome Stylesheet.
+	When Sass first came out, the main syntax was noticably different from CSS. It used indentation instead of braces, 
+	didn't require semi-colons and had shorthand operators. In short, it looked a lot like Haml.
+	Some folks didn't take too kindly to the new syntax, and in version 3 Sass changed it's main syntax to .scss. 
+	SCSS is a superset of CSS, and is basically written the exact same, but with all the fun new Sass features.
+
+	That said, you can still use the original syntax if you want to. I personally use 
+	.scss, and I will be using the .scss syntax in this article.
+	
+	Good question. Sass makes writing maintainable CSS easier. You can get more done, in less code, 
+	more readably, in less time.
+
+2)Sass is a CSS pre-processor.
+
+3)Sass reduces repetition of CSS and therefore saves time.
+
+4)A browser does not understand Sass code. Therefore, you will need a Sass pre-processor to convert Sass code into standard CSS.
+This process is called transpiling. So, you need to give a transpiler (some kind of program) some Sass code and then get some CSS code back.
+
+5)Sass files has the ".scss" file extension.
+
+6)Operating system - Sass is platform independent
+Browser support - Sass works in Edge/IE (from IE 8), Firefox, Chrome, Safari, Opera
+Programming language - Sass is based on Ruby
+
+7)There are a good many applications that will get you up and running with Sass in a few minutes for Mac, Windows, and Linux. You can download most of the applications for free but a few of them are paid apps (and totally worth it).
+
+	CodeKit (Paid) Mac
+	Compass.app (Paid, Open Source) Mac Windows Linux
+	Ghostlab (Paid) Mac Windows
+	Hammer (Paid) Mac
+	Koala (Open Source) Mac Windows Linux
+	LiveReload (Paid, Open Source) Mac Windows
+	Prepros (Paid) Mac Windows Linux
+	Scout-App (Free, Open Source) Windows Linux Mac
+
+8)With Sass, you can store information in variables, like:
+
+	strings
+	numbers
+	colors
+	booleans
+	lists
+	nulls
+	Sass uses the $ symbol, followed by a name, to declare variables:
+	$variablename: value;
+
+9)$myColor: red;
+
+	h1 {
+	  $myColor: green;
+	  color: $myColor;
+	}
+
+	p {
+	  color: $myColor;
+	}
+
+	Will the color of the text inside a <p> tag be red or green? It will be red!
+
+	The other definition, $myColor: green; is inside the <h1> rule, and will only be available there!
+
+	So, the CSS output will be:
+
+	h1 {
+	  color: green;
+	}
+
+	p {
+	  color: red;
+	}
+
+10)The default behavior for variable scope can be overridden by using the !global switch.
+
+	!global indicates that a variable is global, which means that it is accessible on all levels.
+
+	Look at the following example (same as above; but with !global added):
+
+	$myColor: red;
+
+	h1 {
+	  $myColor: green !global;
+	  color: $myColor;
+	}
+
+	p {
+	  color: $myColor;
+	}
+	Now the color of the text inside a <p> tag will be green!
+
+	So, the CSS output will be:
+
+	h1 {
+	  color: green;
+	}
+
+	p {
+	  color: green;
+	}
+
+
+example:
+
+#greenId{
+  $colorSafe : pink !global;
+  background-color: $colorSafe;//pink
+  width: 100px;
+  height: 100px;
+  margin-right: 8px;
+}
+
+#redId{
+  background-color: $colorSafe;//pink
+  width: 100px;
+  height: 100px;
+  margin-right: 8px;
+}
+
+$colorSafe : green !global;
+
+#pinkId{
+  background-color: $colorSafe;//green
+  width: 100px;
+  height: 100px;
+  margin-right: 8px;
+}
+
+11)Sass lets you nest CSS selectors in the same way as HTML.
+
+	Look at an example of some Sass code for a site's navigation:
+
+	nav {
+	  ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	  }
+	  li {
+		display: inline-block;
+	  }
+	  a {
+		display: block;
+		padding: 6px 12px;
+		text-decoration: none;
+	  }
+	}
+
+	Notice that in Sass, the ul, li, and a selectors are nested inside the nav selector.
+
+	While in CSS, the rules are defined one by one (not nested):
+
+	nav ul {
+	  margin: 0;
+	  padding: 0;
+	  list-style: none;
+	}
+	nav li {
+	  display: inline-block;
+	}
+	nav a {
+	  display: block;
+	  padding: 6px 12px;
+	  text-decoration: none;
+	}
+	
+12)Just like CSS, Sass also supports the @import directive.
+
+	The @import directive allows you to include the content of one file in another.
+
+	The CSS @import directive has a major drawback due to performance issues; it creates an extra HTTP request each time you call it.
+	However, the Sass @import directive includes the file in the CSS; so no extra HTTP call is required at runtime!
+	
+	@import filename;
+	
+	Tip: You do not need to specify a file extension, Sass automatically assumes that you mean a sass i.e .scss file. You can also import CSS files. The @import directive imports the file and any variables or mixins defined in the imported file can then be used in the main file.
+
+	You can import as many files as you need in the main file example reset.scss:
+	
+	@import "reset"; 
+
+13)Sass Partials
+	By default, Sass transpiles all the .scss files directly. However, when you want to import a file, you do not need the file to be transpiled directly.
+
+	Sass has a mechanism for this: If you start the filename with an underscore, Sass will not transpile it. Files named this way are called partials in Sass.
+
+	So, a partial Sass file is named with a leading underscore:
+
+	Sass Partial Syntax:
+
+	 _filename;
+	The following example shows a partial Sass file named "_colors.scss". (This file will not be transpiled directly to "colors.css"):
+
+	Example
+	"_colors.scss":
+
+	$myPink: #EE82EE;
+	$myBlue: #4169E1;
+	$myGreen: #8FBC8F;
+
+	Now, if you import the partial file, omit the underscore. Sass understands that it should import the file "_colors.scss":
+
+	Example
+	@import "colors";
+
+	body {
+	  font-family: Helvetica, sans-serif;
+	  font-size: 18px;
+	  color: $myBlue;
+	}
+	
+	You can create partial Sass files that contain little snippets of CSS that you can include in other Sass files. 
+	This is a great way to modularize your CSS and help keep things easier to maintain. A partial is simply a Sass file named with a leading underscore. You might name it something like _partial.scss. The underscore lets Sass know that the file is only a partial file and that it should not be generated into a CSS file.
+	Sass partials are used with the @import directive.
+
+14)The @mixin directive lets you create CSS code that is to be reused throughout the website.
+
+	The @include directive is created to let you use (include) the mixin.	
+	
+15)A mixin is defined with the @mixin directive.
+	Sass @mixin Syntax:
+
+impt : mixin should be defined in first then called else it cant find mixin hence sass is line by line compilation.
+
+	@mixin name {
+	  property: value;
+	  property: value;
+	  ...
+	}
+	
+	@mixin important-text{
+	  color: red;
+	  font-size: 25px;
+	  font-weight: bold;
+	  border: 1px solid blue;
+	}
+	The @include directive is used to include a mixin.
+
+	Sass @include mixin Syntax:
+
+	selector {
+	  @include mixin-name;
+	}
+	So, to include the important-text mixin created above:
+
+	SCSS Syntax:
+
+	.danger {
+	  @include important-text;
+	  background-color: green;
+	}
+
+	The Sass transpiler will convert the above to normal CSS:
+
+	CSS output:
+
+	.danger {
+	  color: red;
+	  font-size: 25px;
+	  font-weight: bold;
+	  border: 1px solid blue;
+	  background-color: green;
+	}
+
+16)A mixin can also include other mixins:
+
+	SCSS Syntax:
+
+	@mixin special-text {
+	  @include important-text;
+	  @include link;
+	  @include special-border;
+	}
+	
+13)assing Variables to a Mixin
+	Mixins accept arguments. This way you can pass variables to a mixin.
+
+	Here is how to define a mixin with arguments:
+
+	SCSS Syntax:
+
+	/* Define mixin with two arguments */
+	@mixin bordered($color, $width) {
+	  border: $width solid $color;
+	}
+
+	.myArticle {
+	  @include bordered(blue, 1px);  // Call mixin with two values else error
+	}
+
+	.myNotes {
+	  @include bordered(red, 2px); // Call mixin with two values else error
+	}
+	Notice that the arguments are set as variables and then used as the values (color and width) of the border property.
+
+	After compilation, the CSS will look like this:
+
+	CSS Output:
+
+	.myArticle {
+	  border: 1px solid blue;
+	}
+
+	.myNotes {
+	  border: 2px solid red;
+	}
+
+14)It is also possible to define default values for mixin variables:
+
+	SCSS Syntax:
+
+	@mixin bordered($color: blue, $width: 1px) {
+	  border: $width solid $color;
+	}
+
+	Then, you only need to specify the values that change when you include the mixin:
+
+	SCSS Syntax:
+
+	.myTips {
+	  @include bordered($color: orange);
+	}
+	
+	We can pass as many variables as we want. 
+	But, any variable that has a default/optional argument needs to be at the end of the argument list.
+	
+	Meaning, you can't do this.
+
+	@mixin grid($flex: true, $max-width) {
+		// code here
+	}
+	
+	SCSS will throw an error that states Required argument $max-width must come before any optional arguments..
+
+	Note: Default arguments can be variables, keywords etc.
+
+15)Another good use of a mixin is for vendor prefixes.
+
+	Here is an example for transform:
+
+	SCSS Syntax:
+
+	@mixin transform($property) {
+	  -webkit-transform: $property;
+	  -ms-transform: $property;
+	  transform: $property;
+	}
+
+	.myBox {
+	  @include transform(rotate(20deg));
+	}
+
+	After compilation, the CSS will look like this:
+
+	CSS Output:
+
+	.myBox {
+	  -webkit-transform: rotate(20deg);
+	  -ms-transform: rotate(20deg);
+	  transform: rotate(20deg);
+	}
+	
+16)The @extend directive lets you share a set of CSS properties from one selector to another.
+
+	The @extend directive is useful if you have almost identically styled elements that only differ in some small details.
+
+	The following Sass example first creates a basic style for buttons (this style will be used for most buttons). Then, we create one style for a "Report" button and one style for a "Submit" button. Both "Report" and "Submit" button inherit all the CSS properties from the .button-basic class, through the @extend directive. In addition, they have their own colors defined:
+
+	SCSS Syntax:
+
+	.button-basic  {
+	  border: none;
+	  padding: 15px 30px;
+	  text-align: center;
+	  font-size: 16px;
+	  cursor: pointer;
+	}
+
+	.button-report  {
+	  @extend .button-basic;
+	  background-color: red;
+	}
+
+	.button-submit  {
+	  @extend .button-basic;
+	  background-color: green;
+	  color: white;
+	}
+
+	After compilation, the CSS will look like this:
+
+	CSS Output:
+
+	.button-basic, .button-report, .button-submit {
+	  border: none;
+	  padding: 15px 30px;
+	  text-align: center;
+	  font-size: 16px;
+	  cursor: pointer;
+	}
+
+	.button-report  {
+	  background-color: red;
+	}
+
+	.button-submit  {
+	  background-color: green;
+	  color: white;
+	}
+
+	By using the @extend directive, you do not need to specify several classes for an element in your HTML code, 
+	like this: <button class="button-basic button-report">Report this</button>. You just need to specify .button-report 
+	to get both sets of styles.
+
+	The @extend directive helps keep your Sass code very DRY.
+	
+17)Variable Arguments Mixins
+	In CSS, we have properties like padding and margin that can take anywhere from one to four values 
+	for their property arguments.
+
+	Like this.
+
+	a {
+		padding: 10px; //all
+		padding: 10px 20px; //top-bottom,right-left
+		padding: 10px 20px 50px; //top,right-left,bottom
+		padding: 10px 20px 50px 20px;//top,right,bottom,left
+	}
+	As you know all values above are valid.
+
+	In SCSS we also have lists. The padding values above is treated as lists in SCSS. But there is a way for us to tell Mixins to treat these values as variables instead of a list.
+
+	To illustrate, lets create a padding Mixin.
+
+	@mixin padding($values) {    
+		@each $var in $values {
+			padding: #{$var};
+		}
+	}
+	If we use this Mixin @include padding(2px 4px 6px); our result will be.
+
+	a {
+		padding: 2px;
+		padding: 4px;
+		padding: 6px;
+	}
+	To treat this variable as a list, we add triple dots ... after the variable name like this.
+
+	@mixin padding($values...) {    
+		@each $var in $values {
+			padding: #{$var};
+		}
+	}
+
+	a {
+		@include padding(2px 4px 6px);
+	}
+	Now we get this.
+
+	a {
+		padding: 2px 4px 6px;
+	}
+
+18)Variable Arguments (Continued)
+	Another function of the ... is that it is used to spread arguments.
+
+	Sounds weird, an example would better illustrate.
+
+	$style1: 100%, 70px, #fo6d06;
+	$style2: (background: #bada55, width: 100%, height: 100px);
+
+	@mixin box($width, $height, $background) {
+		width: $width;
+		height: $height;
+		background-color: $background;
+	}
+
+	.fogdog {
+		@include box($style1...);
+	}
+
+	.badass {
+		@include box($style2...);
+	}
+	The first thing we did is define two variables $style1 and $style2, a list and map.
+
+	Then we define a box Mixin that takes 3 arguments. Then we call the Mixin twice, both times using the ... (spread operator) to pass a list as the only argument in the first instance, and in the second instance, we passed the map.
+
+	For the list, since we have 3 list items and the Mixin has 3 arguments, each argument is passed in respectively.
+
+	If the list has a length less than 3 it throws an error, otherwise it takes only the first 3 list items. Meaning our list can be as 10 items and only the first 3 items will is passed to the list.
+
+	The map is also treated the same way as the list, the only exception is that the map is treated as keyword arguments (meaning the map key values has to match the variable name).
+
+	The above snippet compiles into this.
+
+	.fogdog {
+		width: 100%;
+		height: 70px;
+		background-color: #fo6d06;
+	}
+
+	.badass {
+		width: 100%;
+		height: 100px;
+		background-color: #bada55;
+	}
+	
+19)@content => https://www.tutorialspoint.com/sass/passing_content_blocks_to_mixin.htm
+	
+	Block of styles is passed to the mixin for the placement inside the styles. In @content directive location, styles gets included into the mixin.
+	@content allows for Mixin extension. We can pass a block to Mixins with the use of @content.
+	
+	most usefull => Instead of having to type the media query everytime, this feels like a much more stable way to handle media queries.
+
+	<div class = "block">
+         <h1>Example using passing content blocks</h1>
+         <p>Different Colors</p>
+         <ul>
+            <li>Red</li>
+            <li>Green</li>
+            <li>Blue</li>
+         </ul>
+    </div>
+	@mixin element {
+	   @content;
+	}
+
+	sample.scss
+		//usally we do this @include element(), but here i am passing a whole block of css
+		@include element {
+		   .block {
+			  color: green;
+		   }
+		}
+	
+	sample.css
+		.block {
+		   color: green;
+		}
+
+Function in scss https://www.w3schools.com/sass/sass_functions_string.asp
+tutorials https://scotch.io/tutorials/getting-started-with-sass

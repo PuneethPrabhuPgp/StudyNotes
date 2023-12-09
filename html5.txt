@@ -1,0 +1,128 @@
+1)What is New in HTML5?
+	The DOCTYPE declaration for HTML5 is very simple:
+
+	<!DOCTYPE html>
+	The character encoding (charset) declaration is also very simple:
+
+	<meta charset="UTF-8">
+
+2)The most interesting new HTML5 elements are: 
+
+	header, section, footer, aside, nav, main, article, figure
+
+	New semantic elements like <header>, <footer>, <article>, and <section>.
+
+	New attributes of form elements like number, date, time, calendar, and range.
+
+	New graphic elements: <svg> and <canvas>.
+
+	New multimedia elements: <audio> and <video>.
+	
+3)Add New Elements to HTML
+	You can also add new elements to an HTML page with a browser trick.
+
+	This example adds a new element called <myHero> to an HTML page, and defines a style for it:
+
+	Example
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<script>document.createElement("myHero")</script>
+	<style>
+	myHero {
+	  display: block;
+	  background-color: #dddddd;
+	  padding: 50px;
+	  font-size: 30px;
+	}
+	</style>
+	</head>
+	<body>
+
+	<h1>A Heading</h1>
+	<myHero>My Hero Element</myHero>
+
+	</body>
+	</html>
+	
+4)New Semantic/Structural Elements
+HTML5 offers new elements for better document structure:
+
+These tags are not supported in Internet Explorer 8 and earlier versions.
+
+Tag				Description
+<article>			Defines an article in a document
+<aside>				Defines content aside from the page content
+<bdi>				Isolates a part of text that might be formatted in a different direction from other text outside it
+<details>			Defines additional details that the user can view or hide
+<dialog>			Defines a dialog box or window
+<figcaption>		Defines a caption for a <figure> element
+<figure>			Defines self-contained content 
+<footer>			Defines a footer for a document or section
+<header>			Defines a header for a document or section
+<main>				Defines the main content of a document
+<mark>				Defines marked/highlighted text
+<meter>				Defines a scalar measurement within a known range (a gauge)
+<nav>				Defines navigation links
+<progress>			Represents the progress of a task
+<rp>				Defines what to show in browsers that do not support ruby annotations
+<rt>				Defines an explanation/pronunciation of characters (for East Asian typography)
+<ruby>				Defines a ruby annotation (for East Asian typography)
+<section>			Defines a section in a document
+<summary>			Defines a visible heading for a <details> element
+<time>				Defines a date/time
+<wbr>				Defines a possible line-break
+
+
+bdi:
+	Isolate the usernames from the surrounding text-direction settings:
+
+	<ul>
+	  <li>User <bdi>hrefs</bdi>: 60 points</li>
+	  <li>User <bdi>jdoe</bdi>: 80 points</li>
+	  <li>User <bdi>إيان</bdi>: 90 points</li>
+	</ul>
+	
+details:
+	(hides and gives one arrow with content of summary)
+	<details>
+	  <summary>Copyright 1999-2018.</summary>
+	  <p> - by Refsnes Data. All Rights Reserved.</p>
+	  <p>All content and graphics on this web site are the property of the company Refsnes Data.</p>
+	</details>
+	
+dialog:
+	<dialog open>This is an open dialog window</dialog>
+
+figcaption:	
+	<figure>
+	  <img src="pic_trulli.jpg" alt="Trulli" style="width:100%">
+	  <figcaption>Fig.1 - Trulli, Puglia, Italy.</figcaption>
+	</figure>
+	
+main:
+
+	There must not be more than one <main> element in a document. 
+	The <main> element must NOT be a descendant of an <article>, <aside>, <footer>, <header>, or <nav> element.
+	
+mark:
+	<p>Do not forget to buy <mark>milk</mark> today.</p> (yellow highlight on milk)
+	
+meter:
+
+	<meter value="2" min="0" max="10">2 out of 10</meter><br>
+	<meter value="0.6">60%</meter>
+	The <meter> tag is not supported in Internet Explorer, Edge 12, Safari 5 and earlier versions.
+	
+progress:
+
+	<progress value="22" max="100"></progress>
+
+time:
+
+	<p>I have a date on <time datetime="2008-02-14 20:00">Valentines day</time>.</p>
+	
+wbr:
+
+	<p>This is a 
+	veryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryvery<wbr>longwordthatwillbreakatspecific<wbr>placeswhenthebrowserwindowisresized.</p>

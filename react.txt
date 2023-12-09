@@ -1,0 +1,2712 @@
+react tutorial from codevolution:
+(learn commands meaning)
+es7 snippets :
+	rce - gives import and whole class.
+	rconst - for constructor
+	rfce- function 
+	rpce- class with pure component
+	
+short cuts:
+	ctrl+/ : line comment
+	shift+alt+a : block comment
+	shift+alt+up arrow : duplicate up
+	shift+alt+down arrow : duplicate down
+	ctr+k ctrl+f : formatter only selected
+	shift+alt+f : formatter document
+
+points to remember:
+	user deffined props(attr) cant have uppercase.
+	project name cant contain any uppercase letter and no space.
+	tag name's first letter shold be upper case if it is component.
+	
+important concepts :
+1)context
+2)redux (https://blog.logrocket.com/understanding-redux-saga-from-action-creators-to-sagas-2587298b5e71/ thunk vs saga)
+3)render props
+4)context vs redux
+5)redux vs flux (https://medium.com/edge-coders/the-difference-between-flux-and-redux-71d31b118c1)
+6)how to deploy react app
+7)all commands meaning
+8)learn everything about Axios (service provider)9)diff b/w lib and framework.
+	
+clip 1:
+
+1)React is a open source library "not a framework" for building user interfaces.
+
+2)created and maintained by facebook (in demand skills set).
+
+3)React is a 
+	component based architecture 
+	reusable code
+	declarative (tell react what you want and it will build actual UI)
+	effencintly updating and rendering comonents
+	
+4)React native is for mobile.
+
+clip 2:
+
+Steps to start react:
+
+1)download node js zip file, extract,rename it and set environment.
+
+2)open command prompt and type to check it is installed.
+	node -v and npm -v 
+
+3)to start with create one folder and then open it in Visual studio code and open new terminal, type ps and press enter.
+	ps
+
+4)then type this which creates folder with the name "hello".
+	npx create-react-app hello
+
+5)npm start for hello folder, which opens a page on local host on 3000 port.
+
+6)open app.js from src file.
+
+7)There are 2 methods to create app:
+
+	i)npx create-react-app <project-name> (projectname cant be capital)
+		npx is a npm package runner which get installed when we install node.
+	ii)npm install create-react-app -g followed by create react app <project-name>
+	
+	why prefer 1st method?
+		Dont have to install the package globally and i dont have to worry about constanlly updating create react app package.
+	
+clip 3:
+	
+8)folder structure:
+	At root level 3 folder 4 files.
+		Files:
+			i)package.json contains dependencies and scrip required for project. 
+			ii)package-lock.json yarn lock files,they simply ensure installation of dependencies.
+			iii)gitignore, ignore it.
+			iv)read me (read it :) ).
+		Folders:
+			i)node-modules is one in which all the dependencies are installed, it is generated when we type create-react-app command or npm install.
+			ii)public :  
+				a)manifest.josn is concerned with progressive web app.
+				b)favicon.ico which we see on web page.
+				d)index.html is an impt file, it is the only file which we will have in a single page application. The view may dynamically change in browser 
+				but it is this html that served up.Not to add any code, can add in head tag but definetly not in body tag.
+				<div id="root"></div> this controls the wholw UI in index.html . At one type react app takes over this div tag and is ultimately responsible
+				for UI.
+			iii)src which has all files needed for development.
+				a)index.js is a starting point for application, in this we specify root component which is APP and dom element div.root evrything within 
+				this div is controlled by react.
+				b)app.js is responsible for html displayed in browser.
+				c)serviceWorker.js again concerned with progressive web app.
+	summary:
+		when we type command (npm start) index.html served in the browser. index.html contains root dom node. Next control enters index.js. React dom renders the app component on to the root dom node. The app component
+		contains HTML which ultimately displayed in the browser.
+
+clip 4: 
+
+9)Components:
+	In react components refer to the part of the UI. component translates to code. component code will be in js file.
+	There are 2 types of comonent:
+		i)functional component
+			Js functions
+		ii)class component.
+			Es6 class extending comonents whose render methode return html.
+			
+clip 5:
+
+10)Functional component:
+	are js functions which accepts input properties and returns html which describes the UI. here html is JSX(JavaScript XML).
+	
+create greet.js file and 1st line should be:
+
+	import React from 'react' // 2nd word react's R should be caps
+	create a greet() function which returns h1 tag.
+	
+	function greet(){
+		return <h1>Hello Krupa</h1>
+	}
+	
+	export this js file to app.js by writing :
+		export default greet
+	then in app.js write 
+		import Greet from './components/greet'       we can omit .js extension and 2nd word Greek's first letter should be caps.
+	to specify greet component in app.js we need just specify greet tag 
+		<Greet></Greet>
+	if no content inside that then it can be self closing tag 
+		<Greet/>
+	always prefer arrow function 
+		const greet = () => <h1>Hello Krupa</h1>
+	
+11)Exporting & Importing:
+	here we are exporting greet component as a default export from greet.js this is what allows us to import the component with any name
+	so i can change to import mycomp from './components/greet'  <Mycomp/>
+	insted of default export 
+		export default greet
+	we can use named export
+		export const greet = () => <h1>Hello Krupa</h1> in this case we have to import exact name greet.
+		
+		The {} brackets are golden when you need only specific components from the module.
+		When importing named exports, you’ll have to wrap them in curly braces. If you’re importing multiple exports from 
+		the same module, you can concatenate them, comma based, and use them in the same wrapping curly braces.
+		When you import, and omit the curly braces, it will look for the default export in the module you’re importing from. 
+		Because it knows it has to look for the default export, you can use any random name for your import
+		In general:
+			when anything is named input use { comp_name }
+			If default then without braces
+			
+		import greettt from './jbjhb'			//default export's import
+		import { greet } from './jbjhb' //named export's import
+						summary:		Named export:			in parent it can be				export const greet = "....something"				or				at the end export {greet,...all other}			in children always				import { greet } from './jbjhb';						default export:			in parent always				at the end export default greet			in children always				import greet from './jbjhb';				
+	refer clip 38 number 70 in this page
+	
+clip 6:
+
+12)class component:
+	it can hold private component.
+	when we create class component we have to include 2 imports react and component class from react.
+		import React, { Component } from 'react';
+	class to become react component should 
+		i)extend component class from react
+		ii)a class should implement reneder method which will return null or html.
+		
+		class Welcome extends Component{
+			render(){
+				return <h1></h1>;
+			}
+		}
+		if there are 2 comonent in app.js then hav to wrap it with one element else it ll be error.
+
+clip 7:
+
+13)2018 Hooks are introduced. Before this functional comonents are consiered as stateless but not anymore.
+
+clip 8:
+
+14)JSX (JavaScript XML) is an extension to the JS langage syntax.
+	JSX is like xml and it have tag children and attribute.JSX ultimately gets converted to JS which is understood by browser.
+	JSX is not necesity for react it just makes code simpler and elegant.
+	In react class="" is not correct it should be className="".
+	
+clip 9:
+
+15)props (properties):
+	It is a optional input that a component can accept.
+	Add attribute to the tag in app.js
+		<Greet name="manoj"/>
+	Now in Greet.js , here props is just a object which have all attribute passed by its parent.
+		const Greet = props => <h1>Hello {props.name}</h1>
+		
+16)Access children:
+	<Greet name="manoj">
+		<p>This is children</p>
+	</Greet> in app.js
+	It dosent break if in any case i dnt pass name attribute in tag.
+	In greet.js
+		const Greet = props => {
+			return(
+				<div>
+					<h1>Hello {props.name}</h1>
+					{props.children}
+				</div>
+			)
+		}
+		
+17)props with class:
+	class Welcome extends Component{
+		render(){
+			return <h1>Welcome {this.props.name}</h1>
+		}
+	}
+	
+	not in video:
+		We can set default props so that if parent dont pass value some default value will always be set
+		example:
+			className.defaultProps = {
+				propName : "hi"
+			}
+			
+18)props are immutable i.e its value cannot be changed. Its a read only property.when some props is needed by leaf level child from its parent but not needed by intermediate children then we can use		in class				<GrandChild name={this.props.name} {...this.props}/> 		in function				function Child(props) {					return (						<div>							<GrandChild name={props.name} {...props}/>						</div>					)				}
+
+clip 10:
+
+19)props vs state :
+	1)props are passed to the components where as state are managed within the comonent.
+	2)props accepts functional parameters but states get values from variables declared in function body.
+	3)props are immutable but state can be changed.
+	4)props can be accsed by props and this.props but state useState Hook and this.state.
+	
+20)To create state object we need constructor. Within constructor call super(), we need this because we extend react's 
+	component class and call has to be made for base class constructor.
+	
+21)Here onClick must be camel case:
+	class Welcome extends Component{
+		constructor(){
+			super();
+			this.state={
+				message: "Welcome visitors";
+			}
+		}
+		changeMessage(){
+			this.setState({
+				message="Thank You";
+			});
+		}
+		render(){
+			return (
+				<div>
+					<h1>{this.state.message}</h1>
+					<button onClick={() => this.changeMessage()}>Submit</button>
+				</div>
+			)
+		}
+	}
+	
+22)state:
+	1)state is nothing but an object in react that is privately maintained inside a component.
+	2)A state can influence what is rendered in the browser.
+	3)state can be changed within a component.
+	
+clip 11:
+
+23)es7 snippets :
+	rce - gives import and whole class.
+	rconst - for constructor
+	
+24)why cant we use this.state= "some value" insted of this.setState???
+	Bes when we use this.state= "some value" the UI is not re-rendering when state is changed and this is the main reason we
+	should not change state without using setState.
+	Never modify the state directly bes react will not re-render the component.setState allows react to know it has to re-render the
+	component.
+
+25)calls to setState are asynch so the value printed after setstate will have one value less than actual value.
+	class Welcome extends Component{
+		constructor(){
+			super();
+			this.state={
+				count: 0
+			}
+		}
+		increment(){
+			this.setState({
+				count: this.state.count+1
+			});
+			console.log(this.state.count) //output 0
+		}
+		render(){
+			return (
+					<div>
+						<h1>{this.state.count}</h1>   //it will be 1
+						<button onClick={() => this.increment()}>Increment</button>
+					</div>
+				)
+		}
+	}
+	many times there may be a case where we want to assign value after setState, so to achive that we have to write a call back function 
+	which is the 2nd parameter for setState method.
+	Hence setState method have 2 parameter:
+	1)state object
+	2)callback function
+	
+	The callback function will be a arrow function.
+		increment(){
+			this.setState({
+				count: this.state.count+1
+			},() => {console.log(this.state.count) //output 1});
+			console.log(this.state.count) //output 0
+		}
+		
+	whenever you need to exectue some code after the state has been changed do not place that code right after the setState
+	method insted place that code within the call back function that is passed as second parameter to setState method.
+	
+26) increment(){
+			this.setState({
+				count: this.state.count+1
+			},() => {console.log(this.state.count) //output 1 5 times});
+		}
+	incrementFive(){
+		this.increment();
+		this.increment();
+		this.increment();
+		this.increment();
+		this.increment();
+	}
+	render(){
+			return (
+					<div>
+						<h1>{this.state.count}</h1>   //it will be 1
+						<button onClick={() => this.incrementFive()}>Increment</button>
+					</div>
+				)
+		}
+		
+	Now count should increment 0 to 5 but the value changes to 1 and in console it prints 1 five times.
+	This is bes react groups multiple setState calls into single update for better performance.
+	Hence all the 5 setState call done in single go and the updated value donot carryover to diffrent call.
+	
+27)So whenever we have to update the state depending on the previous state we have to pass a function as an 1st 
+	argument to setState method insted of passing object.
+		increment(){
+			this.setState( (prevState) => {
+				return {count: prevState.count+1};
+			});
+		}
+	if we want to use props then that can be sent as 2nd argument to the 1st function:
+	increment(){
+			this.setState( (prevState,props) => {
+				return {count: prevState.count + new Number (this.props.count)};
+			});
+		}
+		
+	<Welcome count="1"/>
+		
+28)setState:
+	1)Always make use of setState and never modify the state directly.
+	2)whenever you need to exectue some code after the state has been changed 
+		then place that code in the call back function which is second argument to setState method.
+	3)when we have to update state based on the previous state value, pass in a function as as an 1st 
+	argument to setState method insted of passing object.
+	
+clip 12:
+
+29)Destructuring props and state:
+	It is an es6 feature that makes reacts posible to unpack values from arrays or properties from objects into distinch variable.
+	Destructuring props and state improves code readability.
+	The props may contain 100 parameters but we can destructure whichever needed.
+	
+30)Destructuring in functional components 2 ways:
+	1) in the parameter:
+	in app.js
+		<Greet name="manoj" heroName="hrithik">
+			<p>This is children</p>
+		</Greet> 
+		In greet.js
+		const Greet = ({name,heroName}) => {
+			return(
+				<div>
+					<h1>Hello {name} a.k.a {heroName}</h1>
+					{props.children}
+				</div>
+			)
+		}
+	2) in function body:
+		<Greet name="manoj" heroName="hrithik">
+			<p>This is children</p>
+		</Greet> 
+		In greet.js
+		const Greet = (props) => {
+			const {name,heroName}=props;
+			return(
+				<div>
+					<h1>Hello {name} a.k.a {heroName}</h1>
+					{props.children}
+				</div>
+			)
+		}
+
+31)Destructuring in Class components:
+	1)props
+		class Welcome extends Component{
+			render(){
+			const {name,herName}=this.props
+				return <h1>Welcome {name}</h1>
+			}
+		}
+	2)state
+		class Welcome extends Component{
+			render(){
+			const {state1,state2}=this.state
+				return <h1>Welcome {state1}</h1>
+			}
+		}
+		
+clip 13:
+
+32)	function Fun(){
+		function clickHandler(){
+			console.log("hi");
+		}
+		return <button onClick={clicHandler}>click</button> //Insted of "" it ll be {} and function should not have ().
+	}
+	If onClick={clicHandler()} it will be a function call and executes only once while loading for 1st time,
+	even if we click on button it will not render.In react onClick={clicHandler} clicHandler is function not a function call.
+	In class it takes infinet loop.
+ 
+	render(){
+		return <button onClick={this.clicHandler}>click</button>
+	}
+	
+clip 14:
+
+33)Building event binding:
+	we need to bind bes of "this" keyword not bes of react.
+	
+	W3school:
+		The JavaScript this keyword refers to the object it belongs to.
+		It has different values depending on where it is used:
+			In a method, this refers to the owner object.
+			Alone, this refers to the global object.
+			In a function, this refers to the global object.
+			In a function, in strict mode, this is undefined. 
+				"use strict"; 
+				function myFunction() {
+					return this;
+				})
+			In an event, this refers to the element that received the event.
+			Methods like call(), and apply() can refer this to any object.
+			
+		The "use strict" directive was new in ECMAScript version 5:
+			It is not a statement, but a literal expression, ignored by earlier versions of JavaScript.
+			The purpose of "use strict" is to indicate that the code should be executed in "strict mode".
+			With strict mode, you can not, for example, use undeclared variables.
+			
+		The this keyword in functions behaves differently in strict mode.
+		The this keyword refers to the object that called the function.
+		If the object is not specified, functions in strict mode will return undefined and functions in 
+		normal mode will return the global object (window):
+			"use strict";
+			function myFunction() {
+			  alert(this); // will alert "undefined"
+			}
+			myFunction();
+			
+			
+			"use strict";
+			function myFunction(e) {
+			  alert(e); // will alert [object Window]
+			}
+
+	"this" keyword is undefined in event handler so we have to use event binding.This is specific to JS and not to react.
+	<button onClick={this.clicHandler}>click</button>
+	function clickHandler(){
+		console.log(this);//undefined
+	}
+
+34)Types of event bind:
+	1)using "bind" keyword in render:
+		<button onClick={this.clicHandler.bind(this)}>click</button>
+		function clickHandler(){
+			console.log(this); //EventBind component instance
+		}
+		
+		Problem:
+			bind works perfectly fine but with every update to the state will cause the component to re-render 
+			this in turn it generate a brand new event handler on every render.All though the impact on performance doesnot effect
+			in small application but in large app where nested components are written.
+		
+	2)arrow function in render:
+		<button onClick={() => this.clicHandler()}>click</button>
+		function clickHandler(){
+			console.log(this); //EventBind component instance
+		}
+		Here we are calling the event and returning that value that is why this.clicHandler have ();
+	
+		Problem:
+			same as above problem.
+		
+	3)Binding in the constructor(mostly used and official react doc)
+		constructor(){
+			super();
+			this.clicHandler = this.clicHandler.bind(this);
+		}
+		function clickHandler(){
+			console.log(this); //EventBind component instance
+		}
+		<button onClick={this.clicHandler}>click</button>
+		As this binds only once in the constructor this is the better than bindig in the render()
+		
+	4)Use arrow function as a class property
+		clickHandler = () => {
+			console.log(this); //EventBind component instance
+		}
+		<button onClick={this.clicHandler}>click</button>
+		
+	5)updated version not in vide autobind:
+		1)install with this command
+			npm install --save react-autobind // in terminal
+		2)import autoBind from 'react-autobind';
+		3)You will generally call autoBind from the class constructor, passing the 'this' context
+			constructor() {
+			  super();
+			  autoBind(this);
+			}
+		4)You can also explicitly specify which methods you want to bind:
+			autoBind(this, 'myMethod1', 'myMethod2');
+			
+	summary : 4th(arrow function as a class property) is the best binding method.3rd is also fine.	
+
+clip 15:
+
+35)Methods as props:
+	how parent can pass down props to its children?
+		Any data when passed as props is available for children component.
+	how child will communicate to parent?
+		Again we will use props where in we will pass a refrence to a method as props to child components.
+		
+	2 components where 1 is parent which import the child component and other is child component.
+	
+	in ParentComponent:
+	class...{
+		GreeetParent = () => {
+			alert(`hello ${this.state.parentName}`);
+		}
+		render(){
+			return(
+				<div>
+					<ChildComponent GreeetHandler={this.GreeetParent}/>
+				</div>
+			)
+		}
+	}
+	
+	in ChildComponent: we will use function bes it dont have any state
+	function ChildComponent(props) {
+		return(
+			<div>
+				<button onClick={props.GreeetHandler}>greet parent</button>
+			</div>
+		)
+	}
+	
+	to pass parameters always use arrow function:
+	function ChildComponent(props) {
+		return(
+			<div>
+				<button onClick={ () => props.GreeetHandler('from child')}>greet parent</button>
+			</div>
+		)
+	}
+	class...{
+		GreeetParent = (child) => {
+			alert(`hello ${this.state.parentName} ${child}`);
+		}
+		render(){
+			return(
+				<div>
+					<ChildComponent GreeetHandler={this.GreeetParent}/>
+				</div>
+			)
+		}
+	}
+	
+clip 16:
+
+36)conditional rendering:
+	In many cases we need to hide and show components we use js condions, in react conditional rendering allow us to 
+	add conditions:
+		= is used for assigning values to a variable in JavaScript.
+		== is used for comparison between two variables irrespective of the datatype of variable.
+		=== is used for comparision between two variables but this will check strict type, which means it will check datatype and compare two values. (react accept this)
+	4 different approach:
+	1)if/else:
+		if/else statements cannot be used inside jsx bes jsx is just syntatic sugar for function calls and object construction
+		
+		state={
+			isLogedIn=false;
+		}
+		render(){
+			if(isLogedIn){
+				return(
+					<div>Welcome krupa</div>
+				)
+			}
+			else{
+				return(
+					<div>Welcome guest</div>
+				)
+			}
+		}
+		
+	2)element variables:
+		This is better approach, in this we use js variables to store elements.In this we can render whole component or 
+		only a part of it.
+		render(){
+			let message
+			if(isLogedIn){
+				message="Welcome Krupa"
+			}
+			else{
+				message="Welcome guest"
+			}
+			return <div>{message}</div>
+		}
+	
+	3)turnery operator:
+		this is even more better,we can use this in jsx,follow this most of the time.
+		render(){ 
+			return {this.state.isLogedIn ? (<div>Welcome Krupa</div>) : (<div>Welcome guest</div>)
+		}
+		
+	4)short circuit operator:
+		it is specific case to turnery operator, which we use when we have to render something or nothing
+		render(){
+			return this.state.isLogedIn && <div>Welcome Krupa</div>
+		}
+		first it evaluates the left hand side, if it is true it will evaluates right hand side
+		if left doesnot true then it ll never evaluets right.
+		
+clip 17:
+
+37)list rendering:
+	JS map:
+		const a=array.map((name) => {
+			//body
+		})
+	It go over each ele in an array and apply operations.
+	
+	In react its similar but insted of expression we use JSX.
+		function NameListComp(){
+			var array=['one','two','three];
+			return(
+			<div>
+				{
+					array.map( name => <h1>{name}</h1> )
+				}
+			</div>
+			)
+		}
+	another way to do this:
+		function NameListComp(){
+			var array=['one','two','three];
+			var array2=array.map( name => <h1>{name}</h1> );
+			return <div>{array2}</div>
+		}
+		
+	Nohing wrong but its recomended to use diffrent component for map:
+	
+		in parent component:
+			const array=
+			[
+				{
+					id: 1,
+					name: 'krupa',
+					age: '24',
+					skill: 'full stack'
+				},
+				{
+					id: 2,
+					name: 'manoj',
+					age: '24',
+					skill: 'testing'
+				},
+				{
+					id: 3,
+					name: 'divya',
+					age: '23',
+					skill: 'DB'
+				},
+			]
+			var array3=array.map( name => <person nameProp={name.name}></person> );
+			retrn <div>{array3}</div>
+		
+		in child component:
+			functon person({name}){
+				return <h1>{name.name}</h1>;
+			}
+		
+clip 18:
+
+38)list and keys:
+	its about warning which we get when we excute clip 17 code:
+	warning on console: index.js:1375 Warning: Each child in a list should have a unique "key" prop:
+	so we have to give another props where it have unique key
+	
+		array.map( name => <person key={name.id} nameProp={name}></person> );
+		return <div>{array}</div>
+		
+	now no warning.
+	key props are special props which we need to include during rendering list ele.
+	we cant use key props in children comp it will return undefined.
+	key prop is required by react for unique identification.
+	
+39)why key prop?
+	key prop helps to understand react which items in the list have modified and handles UI efficiently.
+	It helps to update the tree.
+	
+	please check video (14:05)
+	
+40)key:
+	1)key is a special string attr u need to include when creating lists of element.
+	2)keys gives the element a stable identity
+	3)keys help react identify which items have changed, are added or are removed.
+	4)efficent update of UI.
+	
+clip 19:
+
+41)Index as key anti-pattern:
+	its about when there is no unique key in list.
+	
+	So we will use index of element:
+		function NameListComp(){
+			var array=['one','two','three];
+			return(
+			<div>
+				{
+					array.map( (name,key) => <h1 key={key}>{name}</h1> )
+				}
+			</div>
+			)
+		}
+	
+	where it can go wrong, it causes serious error:
+		check video (4:16)
+		
+42)when to use index as key?
+	if list satisfy all the 3 conditions:
+		1)the item in the list donot have unique id.
+		2)the list is a static list will never change.
+		3)if the list never be reordered or filtered.
+	try always avoiding index as key. and when we dont provide key react uses index as its keys.
+	
+clip 20:
+
+43)styling react component:
+	1)css stylesheets
+	2)Inline styles
+	3)css modules
+	4)css in js lib (it work wonder but not covered in video)
+	
+	1)css stylesheets:
+		import './path' //in the component js file not in app
+		class attr is className in react
+		
+		for single class:
+			<h1 className='orangeColor'>hi</h1>
+			
+			const orange=orangeColor
+			<h1 className={orange}>hi</h1>
+			
+		for multiple class:(use back ticks ``)
+			<h1 className='orangeColor font'>hi</h1>
+			
+			const orange=orangeColor
+			<h1 className={`${orange} font`}>hi</h1>
+	
+	2)Inline styles:
+		Inline is not a string but it is an object whose key is camel case.
+			const heading={
+				fontSize:'72px';
+				backgroundColor:'pink';
+			}
+			<h1 style={heading}>hi</h1>
+			
+	3)css modules:
+		file naming convenstion:
+			1)The file name must be sufixed with .module.css
+			2)imort:
+				import styles from './path'
+			3)even the classname:
+				<h1 className={styles.orangeColor}>hi</h1>
+		Advantage of css module:
+			is that the classes are locally scoped by default
+			it cannot be used in children component hence there is no conflict and hence we canot accidentlly add other
+			class which doesnot belong to the component.
+			
+clip 21:
+
+44)Basics of form handling:(Controlled comopnent)
+	Form elements whose value is controlled by react is called as Controlled comopnent.
+	Here value to the input is set by state.
+	<input value={this.state.name}/>
+	without state we cant get inputElement Value.
+	when we use form tag and a button onclick it refresh the page.
+	
+clip 22:
+
+45)component lifcycle method:(in class)
+	1)mounting : when an instance of component is being created and inserted into DOM.
+	2)updating: when a component is being re-rendered as a result of changes to either of its props or state
+	3)unmounting: when a component is being removed from the DOM.
+	4)error handling: when there is an error during rendering , in a lifecycle method, or in the constructor
+						of any child component.
+						
+46)mounting method:
+	1)constructor
+	2)static getDerivedStateFromPorps
+	3)render
+	4)componentDidMount
+	
+47)Updating:
+	1)static getDerivedStateFromPorps
+	2)shouldComponentUpdate
+	3)render
+	4)getSnapshotBeforeUpdate
+	5)componentDidUpdate
+	
+48)unmounting:
+	1)componentWillUnmount
+	
+49)error handling:
+	1)static getDerivedStateFromError
+	2)componentDidCatch
+	
+clip 23:
+
+50)component mounting lifcycle method:
+	lets go in order which they are invoked.
+		1)constructor(props):
+			A special function that will get called whenever a new component is created.
+			It is used to initialize state and to binf the event handlers.
+			Never cause side effects i.e for esample never use http request in constructor.
+			Use super() before using state or props.In only constructor u modify this.state in other function use only setState()
+		2)static getDerivedStateFromPorps(props,state):
+			rarely used in react.
+			It is used when state depends on props.
+			static method dont have access to this keyword, hence cant use this .state. Simply we have to return state.
+			Never cause side effects i.e for esample never use http request in constructor.
+		3)render():
+			It is a required (mandatetory) method in class component.
+			In this we simply read this.state and this.props and return JSX which describe UI.
+			Donot try to modify state or interact with dom or ajax.
+			After parent render method children lifecycle methods are also executed.
+		4)componentDidMount():
+			It will be called only once in its whole lifecycle and it is invoked immediately after a component and all its children
+				Components have been rendered to the DOM.
+			This is the perfect place to cause side effects like ajax calls to load data.
+			
+	Example:
+		class LifeCycleA extends Component {
+			constructor(props) {
+				super(props)
+				console.log("LifeCycleA constructor")
+				this.state = {
+					 name : "Krupa"
+				}
+			}
+
+			static getDerivedStateFromProps(props, state) {
+				console.log("LifeCycleA getDerivedStateFromProps")
+				return null; //it should return null or state else it ll throw warning
+			}
+			
+			componentDidMount(){
+				console.log("LifeCycleA componentDidMount")
+			}
+
+			render() {
+				console.log("LifeCycleA render")
+				return (
+					<div>
+						{this.state.name}
+					</div>
+				)
+			}
+		}
+		
+		output:
+			LifeCycleA constructor
+			LifeCycleA getDerivedStateFromProps
+			LifeCycleA render
+			LifeCycleA componentDidMount
+			
+		LifeCycleB child: add <LifeCycleB/> in LifeCycleA
+			
+		class LifeCycleB extends Component {
+			constructor(props) {
+				super(props)
+				console.log("LifeCycleB constructor")
+				this.state = {
+					 name : "Krupa"
+				}
+			}
+
+			static getDerivedStateFromProps(props, state) {
+				console.log("LifeCycleB getDerivedStateFromProps")
+				return null;
+			}
+			
+			componentDidMount(){
+				console.log("LifeCycleB componentDidMount")
+			}
+
+			render() {
+				console.log("LifeCycleB render")
+				return (
+					<div>
+						{this.state.name}
+					</div>
+				)
+			}
+		}
+		
+		output:
+			LifeCycleA constructor
+			LifeCycleA getDerivedStateFromProps
+			LifeCycleA render
+			LifeCycleB constructor
+			LifeCycleB getDerivedStateFromProps
+			LifeCycleB render
+			LifeCycleB componentDidMount
+			LifeCycleA componentDidMount
+			
+clip 24:
+
+51)updating lifcycle method:
+	lets go in order which they are invoked: render and componentDidUpdate are commonly used.
+		1)static getDerivedStateFromPorps(props,state):
+			It re-renders everytime the children component is called.
+			(others are same as component life cycle 2)
+		2)shouldComponentUpdate(nextProps,nextState):
+			This method receives updated props and state and it dictates if the component shld re-render or not.
+			Compare the existing props and state with next props and state and return true or false which allows
+				react to know whether to update component or not.
+			Performance optimization.
+			Rarely used.
+		3)render():
+			(others are same as render life cycle 3)
+		4)getSnapshotBeforeUpdate(prevProps,prevState):
+			It is called right before the changes from the virtual DOM are to be reflected in the DOM.
+			Used to capture some information from the DOM.
+			It will either return null or a value , the returned value is passed to the next method as a 3rd parameter.
+		5)componentDidUpdate(prevProps,prevState,snapShot):
+			Called after render is finished in  the re-render cycle.
+			(others are same as componentDidMount life cycle 4)
+			
+		Example:
+		update is invoked only when state or props are changed
+		
+		class LifeCycleA extends Component {
+			constructor(props) {
+				super(props)
+				console.log("LifeCycleA constructor")
+				this.state = {
+					 name : "Krupa"
+				}
+			}
+
+			static getDerivedStateFromProps(props, state) {
+				console.log("LifeCycleA getDerivedStateFromProps")
+				return null;
+			}
+			
+			componentDidMount(){
+				console.log("LifeCycleA componentDidMount")
+			}
+
+			shouldComponentUpdate(nextProps,nextState){
+				console.log('LifeCycleA shouldComponentUpdate')
+				return true;
+			}
+
+			getSnapshotBeforeUpdate(prevProps,prevState){
+				console.log('LifeCycleA getSnapshotBeforeUpdate')
+				return null;
+			}
+
+			componentDidUpdate(prevProps,prevState,snapShot){
+				console.log('LifeCycleA componentDidUpdate')
+			}
+
+			render() {
+				console.log("LifeCycleA render")
+				return (
+					<div>
+						<LifeCycleB/>
+						<button onClick={this.callHandler}>Submit</button>
+						<div>LifeCycleA</div>
+					</div>
+				)
+			}
+
+			callHandler= () => {
+				this.setState({
+					name: "LifeCycle"
+				})
+			}
+		}
+		
+		class LifeCycleB extends Component {
+			constructor(props) {
+				super(props)
+				console.log("LifeCycleB constructor")
+				this.state = {
+					 name : "Krupa"
+				}
+			}
+
+			static getDerivedStateFromProps(props, state) {
+				console.log("LifeCycleB getDerivedStateFromProps")
+				return null;
+			}
+			
+			componentDidMount(){
+				console.log("LifeCycleB componentDidMount")
+			}
+
+			shouldComponentUpdate(prevProps,prevState){
+				console.log('LifeCycleB shouldComponentUpdate')
+				return true;
+			}
+
+			getSnapshotBeforeUpdate(prevProps,prevState){
+				console.log('LifeCycleB getSnapshotBeforeUpdate')
+				return null;
+			}
+
+			componentDidUpdate(prevProps,prevState,snapShot){
+				console.log('LifeCycleB componentDidUpdate')
+			}
+
+			render() {
+				console.log("LifeCycleB render")
+				return (
+					<div>
+						LifeCycleB
+					</div>
+				)
+			}
+		}
+		output:
+			LifeCycleA constructor
+			LifeCycleA getDerivedStateFromProps
+			LifeCycleA render
+			LifeCycleB constructor
+			LifeCycleB getDerivedStateFromProps
+			LifeCycleB render
+			LifeCycleB componentDidMount
+			LifeCycleA componentDidMount
+		
+		After clicking on submit:
+		
+			output:
+				LifeCycleA getDerivedStateFromProps
+				LifeCycleA shouldComponentUpdate
+				LifeCycleA render
+				LifeCycleB getDerivedStateFromProps
+				LifeCycleB shouldComponentUpdate
+				LifeCycleB render
+				LifeCycleB getSnapshotBeforeUpdate
+				LifeCycleA getSnapshotBeforeUpdate
+				LifeCycleB componentDidUpdate
+				LifeCycleA componentDidUpdate
+				
+52)unmounting lifcycle method:
+	1)componentWillUnmount():
+		This method is invoked immediately before a component is unmounted or destroyed.
+		Cancelling any network requests,removing event handler,cancelling any subscriptions or invalidating timers.
+		Never call setState method here.
+		
+53)error handling lifcycle method: upcoming error boundries videos.
+	1)static getDerivedStateFromError(error)
+	2)componentDidCatch(error,info)
+	
+Advanced react:
+
+clip 25:
+
+54)Fragments:
+	Fragments allows you to group children elements without adding extra node. 
+	It removes the extra node which wraps the children forefully.
+			function hi() {
+				console.log("LifeCycleB render")
+				return (
+						<h1>LifeCycleB</h1>
+						<p>Describe the above component as a heavy...</p> 
+				)
+			}// this will give error as return should be wrapped with element
+			
+			function hi() {
+				console.log("LifeCycleB render")
+				return (
+					<React.Fragment>
+						<h1>LifeCycleB</h1>
+						<p>Describe the above component as a heavy...</p> 
+					</React.Fragment>
+				)
+			}
+			
+	Fragments can also have key which we should to giv on all list element
+		<React.Fragment key={array.id}>
+	no other attr is allowed on React.Fragment
+	We can replace <React.Fragment></React.Fragment> to <></>
+	There is one limit in using <></> , we cant use any attr not even key.
+
+clip 26:
+
+55)Pure components:
+	It is class which class can include.
+	The difference is when the render() will be called:
+		A regular component doesnot implement the shouldComponentUpdate method.It always return true as default but
+			pure component sets true by default.
+		Pure components implement shouldComponentUpdate method  with a shallow props and state comparison.
+		
+56)shallow Comparision:
+	1)primitive types:
+		a (SC) b retrns true if a and b have same value and are of same types
+		example:
+			"krupa" and "krupa"
+	2)complex types:
+		a (SC) b retrns true if a and b reference exact same object.
+		Example:
+			a=[1,2,3];
+			b=[1,2,3];
+			c=a;
+			a === b //false
+			a === c //true
+			
+57)A pure component implements shouldComponentUpdate with a shallow props and state comparision:
+	SC of prevState with current sate.
+	SC of prevProps with current props.
+	And if only there is a diffrent it will rerender else no.
+	
+	if parent component have pure component and child have regular then also it will not re-render i.e 
+	if parent doesnot re-render child will not re-render
+	
+58)pure component gives perfomance boost by preventing unwanted rendering.
+	its good to keep children pure component if parent is pure component.
+	Never mutate the objects/arrays always return new object i.e no object refrence.
+			import React, { PureComponent } from 'react'	class PureComponents extends PureComponent {		render() {			console.log("pure");			return (				<div>					Pure component {this.props.name}				</div>			)		}	}	export default PureComponents
+clip 27:
+
+59)memo:
+	what pure class component is to class comonents same memo is for functional components.
+	Just add Recat.memo in export
+		export default React.memo(MemoComp)
+		
+clip 28:
+
+60)Refs:
+	We want to focus the input field.
+	3 steps:
+		1)Create a ref in constructor so that it is accessable throught the component.	
+			this.inputRef = React.createRef()
+		2)Attach this ref to the input element in render
+			<input type="text" ref={this.inputRef}/>
+		3)console this.inputRef and check which functionality you want.
+			componentDidMount(){
+				this.inputRef.current.focus()
+			}
+			
+	To fetch input value:
+		<button onClick={this.clickHandler}>click</button>
+		clickHandler = () => {
+			alert(this.inputRef.current.value)
+		}
+		
+	2nd way which is older no need: insted of createref it will be callback ref in constructor
+		this.cbref = null
+		this.setCbRef = element => {
+			this.cbref=element
+		}
+		<input type="text" ref={this.setCbRef}/>
+		componentDidMount(){
+			this.cbref.focus()
+		}
+		
+clip 29:
+	Refs for class component:
+	We cant attach refs to functional component.
+	
+		class RefsClassCompo extends Component {
+			constructor(props) {
+				super(props)
+				this.inputRef= React.createRef()
+			}
+			
+			focusHandler = () => {
+				this.inputRef.current.focus()
+			}
+
+			render() {
+				return (
+					<>
+						<input type="text" ref={this.inputRef}/>
+					</>
+				)
+			}
+		}
+		
+		Parent:
+		
+		class ParentRefCalssComp extends Component {
+			constructor(props) {
+				super(props)
+			
+				this.parentRef=React.createRef()
+			}
+			
+			parentinputHandler = () => {
+				this.parentRef.current.focusHandler()
+			}
+
+			render() {
+				return (
+					<div>
+						<RefsClassCompo ref={this.parentRef}/>
+						<button onClick={this.parentinputHandler}>click</button>
+					</div>
+				)
+			}
+		}
+		
+clip 30:
+
+61)Forwarding Ref:
+	It is a technique for automatically passing a ref to a component to one of its children.
+	Here parent have direct ref to child.
+	child is a function component
+	React.forwardRef takes arrow fubction as its first argument
+	that arraw function takes props as first argument and ref as 2nd argument.
+	Ref forwarding is rarely used.
+	
+	child:
+		const RefsForwading = React.forwardRef(
+			(props,ref) => {
+				return (
+					<div>
+						<input type="text" ref={ref}/>
+					</div>
+				)
+			}
+		)
+	parent:
+		class ParentRefsForwarding extends Component {
+			constructor(props) {
+				super(props)
+			
+				this.inputRef=React.createRef()
+			}
+
+			focusHandler = () =>{
+				this.inputRef.current.focus()
+			}
+			
+			render() {
+				return (
+					<div>
+						<RefsForwading ref={this.inputRef}/>
+						<button onClick={this.focusHandler}>Focus Input</button>
+					</div>
+				)
+			}
+		}
+
+clip 31:
+
+62)React portals:
+	It allows to render element which is not under root dom element.
+	Just add another div to index.html.
+	It behaves like normal children, if we click it will navigate to anscestors.
+	
+	1)add new div after root in index.html:
+		<div id="portal-root"></div>
+		
+	2)	import React from 'react'
+		import ReactDom from 'react-dom'
+
+		function Portal() {
+			return ReactDom.createPortal(
+				<div>
+					<h1>Hi</h1>
+				</div>,
+				document.getElementById("portal-root")
+			)
+		}
+
+		export default Portal
+		
+clip 32:
+
+63)Error Boundries:
+	Run-time errors could broke our application hence in react we cand handle this through error-handling life cycle method.
+	A class component that implements either of one or both of the life-cyle methods static getDerivedStateFromError(error) or
+		componentDidCatch(error,info) becomes an error boundary.
+	The static method getDerivedStateFromError is used to render fallback UI after an error is thrown and the componentDidCatch
+		is used to log the error information.
+	By this we can display error msg in whichever way we want.
+	Error boundry will catch the error and display a fallback UI(custom error)
+	By wrapping each component with Error boundry which will show all other component and only component which 
+		have error will not be displayed.
+	In react the errors are automatically loged in console.
+	We cant use error boundries in event handler have to use try,catch bes error boundry catch errors only on render.
+	Error boundaries do not catch errors for:
+		Event handlers.
+		setTimeout or requestAnimationFramecallbacks.
+		Server side rendering.
+		Errors thrown in the error boundary itself, rather than in its children.
+	
+	1)Errorchild.js:
+		class ErrorChild extends Component {
+			render() {
+				const {heroName}=this.props
+				if(heroName == "joker"){
+					throw new Error("not a hero");
+				}
+				return (
+					<div>
+						{heroName}
+					</div>
+				)
+			}
+		}
+		
+	2)Errorboundry.js:
+		class Errorboundry extends Component {
+			constructor(props) {
+				super(props)
+			
+				this.state = {
+					 hasError:false
+				}
+			}
+
+			static getDerivedStateFromError(error){
+				return {
+					hasError:true
+				}
+			}
+			
+			render() {
+				if(this.state.hasError){
+					return (
+						<h1>Something went wrong!!</h1>
+					)
+				}
+				return this.props.children
+			}
+		}
+	
+	3)app.js
+	  <Errorboundry><ErrorChild heroName="batMan"></ErrorChild></Errorboundry>
+      <Errorboundry><ErrorChild heroName="superMan"></ErrorChild></Errorboundry>
+      <Errorboundry><ErrorChild heroName="joker"></ErrorChild></Errorboundry>
+	  
+	  if u want if one component have error other shold not work then:
+	  <Errorboundry>
+		  <ErrorChild heroName="batMan"></ErrorChild>
+		  <ErrorChild heroName="superMan"></ErrorChild>
+		  <ErrorChild heroName="joker"></ErrorChild>
+	  </Errorboundry>
+
+	
+clip 33:
+
+64)Higher order components(1):
+	When we want same functionalites to be reused by different components acroos the tree we need higher order components.
+	For example increment of number on button click,heading hover and on input.
+	These all can actually use same functions which increase the count by 1.
+	
+	1)clickCounter.js
+		class ClickCounter extends Component {
+			constructor(props) {
+				super(props)
+			
+				this.state = {
+					 count:0
+				}
+			}
+			
+			incrementHandler = () => {
+				this.setState (prevCount => {
+					return {count: prevCount.count + 1}
+				})
+			}
+
+			render() {
+				const {count}=this.state
+				return (
+					<div>
+					   <button onClick={this.incrementHandler}>Click {count} times</button> 
+					</div>
+				)
+			}
+		}
+		
+	2)HoverCounter.js
+		class HoverCounter extends Component {
+			constructor(props) {
+				super(props)
+			
+				this.state = {
+					 count: 0
+				}
+			}
+			
+			incrementHandler = () =>{
+				this.setState(
+					prevValue => {
+						return {count: prevValue.count+1 }
+					}
+				)
+			}
+
+			render() {
+				const {count} = this.state
+				return (
+					<div>
+						<h1 onMouseOver={this.incrementHandler}>Hover {count} times</h1>
+					</div>
+				)
+			}
+		}
+	
+clip 34:
+
+65)Higher order components(2):
+	It is refered as HOC.
+	A pattern where a function takes a component as an argument and returns a new component.
+	const newComp = higherOrderComp(originalComp)
+	Incrementing click donot effect hover and vice versa.
+	Naming convenstion:
+		always the new component have file name.
+		original component is called as wrappedComponent.
+
+clip 35:
+
+66)Higher order components(3):
+	When we specify props in app.js on clickCounter component it the props are sent down to HOC and not to clickCounter.
+	To overcome this:
+		Add {...this.props} in withCounter so that it pasees all other props to its child.
+	I want to increment the number by its parameter
+	hence withCounter takes 2 arguments.
+	
+	for HOC(2) & HOC(3):
+	
+	1)app.js:
+	
+      <ClickCounter name="krupa"/>
+      <HoverCounter/>
+	  
+	2)withCounter.js
+	
+	const withCounter = (Wrappedcomponent,incrementBy) => {
+		class withCounter extends Component {
+			constructor(props) {
+				super(props)
+			
+				this.state = {
+					count:0
+				}
+			}
+		
+			incrementHandler = () => {
+				this.setState (prevCount => {
+					return {count: prevCount.count + incrementBy}
+				})
+			}
+
+			render() {
+				return (
+					<div>
+						<Wrappedcomponent count={this.state.count} incrementhandler={this.incrementHandler} {...this.props}/>
+					</div>
+				)
+			}
+		}
+		return withCounter
+	}
+	
+	3)clickCounter.js
+	class ClickCounter extends Component {
+		render() {
+			const {count,incrementhandler,name}=this.props
+			return (
+				<div>
+				   <button onClick={incrementhandler}>{name} Click {count} times</button> 
+				</div>
+			)
+		}
+	}
+	export default withCounter(ClickCounter,10)
+	
+	4)hoverCounter.js
+	class HoverCounter extends Component {
+		render() {
+			const {count,incrementhandler} = this.props
+			return (
+				<div>
+					<h1 onMouseOver={incrementhandler}>Hover {count} times</h1>
+				</div>
+			)
+		}
+	}
+	export default withCounter(HoverCounter,10)
+	
+clip 36:
+
+67)Render props(1):
+	HOC is rearely used always use render props only if needed.
+	It is another Pattern to share code between react components.
+	
+clip 37:
+
+68)Render props(2):
+	The term  "render prop" refers to a technique for sharing code between  React components using as prop whose 
+	value is a function.
+	Counter.js not going to render anything.It will render whatever is passed as render props.
+	Prop no need to be called as render.
+	There are 2 variations in this:
+	1)using render prop
+	2)making that function as children
+	
+	1)App.js:
+	
+		/*
+			<Counter
+			render={(count,incrementHandler) => {
+				return <ClickCounter count={count} incrementhandler={incrementHandler}/>
+			  }
+			}
+		  />
+
+		  <Counter
+			render={(count,incrementHandler) => {
+				return <HoverCounter count={count} incrementhandler={incrementHandler}/>
+			  }
+			}
+		  /> 
+		*/
+	  <Counter>
+        {
+          (count,incrementHandler) => <ClickCounter count={count} incrementhandler={incrementHandler}/>
+        }
+      </Counter>
+
+      <Counter>
+        {
+          (count,incrementHandler) => <HoverCounter count={count} incrementhandler={incrementHandler}/>
+        }
+      </Counter>
+	  
+	2)Counter.js:
+		class Counter extends Component {
+			constructor(props) {
+				super(props)
+			
+				this.state = {
+					 count : 0
+				}
+			}
+			
+			incrementHandler = () =>{
+				this.setState( prevValue => {
+					return {count : prevValue.count + 1}
+				})
+			}
+
+			render() {
+				return (
+					<div>
+						{/* {this.props.render(this.state.count,this.incrementHandler)} */}
+						{this.props.children(this.state.count,this.incrementHandler)}
+					</div>
+				)
+			}
+		}
+		
+	3)ClickCounter.js:
+		class ClickCounter extends Component {
+			render() {
+				const {count,incrementhandler}=this.props;
+				return (
+					<div>
+						<button onClick={incrementhandler}>Clicked {count} times</button>
+					</div>
+				)
+			}
+		}
+	
+	4)HoverCounter.js:
+		class HoverCounter extends Component {
+			render() {
+				const {count,incrementhandler}=this.props;
+				return (
+					<h1 onMouseOver={incrementhandler}>Hovered {count} times</h1>
+				)
+			}
+		}
+	
+clip 38:
+
+69)Context (1):
+	If we want props for the leaf child we have to pass props to its parent so that it is passed on to children.
+	This can be overcome by context.
+	Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+	
+clip 39:
+
+70)Context (2):
+	There are 3 steps to impiment while making use of context:
+		1)Create the context.
+		2)provide the context value.
+		3)consume the context value.
+		
+		const  UserContext = React.createContext()
+		const UserProvider = UserContext.Provider
+		const UserConsumer = UserContext.Consumer
+		
+		
+	The {} brackets are golden when you need only specific components from the module.
+	When importing named exports, you’ll have to wrap them in curly braces. If you’re importing multiple exports from 
+		the same module, you can concatenate them, comma based, and use them in the same wrapping curly braces.
+	When you import, and omit the curly braces, it will look for the default export in the module you’re importing from. 
+		Because it knows it has to look for the default export, you can use any random name for your import
+	In general:
+		when anything is named input use { comp_name }
+		If default then without braces
+	Inside consumer always there should be an arrow function.This function is nothing but a child to a consumer. This function
+		can also return jsx or can do some operations.
+		
+	the attr on user provider tag should be named "value= someting" and this can access anywhere from ComponentA to child
+	
+	Line 9:1:  Parsing error: Only one default export allowed per module. 
+		  8 | export default UserProvider
+		> 9 | export default UserConsumer
+		
+	hence it should be named export when u want to export 2 comp "export {UserProvider,UserConsumer}"
+	
+	1)ComponentA.js
+		import React, { Component } from 'react'
+		import ComponentB from './ComponentB'
+
+		class ComponentA extends Component {
+			render() {
+				return (
+					<>
+						<ComponentB/>
+					</>
+				)
+			}
+		}
+
+		export default ComponentA
+	2)ComponentB.js
+		import React, { Component } from 'react'
+		import {UserConsumer} from './Context.js'
+		import ComponentC from './ComponentC'
+
+		class ComponentB extends Component {
+			render() {
+				return (
+				   <UserConsumer>
+					{
+						name => {
+						return(
+							<>
+								<div>I am {name}</div>
+								<ComponentC/>
+							</>
+						)
+					}}
+				   </UserConsumer>
+				)
+			}
+		}
+
+		export default ComponentB
+		
+	3)ComponentC.js
+		import React, { Component } from 'react'
+		import {UserConsumer} from './Context'
+
+		class ComponentC extends Component {
+			render() {
+				return (
+					<UserConsumer>
+						{
+							(name) => {
+								return <div>I am {name}</div>
+							}
+						}
+					</UserConsumer>
+				)
+			}
+		}
+
+		export default ComponentC
+		
+	4)Context.js
+		import React from 'react';
+
+		const userContext = React.createContext('Manoj')//if we remove userprovider tag from app it ll pass Manoj as default
+
+		const UserProvider = userContext.Provider
+		const UserConsumer = userContext.Consumer
+
+		export { UserProvider,UserConsumer }
+		
+	5)App.js
+		import ComponentA from './Context/ComponentA';
+		import {UserProvider} from './Context/Context'
+		<UserProvider value="krupa"> prop name should be value cant be any other props name
+			<ComponentA/>
+		</UserProvider> 				Context is primarily used when some data needs to be accessible by many components at different nesting levels. 		Apply it sparingly because it makes component reuse more difficult.
+	
+clip 40:
+
+71)Context (3):
+	We can set default value to the context API.
+		const  UserContext = React.createContext('code')
+	The default value is only used when there is no matching provider.
+	The defaultValue argument is only used when a component does not have a matching Provider above it in the tree.
+	Note: passing undefined as a Provider value does not cause consuming components to use defaultValue.(https://reactjs.org/docs/context.html)
+	Context type property.
+	It is used as this.context
+	limitation of Context type property:
+		1)It only works with class component.
+		2)We can only suscribe to single context at a time.
+		
+	changed files:
+	
+	1)Context.js
+		import React from 'react';
+
+		const UserContext = React.createContext("Manoj")
+
+		const UserProvider = UserContext.Provider
+		const UserConsumer = UserContext.Consumer
+
+		export { UserProvider,UserConsumer }
+		export default UserContext
+		
+	2)ComponentB.js
+		import React, { Component } from 'react'
+		//import {UserConsumer} from './Context.js'
+		import ComponentC from './ComponentC'
+		import UserContext from './Context.js'
+
+		class ComponentB extends Component {
+			render() {
+				return (
+				//    <UserConsumer>
+				//     {
+				//         name => {
+				//         return(
+				//             <>
+				//                 <div>I am {name}</div>
+				//                 <ComponentC/>
+				//             </>
+				//         )
+				//     }}
+				//    </UserConsumer>
+					<div>
+						Hello {this.context}
+						<ComponentC/>
+				   </div>
+				)
+			}
+		}
+
+		ComponentB.contextType = UserContext
+		export default ComponentB
+		
+clip 41:
+
+72)React and HTTP:
+	React doesnot have any way to fetch or send data, react component just recive/send props and state and render UI.
+	To store data we use props/state.
+	We have to use HTTP lib.
+	There are many popular libraries in which we will use axios.
+	
+		npm install axios (path should be inside that package).
+	
+clip 42:
+
+73)HTTP get request:
+	Using jsonplaceholder server to get fake data.
+	axios.get(url)
+	to make ajax call as soon as page load use componentDidMount()
+	
+	import React, { Component } from 'react';
+	import Axios from 'axios';
+
+	class HttpGetRequest extends Component {
+		constructor(props) {
+			super(props)
+
+			this.state = {
+				data: [],
+				errorState : ""
+			}
+		}
+
+		componentDidMount() {
+			Axios.get("https://jsonplaceholder.typicode.com/posts")
+				.then(
+					response => {
+						this.setState(
+							{
+								data: response.data
+							}
+						)
+					}
+				)
+				.catch(
+					error => {
+						this.setState({
+							errorState: "Error receiving data"
+						})
+					}
+				)
+		}
+
+		render() {
+			const { data,errorState } = this.state;
+			console.log(data)
+			return (
+				<div>
+					{
+						data.length ? data.map( value => <div key={value.id}>{value.title}</div>) : null
+					}
+					{
+						errorState ? <div>{errorState}</div> : null
+					}
+				</div>
+			)
+		}
+	}
+
+	export default HttpGetRequest;
+	
+clip 43:
+
+74)HTTP post request:
+	axios.post(url)
+	
+	import React, { Component } from 'react'
+	import Axios from 'axios'
+
+	export class HttpPostRequest extends Component {
+		constructor(props) {
+			super(props)
+
+			this.state = {
+				"userId": "",
+				"title": "",
+				"body": ""
+			}
+		}
+
+		changeHandler = (e) => {
+			this.setState({
+				[e.target.name]: e.target.value
+			})
+		}
+
+		submitHandler = (e) => {
+			e.preventDefault();
+			Axios.post("https://jsonplaceholder.typicode.com/posts", this.state)
+				.then(
+					response => console.log(response.data)
+				)
+				.catch(
+					e => console.log("error")
+				)
+		}
+
+		render() {
+			const { userId, title, body } = this.state;
+			return (
+				<div>
+					<form onSubmit={this.submitHandler}>
+						<div>
+							<input type="text" name="userId" value={userId} onChange={this.changeHandler} />
+						</div>
+						<div>
+							<input type="text" name="title" value={title} onChange={this.changeHandler} />
+						</div>
+						<div>
+							<input type="text" name="body" value={body} onChange={this.changeHandler} />
+						</div>
+						<button type="submit">Submit</button>
+					</form>
+				</div>
+			)
+		}
+	}
+
+	export default HttpPostRequest
+
+75)Local storage (not in video) :
+
+https://programmingwithmosh.com/react/localstorage-react/
+
+Routing:  (npm install react-router-dom)
+
+76)Router is used to navigate from one page to another page
+	import {BrowserRouter as Router, Switch , Route , Link} from 'react-router-dom'
+	
+	<Router></Router> inside this tag whichever dom exists can be used for navigation.
+	<Route path="/about" component={Sample}/> i.e import Sample from './js/sample' and path is url
+	
+	example:
+		<Route path="/" component={Home}/> home is default loading page
+		<Route path="/about" component={Sample}/>
+		
+		if the url is localhost:3000/about then it ll display both home and sample bes it will check path and the path is only / it matches and it displayes it.
+		
+		how to overcome:
+			Add switch so that if anything matches it will break automatically. But now only home will be displayed to overcome that add exact keyword.
+			It renders only if the link is exact.
+		
+		<switch>		
+			<Route path="/" exact component={Home}/> 
+			<Route path="/about" component={Sample}/>
+		</switch>
+	
+		this will work when we search localhot:3000/sample
+		
+	To do it on click add <Link to="/about"></Link>	ex:		<Router>          <Link to='/'>Home</Link>          <Link to='/about'>About</Link>          <Link to='/about/queries'>FAQ</Link>          <Switch>            <Route path='/' exact component={Home}/>            <Route path='/about' exact component={Sample}/>            <Route path='/about/queries' component={Query}/>          </Switch>        </Router>
+	
+	Url parameters:
+	path="/about/:id" this : is used to match anything after about
+	
+	match props provide some impt properties like url , id etc.
+	
+	
+	For written material: https://codeburst.io/getting-started-with-react-router-5c978f70df91
+	
+	This should be last child of switch
+		<Route component={Notfound} /> for path not found and avoid 404 error.
+		
+	insted of link we can use NavLink it hae 1 props activeClassName
+		<NavLink activeClassName="active" to="/users">
+            Users
+          </NavLink>		  		  ex:		  <div className="vs-tab mg-top-16">            <NavLink exact activeClassName="active" className="vs-tablinks" to="/">                Modal Project            </NavLink>            <NavLink activeClassName="active" className="vs-tablinks" to="/Render Props">               Render Props (using props)            </NavLink>            <NavLink activeClassName="active" className="vs-tablinks" to="/Render Props function">                Render Props (function)            </NavLink>        </div>
+		  
+		  The link is used to navigate the different routes on the site. But NavLink is used to add the style attributes to the active routes.
+			In our routing app, we have three routes which are [home,/users,/contact] Let’s style them using NavLink.
+			We need to add a new prop called activeClassName to the NavLink component so that it applies that class whenever the route is active.
+			
+	Programmatically navigate
+	What is Programmatic navigation?
+	It means we need to redirect the user when an event happens on that route.
+	
+	For example, when a user is successfully logged in he or she will be redirected to the home page.
+	
+	How to Navigate Programmatically in react-router?
+	To navigate programmatically we need to take the help of history object which is passed by the react-router.
+	
+	Let’s add a contact form to our Contact component.
+	There is a push method available in the history object by using the push method we are redirecting the user to the Home page whenever a user submits the form.
+	
+	contact.js
+	import React from 'react'
+	class Contact extends React.Component {
+	  onSubmit = () => {
+		this.props.history.push('/')
+	  }
+	  render() {
+		return (
+		  <form>
+			<input placeholder="name" type="name" />
+			<input placeholder="email" type="email" />
+			<button onClick={this.onSubmit}>Submit</button>
+		  </form>
+		)
+	  }
+	}
+	export default Contact
+	
+	
+React router pass props to components:
+	reference:https://tylermcginnis.com/
+	
+	<Route path='/dashboard' component={Dashboard} />
+		Now, what if we also wanted to pass Dashboard a prop? There are a few different ways to solve this problem but only one right way. 
+		The first idea you might have is to just pass it as a prop on Route.
+		
+	So if you’re not supposed to pass a function to component, what’s the solution? Turns out the React Router team predicted this problem and gave us a 
+	handy solution. Instead of using component, use the render prop. render accepts a functional component and that function won’t get unnecessarily remounted like with component. That function will also receive all the same props that component would receive. So you can take those and pass those along to the rendered component.
+
+	<Route
+	  path='/dashboard'
+	  render={(props) => <Dashboard {...props} isAuthed={true} />}
+	/>
+	So to recap, if you need to pass a prop to a component being rendered by React Router, instead of using Routes component prop, 
+	use its render prop passing it an inline function then pass along the arguments to the element you’re creating
+	
+Default props:
+
+77)in class component:
+
+	defaultProps can be defined as a property on the component class itself, to set the default props for the class
+	
+	HideShowDiv.js :
+	
+		import React, { Component } from 'react';
+		import "../CSS/ModalCss.css"
+		import DivHeader from './DivHeader';
+		import FormSubmit from './FormSubmit';
+
+		class HideShowDiv extends Component {
+			render() {
+				return (
+					<div className="custom_modal" style={this.props.styling}>
+					<div>
+					  <DivHeader/>  
+					  <FormSubmit/>
+					</div>
+				</div>
+				)
+			}
+		}
+
+		HideShowDiv.defaultProps={
+			styling: {
+				display: "none"
+			}
+		}
+
+		export default HideShowDiv
+		
+		or
+		
+		import React, { Component } from 'react';
+		import "../CSS/ModalCss.css"
+		import DivHeader from './DivHeader';
+		import FormSubmit from './FormSubmit';
+
+		class HideShowDiv extends Component {
+			static defaultProps = {
+				styling: {
+					display: "none"
+				}
+			}
+
+			render() {
+				return (
+					<div className="custom_modal" style={this.props.styling}>
+						<div>
+							<DivHeader />
+							<FormSubmit />
+						</div>
+					</div>
+				)
+			}
+		}
+		export default HideShowDiv
+		
+	Parent.js:
+	
+		<HideShowDiv /> //no props are provided at this time it will use default props "styling".
+		
+in functional comopnent:
+
+	To solve this issue, we can use the logical operator || to set a fallback value, 
+	so when a prop is missing it displays the fallback value in place of the missing prop.
+
+	HideShowDiv.js :
+	
+		import React from 'react';
+		import "../CSS/ModalCss.css"
+		import DivHeader from './DivHeader';
+		import FormSubmit from './FormSubmit';
+
+		function HideShowDiv({styling}) {
+			const propDefault={
+				display: "none"
+			}// for default props
+			return (
+				<div className="custom_modal" style={ styling || propDefault}>
+					{/*if parent doesnot provide styling it will use this propDefault*/}
+					<div>
+					  <DivHeader/>  
+					  <FormSubmit/>
+					</div>
+				</div>
+			)
+		}
+
+		export default HideShowDiv
+		
+	Parent.js:
+	
+		<HideShowDiv /> //no props are provided at this time it will use default props "styling".
+		
+	Refrence:	
+	
+		https://blog.bitsrc.io/understanding-react-default-props-5c50401ed37d
+		
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+Redux: codevolution
+
+clip 1: (watch it for interview)
+		
+78)Redux is a predictable state container for JS apps. 
+	Redux is not tied to react it can be used with any JS code.
+	Redux helps to manage state. Redux is state managment lib.
+	React is a lib used to build user interface.
+	Redux is a lib for managing state in a predictable way in JS app.
+	React-Redux is a official redux UI binding lib for react.
+	
+clip 2:
+
+79)
+	"npm init --yes" (this will intial the package.json file with the default setting.
+	"npm install redux" will add redux as dependency for our project. 
+	create file index.js and log something on console.
+	"node index" will print that log.
+	
+clip 3:
+
+80)Three core concept in redux:
+	1)Store : that holds the state of application.
+	2)Action : that describes the changes in the state of application.
+	3)Reducer : which actually carries out the state transition depending on actions.
+	
+clip 4:
+
+81)Three principles:
+	1)The state of the whole application is stored in an object tree within a single store.(i.e stored in single object)
+	2)The only way to change the state is to dispatch an action, an object describing what happend.(i.e we cant directly update state, we shouldlnt redux know action)
+	3)To specfiy how the state tree is transfered by actions, write pure reducers.
+		reducer takes prevState and action as arguments and returns newState
+			reducer - (prevState,action) => newState
+
+clip 5:
+
+82)Action:
+	1)The only way application can interact with the store.
+	2)carry some info from app to redux store.
+	3)It is a plain JS objects.
+	4)It have a "type" property that indicates the type of action being performed.
+	5)The type property is typically defined as string constants.
+	6)action creator is a function that returns action:
+		Action is an object with a "type" property. It can have any number of property but "type" property is mandatory.
+		
+			const BUY_CAKE = "BUY_CAKE";
+
+			function actionCreatorExample(){
+				return(
+					{
+						type: BUY_CAKE,
+						info: "First redux action"
+					}
+				)
+			}
+			
+clip 6:
+
+83)Reducers:
+	1)specify how the app's state changes in response to actions sent to the store.
+	2)Function that accepts state and action as argument and returns the new state of the app.
+	3)(prevState,action) => newState
+	
+		const initialState = {
+			noOfCakes: 10,
+		}
+
+		const reducers = (state = initialState, action) => {
+			switch(action.type){
+				case BUY_CAKE :
+					return(
+						{
+							...state,
+							noOfCakes: state.noOfCakes - 1
+						}
+					)
+
+				default: return state
+			}
+		}
+		
+clip 7:
+
+84)Store:
+	1)one store for the entire app.
+	Responsibilities -
+	2)hold app state.
+	3)Allows access to state via getState()
+	4)Allows state to updated via dispatch(action)
+	5)Register listeners via subscribe(listener) (whenever store updates subscribe will be called)
+	6)Handles unregistering of listeners via the function returned by subscribe(listener).
+	
+		const Buy_Cake = 'Buy_Cake';
+		const redux = require('redux')
+		const createStore = redux.createStore;
+
+		function buyCake() {
+			return {
+				type: "Buy_Cake",
+				info: "First action"
+			}
+		}
+
+		const initialState = {
+			noOfCakes: 10
+		}
+
+		const reducer = (state = initialState, action) => {
+			switch (action.type) {
+				case Buy_Cake:
+					retur({
+						...state,
+						noOfCakes: state.noOfCakes - 1
+					})
+				default: return state
+			}
+		}
+
+		const store = createStore(reducer);
+		console.log("state",store.getState());
+		const unSuscribe = store.subscribe( () => console.log('updated state',store.getState()) );
+		dispatch(buyCake())
+		dispatch(buyCake())
+		dispatch(buyCake())
+		unSuscribe()
+		
+		o/p:
+			state { noOfCakes: 10 }
+			updated state { noOfCakes: 9 }
+			updated state { noOfCakes: 8 }
+			updated state { noOfCakes: 7 }
+		
+clip 9:
+
+85)Multiple reducers:
+	single reducer:
+			const Buy_Cake = 'Buy_Cake';
+			const Buy_Icecream = "Buy_Icecream";
+
+			const redux = require('redux')
+			const createStore = redux.createStore;
+
+			function buyCake() {
+				return {
+					type: Buy_Cake,
+					info: "First action"
+				}
+			}
+
+			function buyIcecream() {
+				return {
+					type: Buy_Icecream,
+					info: "First action"
+				}
+			}
+
+			const initialState = {
+				noOfCakes: 10,
+				noOfIcecreams: 10
+			}
+
+			const reducer = (state = initialState, action) => {
+				switch (action.type) {
+					case Buy_Cake:
+						return({
+							...state,
+							noOfCakes: state.noOfCakes - 1
+						})
+					case Buy_Icecream:
+						return(
+							{
+								...state,
+								noOfIcecreams: state.noOfIcecreams - 1
+							}
+						)
+					default: return state
+				}
+			}
+
+			const store = createStore(reducer);
+			console.log("state",store.getState());
+			const unSuscribe = store.subscribe( () => console.log('updated state',store.getState()) );
+			store.dispatch(buyCake())
+			store.dispatch(buyCake())
+			store.dispatch(buyCake())
+			store.dispatch(buyIcecream())
+			store.dispatch(buyIcecream())
+			store.dispatch(buyIcecream())
+			unSuscribe()
+			
+			o/p:
+				state { noOfCakes: 10, noOfIcecreams: 10 }
+				updated state { noOfCakes: 9, noOfIcecreams: 10 }
+				updated state { noOfCakes: 8, noOfIcecreams: 10 }
+				updated state { noOfCakes: 7, noOfIcecreams: 10 }
+				updated state { noOfCakes: 7, noOfIcecreams: 9 }
+				updated state { noOfCakes: 7, noOfIcecreams: 8 }
+				updated state { noOfCakes: 7, noOfIcecreams: 7 }
+			
+		multiple reducer:
+			this need combine reducer to combine multiple reducers.
+			
+clip 10:
+
+86)Combine reducers:
+	this accepts object as its parameter, object whose value will be the reducer function and then we pass this to the store.
+			const Buy_Cake = 'Buy_Cake';
+			const Buy_Icecream = "Buy_Icecream";
+
+			const redux = require('redux')
+			const createStore = redux.createStore;
+			const combinedReducers = redux.combineReducers;
+
+			function buyCake() {
+				return {
+					type: Buy_Cake,
+					info: "First action"
+				}
+			}
+
+			function buyIcecream() {
+				return {
+					type: Buy_Icecream,
+					info: "First action"
+				}
+			}
+
+			const initialStateOfCake = {
+				noOfCakes: 10,
+			}
+
+			const initialStateOfIcecream = {
+				noOfIcecreams: 10
+			}
+
+			const reducerCake = (state = initialStateOfCake, action) => {
+				switch (action.type) {
+					case Buy_Cake:
+						return({
+							...state,
+							noOfCakes: state.noOfCakes - 1
+						})
+					default: return state
+				}
+			}
+
+			const reducerIcecream = (state = initialStateOfIcecream, action) => {
+				switch (action.type) {
+					case Buy_Icecream:
+						return(
+							{
+								...state,
+								noOfIcecreams: state.noOfIcecreams - 1
+							}
+						)
+					default: return state
+				}
+			}
+
+			const combinedReducersStore = combinedReducers({
+				cake: reducerCake,
+				iceCream: reducerIcecream
+			})
+			const store = createStore(combinedReducersStore);
+			console.log("state",store.getState());
+			const unSuscribe = store.subscribe( () => console.log('updated state',store.getState()) );
+			store.dispatch(buyCake())
+			store.dispatch(buyCake())
+			store.dispatch(buyCake())
+			store.dispatch(buyIcecream())
+			store.dispatch(buyIcecream())
+			store.dispatch(buyIcecream())
+			unSuscribe()
+	
+			o/p:
+				state { cake: { noOfCakes: 10 }, iceCream: { noOfIcecreams: 10 } }
+				updated state { cake: { noOfCakes: 9 }, iceCream: { noOfIcecreams: 10 } }
+				updated state { cake: { noOfCakes: 8 }, iceCream: { noOfIcecreams: 10 } }
+				updated state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 10 } }
+				updated state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 9 } }
+				updated state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 8 } }
+				updated state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 7 } }
+				
+		To access noOfCake we should traverse throught cake : cake.noOfCakes ....etc
+		
+	We can maintain multiple reducers in different files and later combine them.
+	
+clip 11:
+
+87)Middleware:
+		A middleware is a piece of code that is executed after an action is dispatched but before reaching the reducer.Many middlewares can be arranged 
+		into a chain of execution to process the action in different ways. 
+		However, the middleware has to interpret anything you pass to it, and it must make sure to dispatch a plain object (an action) at the end of the chain.
+	1)It is the sugessted way to extend redux with custom functionality.
+	2)Provides a third-party extension point b/w dispatching an action, and the moment it reaches the reducer.
+	redux-logger is middleware to install it:
+	"npm install redux-logger" // it is to log data
+		
+		We can get rid of subscribe as we have middleware which is used to log the data.
+		
+		o/p:
+			 state { cake: { noOfCakes: 10 }, iceCream: { noOfIcecreams: 10 } }
+			 action Buy_Cake @ 12:17:32.881
+			   prev state { cake: { noOfCakes: 10 }, iceCream: { noOfIcecreams: 10 } }
+			   action     { type: 'Buy_Cake', info: 'First action' }
+			   next state { cake: { noOfCakes: 9 }, iceCream: { noOfIcecreams: 10 } }
+			 action Buy_Cake @ 12:17:32.897
+			   prev state { cake: { noOfCakes: 9 }, iceCream: { noOfIcecreams: 10 } }
+			   action     { type: 'Buy_Cake', info: 'First action' }
+			   next state { cake: { noOfCakes: 8 }, iceCream: { noOfIcecreams: 10 } }
+			 action Buy_Cake @ 12:17:32.930
+			   prev state { cake: { noOfCakes: 8 }, iceCream: { noOfIcecreams: 10 } }
+			   action     { type: 'Buy_Cake', info: 'First action' }
+			   next state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 10 } }
+			 action Buy_Icecream @ 12:17:32.947
+			   prev state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 10 } }
+			   action     { type: 'Buy_Icecream', info: 'First action' }
+			   next state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 9 } }
+			 action Buy_Icecream @ 12:17:32.952
+			   prev state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 9 } }
+			   action     { type: 'Buy_Icecream', info: 'First action' }
+			   next state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 8 } }
+			 action Buy_Icecream @ 12:17:32.964
+			   prev state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 8 } }
+			   action     { type: 'Buy_Icecream', info: 'First action' }
+			   next state { cake: { noOfCakes: 7 }, iceCream: { noOfIcecreams: 7 } }
+			   
+clip 12:
+
+88)Async actions:
+	synchronous Action: As soon as an action is dispatched the state is immediately updated.
+	
+clip 13:
+
+89)Redux thunk middleware: Redux-thunk is the standard way of performing asynchronous operations in Redux.
+	Async action creator: (ajax calls are always async)
+		It is a middelware or package from redux eco system and is a standard way to define async action creators.
+		"npm install redux-thunk'
+		Action creator returns an action object but thunk allows action creator to return a function.
+		This function need not to be pure it can perform side effects i.e it can have async API calls.
+		It receives dispatch method as its argument.
+	
+	
+		const initialState={
+			loading: false,
+			user:[],
+			error:""
+		}
+
+		const redux = require('redux')
+		const axios = require('axios')
+		const thunkMiddleWare = require('redux-thunk').default
+		const reduxLogger = require('redux-logger')
+
+		const createStore = redux.createStore;
+		const applyMiddleWare = redux.applyMiddleware;
+		const createLogger = reduxLogger.createLogger();
+
+
+		const FetchUserRequest = "FetchUserRequest";
+		const FetchUserSuccess = "FetchUserSuccess";
+		const FetchUserFailure = "FetchUserFailure";
+
+		 const FetchUserRequestAction = () => {
+			 return {
+				 type: FetchUserRequest
+			 }
+		 }
+
+		 const FetchUserSuccessAction = (users) => {
+			 return{
+				 type: FetchUserSuccess,
+				 payLoad: users
+			 }
+		 }
+
+		 const FetchUserFailureAction = (error) => {
+			return{
+				type: FetchUserFailure,
+				payLoad: error
+			}
+		}
+
+		const reducer = (state=initialState , action) => {
+			//console.log(action.type);
+			switch(action.type){
+				case FetchUserRequest:
+					return{
+						...state,
+						loading: true
+					}
+				case FetchUserSuccess:
+					return{
+						loading: false,
+						user: action.payLoad,
+						error:""
+					}
+				case FetchUserFailure:
+					return{
+						loading: false,
+						user: [],
+						error: action.payLoad
+					}
+			}
+		}
+
+		//async action creator
+		const fetchUser = () => {
+			return function(dispatch){
+				axios.get("https://jsonplaceholder.typicode.com/users")
+				.then(
+					response => {
+						const users = response.data.map( users => users.id )
+						dispatch( FetchUserSuccessAction(users) )
+					}
+				)
+				.catch(
+					error => {
+						dispatch( FetchUserFailureAction(error.message) )
+					}
+				)
+			}
+		}
+
+		const store = createStore(reducer,applyMiddleWare(thunkMiddleWare,createLogger));
+		//store.subscribe( () => console.log(store.getState()) )
+		store.dispatch(fetchUser());
+		
+		o/p:
+			   action FetchUserSuccess @ 16:30:50.046
+			   prev state undefined
+			   action     {
+				type: 'FetchUserSuccess',
+				payLoad: [
+				  1, 2, 3, 4,  5,
+				  6, 7, 8, 9, 10
+				]
+			  }
+			   next state {
+				loading: false,
+				user: [
+				  1, 2, 3, 4,  5,
+				  6, 7, 8, 9, 10
+				],
+				error: ''
+			  }
+			  ----------------------
+			  reference : https://blog.logrocket.com/understanding-redux-saga-from-action-creators-to-sagas-2587298b5e71/
+			    The advantage of using redux-thunk is that the component doesn’t know that it is executing an asynchronous action.
+
+				Since the middleware automatically passes the dispatch function to the function that the action creator returns, for the component, 
+				there will be no difference between asking to perform a synchronous and an asynchronous action (and they don’t have to care anyway).
+
+				By using a middleware, we have added a layer of indirection that gives us more flexibility.
+
+				Since redux-thunk gives to the dispatched function the dispatch and getState methods from the store as parameters, 
+				you can also dispatch other actions and read the state to implement more complex business logic and workflows.
+
+				Another benefit is that if there’s something that is too complex to be expressed with thunks, without changing the component, 
+				we can use another middleware library to have more control.
+			  ----------------------
+clip 14:
+	
+90)React-Redux setup:
+	react-redux-demo folder -
+		CakeContainer.js
+			import React from 'react'
+
+			function CakeContainer() {
+				return (
+					<div>
+						<h2>Number of cakes</h2>
+						<button>Buy cake</button>
+					</div>
+				)
+			}
+
+			export default CakeContainer
+			
+		App.js
+			<CakeContainer/>
+			
+clip 15: Actions in react:
+
+clip 16: reducers in react:
+
+clip 17: Store:
+
+clip 18: connect:
+
+	Selectors are the one which maps state to props.
+	Connect is a higher order component (HOC) which us used to connect react with actions.
+
+		App.js:
+
+			import React from 'react';
+			import './App.css';
+			import CakeContainer from './Components/CakeContainer';
+			import { Provider } from 'react-redux';
+			import {Store} from './Redux/Cake/Store'
+
+			function App() {
+			  return (
+				<Provider store={Store}>
+				  <div className="App">
+					<CakeContainer />
+				  </div>
+				</Provider>
+			  );
+			}
+
+			export default App;
+
+		CakeTypes.js:
+
+			export const BUY_CAKE = "BUY_CAKE";
+
+			Store.js
+
+			import { cakeReducer } from "./CakeReducer";
+			import { createStore } from 'redux'
+
+			export const Store = createStore(cakeReducer)
+
+		CakeReducer.js:
+
+			import { BUY_CAKE } from "./CakeTypes"
+
+			const intialState = {
+				noOfCakes: 10
+			}
+
+			export const cakeReducer = (state = intialState, action) => {
+				switch (action.type) {
+					case BUY_CAKE: {
+						return ({
+							...state,
+							noOfCakes: state.noOfCakes - 1
+						})
+					}
+					default: return state
+				}
+			}
+
+		CakeAction.js:
+
+			import { BUY_CAKE } from "./CakeTypes"
+
+			export const cakeAction = () => {
+				return {
+					type: BUY_CAKE,
+				}
+			}
+
+		CakeContainer.js:
+
+			import React from 'react'
+			import { cakeAction } from '../Redux/Cake/CakeAction'
+			import { connect } from 'react-redux'
+
+			function CakeContainer(props) {
+				return (
+					<div>
+						<h2>Number of cakes {props.noOfCakes}</h2>
+						<button onClick={props.dispatch}>Buy cake</button>
+					</div>
+				)
+			}
+			
+			//These are called as selectors
+			const mapStateToProps = (state) => {
+				return ({
+					noOfCakes: state.noOfCakes
+				})
+			}
+
+			const mapDispatchToProps = (dispatch) => {
+				return (
+					{
+						dispatch: () => dispatch(cakeAction())
+					}
+				)
+			}
+			//These are called as selectors
+			
+			//connect HOC
+			export default connect
+				(mapStateToProps,
+					mapDispatchToProps)
+				(CakeContainer)
+
+	
+
+	

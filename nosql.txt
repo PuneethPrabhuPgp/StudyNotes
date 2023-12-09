@@ -1,0 +1,147 @@
+A database is an organized collection of data, so that it can be easily accessed and managed. 
+
+1) NoSQL databases are specifically designed for unstructured data which can be document-oriented, column-oriented, graph-based, key-value based. NoSQL stands for Not only SQL.
+2)The NoSQL databases for big data were specifically developed by the top internet companies such as Google, Yahoo, Amazon, etc. as the existing relational databases were not able to cope with the increasing data processing requirements.
+3)Difference b/w nosql and sql:
+	SQL databases are relational, NoSQL are non-relational.
+	SQL databases are vertically scalable, NoSQL databases are horizontally scalable.
+	SQL databases are table based, while NoSQL databases are document, key-value, graph or wide-column stores.
+	SQL databases are better for multi-row transactions, NoSQL are better for unstructured data like documents or JSON.
+4)Scaling alters size of a system. In the scaling process, we either compress or expand the system to meet the expected needs. The scaling operation can be achieved by adding resources to meet the smaller expectation in the current system, or by adding a new system in the existing one, or both.
+1)Vertical Scaling: When new resources are added in the existing system to meet the expectation, it is known as vertical scaling
+2)Horizontal Scaling : When new server racks are added in the existing system to meet the higher expectation, it is known as horizontal scaling.
+When you realise your system is getting slow and is unable to handle the current number of requests, you need to scale the system.
+
+Scaling horizontally ===> Thousands of minions will do the work together for you... to scale more add more machines.
+Scaling vertically ===> One big hulk will do all the work for you... scale by adding more power (CPU, RAM) to an existing machine.
+
+Types of NoSQL Databases:
+1)Document-Based NoSQL Databases
+	Document-based databases store the data in JSON objects. 
+	The document-based databases are easy for developers as the document directly maps to the objects as JSON is a very common data format used by web developers. They are very flexible and allow us to modify the structure at any time.
+	Example:
+		MongoDB, Orient DB, and BaseX.
+2)Key-Value Databases
+	As the name suggests, it stores the data as key-value pairs. Here, keys and values can be anything like strings, integers, or even complex objects. They are highly partitionable and are the best in horizontal scaling. They can be really useful in session oriented applications where we try to capture the behavior of the customer in a particular session.
+	Example:
+		DynamoDB, Redis, and Aerospike
+3)Wide Column-Based Databases:
+	This database stores the data in records similar to any relational database but it has the ability to store very large numbers of dynamic columns. It groups the columns logically into column families.For example, in a relational database, you have multiple tables but in a wide-column based database, instead of having multiple tables, we have multiple column families.
+	Example:
+		 Cassandra and HBase.
+4)Graph-Based Databases:
+	They store the data in the form of nodes and edges. The node part of the database stores information about the main entities like people, places, products, etc., and the edges part stores the relationships between them. These work best when you need to find out the relationship or pattern among your data points like a social network, recommendation engines, etc.
+	example:
+		Neo4j, Amazon Neptune, etc.
+		
+https://www.analyticsvidhya.com/blog/2020/09/different-nosql-databases-every-data-scientist-must-know/
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>1.5.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.6.2</version>
+		</dependency>
+
+Redis:
+	Redis is an in-memory data structure store, in-memory key–value database, cache and message broker, with optional durability. 
+	Redis keys:
+		Redis keys are binary safe, this means that you can use any binary sequence as a key, from a string like "foo" to the content of a JPEG file.The empty string is also a valid key.
+		Very long keys are not a good idea. It will create costly key-comparisons
+		Very short keys are often not a good idea. It  be readable.
+		The maximum allowed key size is 512 MB.
+	Data type:
+		Strings
+			Since Redis keys are strings, when we use the string type as a value too, we are mapping a string to another string. The string data type is useful for a number of use cases, like caching HTML fragments or pages.
+			here both keys are string 
+			"10" is string but consiered as number
+		Lists
+			Redis Lists are simply lists of strings, sorted by insertion order. It is possible to add elements to a Redis List pushing new elements on the head (on the left) or on the tail (on the right) of the list.he LPUSH command inserts a new element on the head, while RPUSH inserts a new element on the tail. 
+		Sets
+			Redis Sets are an unordered collection of Strings. It is possible to add, remove, and test for existence of members in O(1).Duplicates are not allowed. Practically speaking this means that adding a member does not require a check if exists then add operation.Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.
+			it is same as list but doesnt allow duplicate values
+		Hashes
+			Redis Hashes are maps between string fields and string values, so they are the perfect data type to represent objects
+
+https://redis.io/topics/data-types - all methods
+-----------------------------------------------------------------------
+	public enum RedisKeys {
+		CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK("dmCompleteWorkflowTask");
+		private RedisKeys(String key) {
+			this.key = key;
+		}
+		public String getKey() {
+			return key;
+		}
+	}
+	save data on redis-> Redis provides support for pipelining, which involves sending multiple commands to the server without waiting for the replies and then reading the replies in a single step. Only used when multiple values are operated.
+		
+	void save(String hash, String key, T t){
+		private static JedisPool jedisPool;
+		Jedis conn = jedisPool.getResource();
+		Pipeline p = conn.pipelined();
+		p.multi();
+		String a = JsonWriter.objectToJson(t);			
+		p.hdel(hash, key); -> Delete given hash fields.
+		p.hset(hash.getBytes(), key.getBytes(), a.getBytes()); -> Set the value of a hash field.
+	}
+	
+	Map<String, Object> taskCompletedDetails = new HashMap<String, Object>();
+	taskCompletedDetails.put("status",status);
+	taskCompletedDetails.put("taskDetails", taskCompleted);
+	taskCompletedDetails.put("errorMsg",errorMsg);
+	CacheCoordinator.save(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey(), taskId,
+							taskCompletedDetails);
+-----------------------------------------------------------------------------			
+	Object get(String hash, String key){
+		Jedis conn = jedisPool.getResource();
+		byte[] bytes = conn.hget(hash.getBytes(), key.getBytes());
+	}
+		
+	Object cachedData = CacheCoordinator.get(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey(), taskId);
+---------------------------------------------------------------------------------
+	 void delete(String hash, String key){
+		Jedis conn = jedisPool.getResource();
+		conn.hdel(hash, key);
+	 }
+	 CacheCoordinator.delete(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey(), taskId);
+---------------------------------------------------------------------------------------
+	void deleteAll(String hash){
+		conn = jedisPool.getResource();				
+		conn.del(hash);
+	}
+------------------------------------------------------------------------------------------
+	List<?> getAll(String hash, List<?> ids){
+		private static JedisPool jedisPool;
+		Jedis conn = jedisPool.getResource();
+		Pipeline p = conn.pipelined();
+		p.multi();
+		for(Object id : ids)
+		{
+			p.hget(hash.getBytes(), id.toString().getBytes());				
+		}
+	}
+----------------------------------------------------------------------------------------
+list:
+	conn.lpush(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey(),string) - list left push - prepends
+	conn.rpush(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey(),string) - list right push - appends
+-----------------------------------------------------------------------------------------
+string:
+	conn.set(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey(), "10")
+	conn.incr(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey()); //increment
+	conn.get(RedisKeys.CONFIGURED_DM_COMPLETE_WORK_FLOW_TASK.getKey()); //get
+	INCR, DECR, INCRBY, APPEND, GETRANGE,SETRANGE.
+---------------------------------------------------------------------------------------------
+set:
+	SADD (add) => 	con.add("keya","a");
+					con.add("keya","b");
+					con.add("keya","c");
+					con.add("keyB","a");
+					con.add("keyB","d");
+	SINTER (intersection)- conn.sinter(keya,keyb); will return intersection of values i.e common elements => a
+	SDIFF (difference) - con.sdif(keya,keyb); will return i.e different elements => b c d
+	SUNION - union,  SRANDMEMBER - random member on that key,

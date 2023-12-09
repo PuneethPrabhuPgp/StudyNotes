@@ -1,0 +1,214 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------
+															ANIMATION
+															
+net ninja tutorials:
+
+	
+	clip 4: keyframes
+	
+1)syntax:
+	@keyframes unique_name{
+		from{} //this state
+		to{} //this state
+	}
+	
+	example:
+		@keyframes drive{
+			from{
+				transform: translateX(0);
+				top:0;
+			} 
+			to{
+				transform: translateX(500px);
+			} 
+		}
+
+2)apply this keyframe
+	.manImg{
+		animation-name: drive;
+		animation-duration: 3s;
+	}
+	
+	clip 5: animation fill mode
+	
+3)animation-fill-mode: forward   //it takes "to" value from keyframes ans stop it right there.
+								//If u apply backwards then it takes "from" value and starts from there. 
+								//forwards backwards both
+
+	animation-delay: 2s;
+	
+	
+		The animation-fill-mode property specifies a style for the target element when the animation is not playing (before it starts, after it ends, or both).
+		The animation-fill-mode property can have the following values:
+
+		none - Default value. Animation will not apply any styles to the element before or after it is executing
+		forwards - The element will retain the style values that is set by the last keyframe (depends on animation-direction and animation-iteration-count)
+		backwards - The element will get the style values that is set by the first keyframe (depends on animation-direction), and retain this during the animation-delay period
+		both - The animation will follow the rules for both forwards and backwards, extending the animation properties in both directions
+	
+	clip 6: Repeating animations
+	
+4)animation-iteration-count: 2 //it will repeat 2 times
+	animation-iteration-count: infinet
+	
+	clip 7: Animation direction
+	
+5)animation-direction: reverse; // "to" value will be "from" and vise versa.
+
+		The animation-direction property specifies whether an animation should be played forwards, backwards or in alternate cycles.
+			The animation-direction property can have the following values:
+				normal - The animation is played as normal (forwards). This is default
+				reverse - The animation is played in reverse direction (backwards)
+				alternate - The animation is played forwards first, then backwards
+				alternate-reverse - The animation is played backwards first, then forwards
+				
+	clip 8: Animation timing function
+	
+6)animation-timing-function: ease;
+
+		The animation-timing-function property specifies the speed curve of the animation.
+			The animation-timing-function property can have the following values:
+				ease - Specifies an animation with a slow start, then fast, then end slowly (this is default)
+				linear - Specifies an animation with the same speed from start to end
+				ease-in - Specifies an animation with a slow start
+				ease-out - Specifies an animation with a slow end
+				ease-in-out - Specifies an animation with a slow start and end (ease is like ease-in-out , except it starts slightly faster than it ends).
+				cubic-bezier(n,n,n,n) - Lets you define your own values in a cubic-bezier function. (we can give a curve, check cubic bezier on cubic.bezier.com)
+				
+	clip 9: Animation shorthand
+	
+7)Syntax:
+	animation : animation-name,animation-duration,animation-timing-function,animation-delay,animation-iteration-count,animation-direction. (we can change order)
+
+	clip 10: chaining animation
+	
+8)How to add multiple animation to a element:
+	we want an image to jump, so here there is 3 states (start,top & down) so cant use "to" and "from".
+	can use % like this:
+	
+	In the example above we have specified when the style will change by using the keywords "from" and "to" (which represents 0% (start) and 100% (complete)).
+	It is also possible to use percent. By using percent, you can add as many style changes as you like.
+	The following example will cjump element when the animation is 0% complete, 40% complete, and again when the animation is 100% complete
+	
+	@keyframes jump{
+		0%{top:-40px;left:0}
+		40%{top:-100px}
+		100%{top:-40px}
+	}
+	
+	animation : drive 3s linear infinet alternate, jump 0.5s ease-out infinet reverse
+	
+	clip 11: animation a pop-up:
+	
+9)To hide the element always use negative value not display or visibility.To get swing use rotate.
+
+	clip 12: animating cart
+	
+10) just add the animated class to element and animation will start.
+	
+	clip 13: flip card
+	
+
+@keyframes
+animation-name
+animation-duration
+animation-delay
+animation-iteration-count
+animation-direction
+animation-timing-function
+animation-fill-mode
+animation
+
+
+
+
+
+CSS animations do not affect an element before the first keyframe is played or after the last keyframe is played. The animation-fill-mode property 
+can override this behavior.
+
+
+
+-----------JQUERY ANIMATION
+The animate() method performs a custom animation of a set of CSS properties.
+
+This method changes an element from one state to another with CSS styles. The CSS property value is changed gradually, to create an animated effect.
+
+Only numeric values can be animated (like "margin:30px"). String values cannot be animated (like "background-color:red"), except for the strings "show", "hide" and "toggle". These values allow hiding and showing the animated element.
+
+Tip: Use "+=" or "-=" for relative animations.
+
+Syntax
+(selector).animate({styles},speed,easing,callback)
+
+Parameter	Description
+styles	Required. Specifies one or more CSS properties/values to animate.
+Note: The property names must be camel-cased when used with the animate() method: You will need to write paddingLeft instead of padding-left, marginRight instead of margin-right, and so on.
+
+Properties that can be animated:
+
+backgroundPositionX
+backgroundPositionY
+borderWidth
+borderBottomWidth
+borderLeftWidth
+borderRightWidth
+borderTopWidth
+borderSpacing
+margin
+marginBottom
+marginLeft
+marginRight
+marginTop
+opacity
+outlineWidth
+padding
+paddingBottom
+paddingLeft
+paddingRight
+paddingTop
+height
+width
+maxHeight
+maxWidth
+minHeight
+minWidth
+fontSize
+bottom
+left
+right
+top
+letterSpacing
+wordSpacing
+lineHeight
+textIndent
+
+Only numeric values can be animated (like "margin:30px"). String values cannot be animated (like "background-color:red"), except for the strings "show", "hide" and "toggle". These values allow hiding and showing the animated element.
+speed	Optional. Specifies the speed of the animation. Default value is 400 milliseconds
+Possible values:
+
+milliseconds (like 100, 1000, 5000, etc)
+"slow"
+"fast"
+easing	Optional. Specifies the speed of the element in different points of the animation. Default value is "swing". Possible values:
+"swing" - moves slower at the beginning/end, but faster in the middle
+"linear" - moves in a constant speed
+Tip: More easing functions are available in external plugins.
+callback	Optional. A function to be executed after the animation completes. To learn more about callback, please read our jQuery Callback chapter
+
+Alternate Syntax
+(selector).animate({styles},{options})
+
+Parameter	Description
+styles	Required. Specifies one or more CSS properties/values to animate (See possible values above)
+options	Optional. Specifies additional options for the animation. Possible values:
+duration - sets the speed of the animation
+easing - specifies the easing function to use
+complete - specifies a function to be executed after the animation completes
+step - specifies a function to be executed for each step in the animation
+progress - specifies a function to be executed after each step in the animation
+queue - a Boolean value specifying whether or not to place the animation in the effects queue
+specialEasing - a map of one or more CSS properties from the styles parameter, and their corresponding easing functions
+start - specifies a function to be executed when the animation begins
+done - specifies a function to be executed when the animation ends
+fail - specifies a function to be executed if the animation fails to complete
+always - specifies a function to be executed if the animation stops without completing

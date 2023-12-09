@@ -1,0 +1,662 @@
+https://javascript.info/
+Polyfilling is a term for making a substitute for a method that exists in the JavaScript specification, but is not yet supported by a particular JavaScript engine.
+
+1)?? returns the first argument if it’s not null/undefined. Otherwise, the second one.
+	The result of a ?? b is:
+		if a is defined, then a,
+		if a isn’t defined, then b.
+	The important difference between them is that:
+		|| returns the first truthy value.
+		?? returns the first defined value.
+`` (back ticks)-> this can be used while writig strings
+	let sayHi ={counter : 0};
+	alert( `Called ${sayHi.counter} times` );
+2)transpiler:
+	A transpiler is a special piece of software that can parse (“read and understand”) modern code, and rewrite it using older syntax constructs, 
+	so that the result would be the same. Polyfills for methods.
+3)Constructor functions : 
+	technically they are regular functions. There are two conventions though:
+	a)They are named with capital letter first.
+	b)They should be executed only with "new" operator.
+
+	function User(name) { //constructor
+	  this.name = name;
+	  this.isAdmin = false;
+	}
+
+	let user = new User("Jack");
+
+	alert(user.name); // Jack
+	alert(user.isAdmin); // false
+
+	When a function is executed with new, it does the following steps:
+		a)A new empty object is created and assigned to this.
+		b)The function body executes. Usually it modifies this, adds new properties to it.
+		c)The value of this is returned.
+	In other words, new User(...) does something like:
+		function User(name) {
+		  // this = {};  (implicitly)
+
+		  // add properties to this
+		  this.name = name;
+		  this.isAdmin = false;
+
+		  // return this;  (implicitly)
+		}
+4)optional chaining ?.  "
+	?. stops the evaluation if the part before ?. is undefined or null and returns that part.
+	In other words, value?.prop:
+		is the same as value.prop if value exists,
+		otherwise (when value is undefined/null) it returns undefined.
+	The safe way to access address:
+		let user = {}; // user has no address
+		alert( user?.address?.street ); // undefined (no error)
+	We should use ?. only where it’s ok that something doesn’t exist:
+		For example, if according to our coding logic user object must exist, but address is optional, 
+		then we should write user.address?.street, but not user?.address?.street.
+	Then ?.() checks the left part: if the admin function exists, then it runs (that’s so for user1). Otherwise (for user2) the evaluation stops without errors.
+		userGuest.admin?.(); // nothing (no such method)
+	The ?.[] syntax also works, if we’d like to use brackets [] to access properties instead of dot .. Similar to previous cases, 
+	it allows to safely read a property from an object that may not exist.
+		alert( user1?.[key] ); // John
+	Also we can use ?. with delete:
+		delete user?.name; // delete user.name if user exists
+5)Symbols:
+	A “symbol” represents a unique identifier.A value of this type can be created using Symbol():
+		// id is a new symbol
+		let id = Symbol(/*description*/);
+	Symbols are guaranteed to be unique. Even if we create many symbols with the same description, they are different values. 
+	The description is just a label that doesn’t affect anything.
+		let id1 = Symbol("id");
+		let id2 = Symbol("id");
+		alert(id1 == id2); // false
+	Symbols allow us to create “hidden” properties of an object, that no other part of code can accidentally access or overwrite.
+		For instance, if we’re working with user objects, that belong to a third-party code. We’d like to add identifiers to them.
+		Let’s use a symbol key for it:
+		let user = { // belongs to another code
+		  name: "John"
+		};
+		let id = Symbol("id");
+		user[id] = 1;
+		alert( user[id] ); // we can access the data using the symbol as the key
+	If we want to use a symbol in an object literal {...}, we need square brackets around it.
+		let id = Symbol("id");
+		let user = {
+		  name: "John",
+		  [id]: 123 // not "id": 123
+		};
+	Symbolic properties do not participate in for..in loop.
+6)There are 7 primitive types: string, number, bigint, boolean, symbol, null and undefined.
+	NUMBER:
+		let billion = 1e9; // 1 billion, literally: 1 and 9 zeroes ,it will multiply 1 * 1000000000
+		let ms = 1e-6; // i.e 0.000001 six zeroes to the left from 1 ,a negative number after "e" means a division by 1 with the given number of zeroes
+		alert( num.toString(2) );   // 11111111,The method num.toString(base) returns a string representation of num in the numeral system with the given base.
+		123456..toString(36) //base 36, The base can vary from 2 to 36. By default it’s 10.
+			Please note that two dots in 123456..toString(36) is not a typo. If we want to call a method directly on a number, 
+			like toString in the example above, then we need to place two dots .. after it.
+			If we placed a single dot: 123456.toString(36), then there would be an error, because JavaScript syntax 
+			implies the decimal part after the first dot. And if we place one more dot, then JavaScript knows that the decimal part 
+			is empty and now goes the method.Also could write (123456).toString(36).
+	STRING:
+		Backticks,allow us to embed any expression into the string, by wrapping it in ${…}:			
+			function sum(a, b) {
+			  return a + b;
+			}
+			alert(`1 + 2 = ${sum(1, 2)}.`); // 1 + 2 = 3.
+		alert( "Widget".includes("id") ); // true
+		alert( "Widget".includes("id", 3) ); // false, from position 3 there is no "id"
+		alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
+		alert( "Widget".endsWith("get") ); // true, "Widget" ends with "get"
+	ARRAY:
+		Methods push/pop run fast, while shift/unshift are slow.
+		The shift operation must do 3 things:
+			Remove the element with the index 0.
+			Move all elements to the left, renumber them from the index 1 to 0, from 2 to 1 and so on.
+			Update the length property.
+		If we increase it manually, nothing interesting happens. But if we decrease it, the array is truncated. 
+		The process is irreversible, here’s the example:
+			let arr = [1, 2, 3, 4, 5];
+			arr.length = 2; // truncate to 2 elements
+			alert( arr ); // [1, 2]
+			arr.length = 5; // return length back
+			alert( arr[3] ); // undefined: the values do not return
+		So, the simplest way to clear the array is: arr.length = 0;
+		let arr = [1, 2, 3];
+		alert( arr ); // 1,2,3
+		alert( [] + 1 ); // "1"
+		alert( [1] + 1 ); // "11"
+		alert( [1,2] + 1 ); // "1,21"
+7)how to use "for...of" for objects:
+	By using Symbol.iterator:
+		a)When for..of starts, it calls that method once (or errors if not found). The method must return an iterator – an object with the method next.
+		b)Onward, for..of works only with that returned object.
+		c)When for..of wants the next value, it calls next() on that object.
+		d)The result of next() must have the form {done: Boolean, value: any}, where done=true means that the iteration is finished, 
+			otherwise value is the next value.
+		Example:
+			let range = {
+			  from: 1,
+			  to: 5
+			};
+
+			// 1. call to for..of initially calls this
+			range[Symbol.iterator] = function() {
+
+			  // ...it returns the iterator object:
+			  // 2. Onward, for..of works only with this iterator, asking it for next values
+			  return {
+				current: this.from,
+				last: this.to,
+
+				// 3. next() is called on each iteration by the for..of loop
+				next() {
+				  // 4. it should return the value as an object {done:.., value :...}
+				  if (this.current <= this.last) {
+					return { done: false, value: this.current++ };
+				  } else {
+					return { done: true };
+				  }
+				}
+			  };
+			};
+
+			// now it works!
+			for (let num of range) {
+			  alert(num); // 1, then 2, 3, 4, 5
+			}
+		Bakwas, insted use for...in
+8)Array.from
+	There’s a universal method Array.from that takes an iterable or array-like value and makes a “real” Array from it. Then we can call array methods on it.
+		let arrayLike = {
+		  0: "Hello",
+		  1: "World",
+		  length: 2
+		};
+		let arr = Array.from(arrayLike);
+		alert(arr.pop()); // World (method works)	
+	syntax: Array.from(obj[, mapFn, thisArg])
+	The optional second argument mapFn can be a function that will be applied to each element before adding it to the array, 
+	and thisArg allows us to set this for it.
+		// square each number
+		let arr = Array.from(range, num => num * num);
+		alert(arr);
+	Even string can b passed and each letter will be a value in array.
+9)Map is a collection of keyed data items, just like an Object. But the main difference is that Map allows keys of any type.
+	 unlike objects, keys are not converted to strings. Any type of key is possible.
+	 for...of is used for itteration.
+	Methods and properties are:
+		new Map() – creates the map.
+		map.set(key, value) – stores the value by the key.
+		map.get(key) – returns the value by the key, undefined if key doesn’t exist in map.
+		map.has(key) – returns true if the key exists, false otherwise.
+		map.delete(key) – removes the value by the key.
+		map.clear() – removes everything from the map.
+		map.size – returns the current element count.
+	Example:
+		let map = new Map();
+		map.set('1', 'str1');   // a string key
+		map.set(1, 'num1');     // a numeric key
+		map.set(true, 'bool1'); // a boolean key
+		// remember the regular Object? it would convert keys to string
+		// Map keeps the type, so these two are different:
+		alert( map.get(1)   ); // 'num1'
+		alert( map.get('1') ); // 'str1'
+		alert( map.size ); // 3
+			or map can be intialized like this:
+		// array of [key, value] pairs
+		let map = new Map([
+		  ['1',  'str1'],
+		  [1,    'num1'],
+		  [true, 'bool1']
+		]);
+	Using objects as keys is one of the most notable and important Map features. The same does not count for Object. 
+	String as a key in Object is fine, but we can’t use another Object as a key in Object.
+		let john = { name: "John" };
+		// for every user, let's store their visits count
+		let visitsCountMap = new Map();
+		// john is the key for the map
+		visitsCountMap.set(john, 123);
+		alert( visitsCountMap.get(john) ); // 123	
+	For looping over a map, there are 3 methods:
+		map.keys() – returns an iterable for keys,
+		map.values() – returns an iterable for values,
+		map.entries() – returns an iterable for entries [key, value], it’s used by default in for..of.
+	he iteration goes in the same order as the values were inserted. Map preserves this order, unlike a regular Object.
+			let recipeMap = new Map([
+				['cucumber', 500],
+				['tomatoes', 350],
+				['onion',    50]
+			]);
+			// iterate over keys (vegetables)
+			for (let vegetable of recipeMap.keys()) {
+			  alert(vegetable); // cucumber, tomatoes, onion
+			}
+			// iterate over values (amounts)
+			for (let amount of recipeMap.values()) {
+			  alert(amount); // 500, 350, 50
+			}
+			// iterate over [key, value] entries
+			for (let entry of recipeMap) { // the same as of recipeMap.entries()
+			  alert(entry); // cucumber,500 (and so on)
+			}
+	If we have a plain object, and we’d like to create a Map from it, then we can use built-in method Object.entries(obj) 
+	that returns an array of key/value pairs for an object exactly in that format.
+	Here, Object.entries returns the array of key/value pairs: [ ["name","John"], ["age", 30] ]. That’s what Map needs.
+		let obj = {
+		  name: "John",
+		  age: 30
+		};
+		let map = new Map(Object.entries(obj));
+		alert( map.get('name') ); // John
+	We can use Object.fromEntries to get a plain object from Map.
+		let map = new Map();
+		map.set('banana', 1);
+		map.set('orange', 2);
+		map.set('meat', 4);
+		let obj = Object.fromEntries(map.entries()); // same as Object.fromEntries(map) use any 1
+		// done!
+		// obj = { banana: 1, orange: 2, meat: 4 }
+		alert(obj.orange); // 2
+10)A Set is a special type collection – “set of values” (without keys), where each value may occur only once.
+	for...of is used for itteration.
+	Its main methods are:
+		new Set(iterable) – creates the set, and if an iterable object is provided (usually an array), copies values from it into the set.
+		set.add(value) – adds a value, returns the set itself.
+		set.delete(value) – removes the value, returns true if value existed at the moment of the call, otherwise false.
+		set.has(value) – returns true if the value exists in the set, otherwise false.
+		set.clear() – removes everything from the set.
+		set.size – is the elements count.
+	The main feature is that repeated calls of set.add(value) with the same value don’t do anything. 
+	That’s the reason why each value appears in a Set only once.
+	Example:
+		let set = new Set();
+		let john = { name: "John" };
+		let pete = 1;
+		let mary = "hi";
+		// visits, some users come multiple times
+		set.add(john);
+		set.add(pete);
+		set.add(mary);
+		set.add(john);
+		set.add(mary);
+		// set keeps only unique values
+		alert( set.size ); // 3
+		for (let user of set) {
+		  alert(user.name); // John (then Pete and Mary)
+		}
+	The same methods Map has for iterators are also supported:
+		set.keys() – returns an iterable object for values,
+		set.values() – same as set.keys(), for compatibility with Map,
+		set.entries() – returns an iterable object for entries [value, value], exists for compatibility with Map.
+	Array to set:
+	let arr = ["Hare", "Krishna", "Hare", "Krishna",
+		"Krishna", "Krishna", "Hare", "Hare", ":-O"];
+	new Set(arr)
+11)Weakmap:
+	Garbage collection:
+		let john = { name: "John" };
+		let array = [ john ];
+		john = null; // overwrite the reference
+		// the object previously referenced by john is stored inside the array
+		// therefore it won't be garbage-collected
+		// we can get it as array[0]
+	Similar to that, if we use an object as the key in a regular Map, then while the Map exists, that object 
+		exists as well. It occupies memory and may not be garbage collected.
+	The first difference between Map and WeakMap is that keys must be objects, not primitive values and 2nd is garbage collection:
+		let john = { name: "John" };
+		let weakMap = new WeakMap();
+		weakMap.set(john, "...");
+		john = null; // overwrite the reference
+		// john is removed from memory!
+	WeakMap has only the following methods:
+		weakMap.get(key)
+		weakMap.set(key, value)
+		weakMap.delete(key)
+		weakMap.has(key)
+	The JavaScript engine decides that. It may choose to perform the memory cleanup immediately or to wait and do the 
+	cleaning later when more deletions happen. So, technically, the current element count of a WeakMap is not known. 
+	The engine may have cleaned it up or not, or did it partially. For that reason, methods that access all keys/values are not supported.
+	WeakMap use case: data should only exist while the object is alive – then WeakMap is exactly what’s needed
+	Weakset may only add objects to it.
+	WeakMap is Map-like collection that allows only objects as keys and removes them together with associated value once 
+		they become inaccessible by other means.
+	WeakSet is Set-like collection that stores only objects and removes them once they become inaccessible by other means.
+	Their main advantages are that they have weak reference to objects, so they can easily be removed by garbage collector.
+	WeakMap and WeakSet are used as “secondary” data structures in addition to the “primary” object storage. 
+	Once the object is removed from the primary storage, if it is only found as the key of WeakMap or in a WeakSet, it will be cleaned up automatically.
+12)Destructuring assignment is a special syntax that allows us to “unpack” arrays or objects into a bunch of variables, as sometimes 
+that’s more convenient. Destructuring also works great with complex functions that have a lot of parameters, default values, and so on.
+	// we have an array with the name and surname
+	let arr = ["Ilya", "Kantor"]
+	// destructuring assignment
+	// sets firstName = arr[0]
+	// and surname = arr[1]
+	let [firstName, surname] = arr; // its like let firstName=arr[0] and so on
+	alert(firstName); // Ilya
+	alert(surname);  // Kantor
+----------------
+	let [firstName, surname] = "Ilya Kantor".split(' ');
+-----------------
+	Unwanted elements of the array can also be thrown away via an extra comma:
+		// second element is not needed
+		let [firstName, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+		alert( title ); // Consul
+---------------
+	…Actually, we can use it with any iterable, not only arrays:
+		let [a, b, c] = "abc"; // ["a", "b", "c"]
+		let [one, two, three] = new Set([1, 2, 3]);
+	
+		let user = {};
+		[user.name, user.surname] = "Ilya Kantor".split(' ');
+		alert(user.name); // Ilya
+13)the rest...
+	let [name1, name2, ...rest] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+	// Note that type of `rest` is Array.
+	alert(rest[0]); // Consul
+	alert(rest[1]); // of the Roman Republic
+	alert(rest.length); // 2
+	The value of rest is the array of the remaining array elements. We can use any other variable name in place of rest, 
+	just make sure it has three dots before it and goes last in the destructuring assignment.
+	Default values:
+		// default values
+		let [name = "Guest", surname = "Anonymous"] = ["Julius"];
+		alert(name);    // Julius (from array)
+		alert(surname); // Anonymous (default used)
+	The destructuring assignment also works with objects.
+	The basic syntax is:
+		let {var1, var2} = {var1:…, var2:…}
+		let options = {
+		  title: "Menu",
+		  width: 100,
+		  height: 200
+		};
+		let {title, width, height} = options; // it can b in any order let {height, width, title} = options;
+		alert(title);  // Menu
+		alert(width);  // 100
+		alert(height); // 200
+	If we want to assign a property to a variable with another name, for instance, options.width to go into the variable named w, 
+		then we can set it using a colon:
+		let options = {
+		  title: "Menu",
+		  width: 100,
+		  height: 200
+		};
+		// { sourceProperty: targetVariable }
+		let {width: w, height: h, title} = options;
+		// width -> w
+		// height -> h
+		// title -> title
+		alert(title);  // Menu
+		alert(w);      // 100
+		alert(h);      // 200
+	The rest pattern “…” :
+		let options = {
+		  title: "Menu",
+		  height: 200,
+		  width: 100
+		};
+		// title = property named title
+		// rest = object with the rest of properties
+		let {title, ...rest} = options;
+		// now title="Menu", rest={height: 200, width: 100}
+		alert(rest.height);  // 200
+		alert(rest.width);   // 100
+	Smart function parameters:
+		// we pass object to function
+		let options = {
+		  title: "My menu",
+		  items: ["Item1", "Item2"]
+		};
+		// ...and it immediately expands it to variables
+		function showMenu({title = "Untitled", width = 200, height = 100, items = []}) {
+		  // title, items – taken from options,
+		  // width, height – defaults used
+		  alert( `${title} ${width} ${height}` ); // My Menu 200 100
+		  alert( items ); // Item1, Item2
+		}
+		showMenu(options);
+14)There is also a special array-like object named arguments that contains all arguments by their index.
+	In old times, rest parameters did not exist in the language, and using arguments was the only way to get all arguments of the function. 
+	And it still works, we can find it in the old code.But the downside is that although arguments is both array-like and iterable, it’s not an array. 
+	It does not support array methods, so we can’t call arguments.map(...) for example.Also, it always contains all arguments. 
+	We can’t capture them partially, like we did with rest parameters.So when we need these features, then rest parameters are preferred.
+		function showName() {
+		  alert( arguments.length );
+		  alert( arguments[0] );
+		  alert( arguments[1] );
+
+		  // it's iterable
+		  // for(let arg of arguments) alert(arg);
+		}
+
+		// shows: 2, Julius, Caesar
+		showName("Julius", "Caesar");
+
+		// shows: 1, Ilya, undefined (no second argument)
+		showName("Ilya");
+	As we remember, arrow functions don’t have their own this. Now we know they don’t have the special arguments object either.
+15)Spread syntax:
+	Now let’s say we have an array [3, 5, 1]. How do we call Math.max with it?
+	Passing it “as is” won’t work, because Math.max expects a list of numeric arguments, not a single array:
+		let arr = [3, 5, 1];
+		alert( Math.max(arr) ); // NaN
+	And surely we can’t manually list items in the code Math.max(arr[0], arr[1], arr[2]), because we may be unsure how many there are. 
+	As our script executes, there could be a lot, or there could be none. And that would get ugly.
+	Spread syntax to the rescue! It looks similar to rest parameters, also using ..., but does quite the opposite.
+	When ...arr is used in the function call, it “expands” an iterable object arr into the list of arguments.
+	For Math.max:
+		let arr = [3, 5, 1];
+		alert( Math.max(...arr) ); // 5 (spread turns array into a list of arguments)	
+	We can even combine the spread syntax with normal values:
+		let arr1 = [1, -2, 3, 4];
+		let arr2 = [8, 3, -8, 1];
+		alert( Math.max(1, ...arr1, 2, ...arr2, 25) ); // 25
+	Also, the spread syntax can be used to merge arrays:
+		let merged = [0, ...arr, 2, ...arr2];
+	here we use the spread syntax to turn the string into array of characters:
+		let str = "Hello";
+		alert( [...str] ); // H,e,l,l,o
+	copy object:
+		let obj = { a: 1, b: 2, c: 3 };
+		let objCopy = { ...obj }; // spread the object into a list of parameters
+                          // then return the result in a new object
+	Use patterns:
+		Rest parameters are used to create functions that accept any number of arguments.
+		The spread syntax is used to pass an array to functions that normally require a list of many arguments.
+16)In JavaScript, every running function, code block {...}, and the script as a whole have an internal (hidden) associated object known as 
+	the Lexical Environment. (for more info https://javascript.info/closure)
+	A variable is a property of a special internal object, associated with the currently executing block/function/script.
+	Working with variables is actually working with the properties of that object.
+17)Closure:
+	A closure is a function that remembers its outer variables and can access them. Functions in js automatically remember where they were created 
+	using a hidden [[Environment]] property, and then their code can access outer variables.All functions in JavaScript are closures.
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures :
+		A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). 
+		In other words, a closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time 
+		a function is created, at function creation time.
+18)IIFE : 
+	In the past, as there was only var, and it has no block-level visibility, programmers invented a way to emulate it. 
+	What they did was called “immediately-invoked function expressions” (abbreviated as IIFE).
+		(function() {
+		  var message = "Hello";
+		  alert(message); // Hello
+		})();
+	The parentheses around the function is a trick to show JavaScript that the function is created in the context of another expression, 
+	and hence it’s a Function Expression: it needs no name and can be called immediately.
+	There exist other ways besides parentheses to tell JavaScript that we mean a Function Expression:
+		// Ways to create IIFE
+		(function() {
+		  alert("Parentheses around the function");
+		})();
+
+		(function() {
+		  alert("Parentheses around the whole thing");
+		}());
+
+		!function() {
+		  alert("Bitwise NOT operator starts the expression");
+		}();
+
+		+function() {
+		  alert("Unary plus starts the expression");
+		}();
+19)Global Object:
+	In a browser Global Object is named window.Recently, globalThis was added to the language, as a standardized name for a global object, 
+	that should be supported across all environments. It’s supported in all major browsers.
+	In a browser, global functions and variables declared with var (not let/const!) become the property of the global object:
+		var gVar = 5;
+		alert(window.gVar); // 5 (became a property of the global object)
+	If we used let instead, such thing wouldn’t happen:
+		let gLet = 5;
+		alert(window.gLet); // undefined (doesn't become a property of the global object)
+	If a value is so important that you’d like to make it available globally, write it directly as a property:
+		// make current user information global, to let all scripts access it
+		window.currentUser = {
+		  name: "John"
+		};
+		// somewhere else in code
+		alert(currentUser.name);  // John
+		// or, if we have a local variable with the name "currentUser"
+		// get it from window explicitly (safe!)
+		alert(window.currentUser.name); // John
+20)Function objects contain some useable properties.
+	Name property:
+		function name:
+			function sayHi() {
+			  alert("Hi");
+			}
+			alert(sayHi.name); // sayHi
+		It also assigns the correct name to a function even if it’s created without one, and then immediately assigned:
+			let sayHi = function() {
+			  alert("Hi");
+			};
+			alert(sayHi.name); // sayHi (there's a name!)
+		Empty:
+			// function created inside array
+			let arr = [function() {}];
+			alert( arr[0].name ); // <empty string>
+			// the engine has no way to set up the right name, so there is none
+	Length property:
+		that returns the number of function parameters, for instance:
+			function f1(a) {}
+			function f2(a, b) {}
+			function many(a, b, ...more) {}
+			alert(f1.length); // 1
+			alert(f2.length); // 2
+			alert(many.length); // 2
+		Usefull to counnt rest parameter length:
+			function ask(question, ...handlers) {
+				if (handler.length == 0) {}
+			}
+	Custom property:
+		Here we add the counter property to track the total calls count:
+			function sayHi() {
+			  alert("Hi");
+			  // let's count how many times we run
+			  sayHi.counter++;
+			}
+			sayHi.counter = 0; // initial value
+			sayHi(); // Hi
+			sayHi(); // Hi
+			alert( `Called ${sayHi.counter} times` ); // Called 2 times
+21)Named Function Expression
+	Named Function Expression, or NFE, is a term for Function Expressions that have a name.
+		let sayHi = function func(who) {
+			  if (who) {
+				alert(`Hello, ${who}`);
+			  } else {
+				func("Guest"); // use func to re-call itself
+			  }
+		};
+		sayHi(); // Hello, Guest
+		// But this won't work:
+		func(); // Error, func is not defined (not visible outside of the function)
+	The problem with that code is that sayHi may change in the outer code. If the function gets assigned to another variable instead, 
+	the code will start to give errors:
+		let sayHi = function(who) {
+		  if (who) {
+			alert(`Hello, ${who}`);
+		  } else {
+			sayHi("Guest"); // Error: sayHi is not a function
+		  }
+		};
+		let welcome = sayHi;
+		sayHi = null;
+		welcome(); // Error, the nested sayHi call doesn't work any more!
+22)There are two methods for it:
+	setTimeout allows us to run a function once after the interval of time.
+	setInterval allows us to run a function repeatedly, starting after the interval of time, then repeating continuously at that interval.
+	The syntax:
+		let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
+	canceling timeout:
+		A call to setTimeout returns a “timer identifier” timerId that we can use to cancel the execution.
+		The syntax to cancel:
+			let timerId = setTimeout(...);
+			clearTimeout(timerId);
+	The setInterval method has the same syntax as setTimeout:
+		let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...)
+	All arguments have the same meaning. But unlike setTimeout it runs the function not only once, but regularly after the given interval of time.
+	To stop further calls, we should call clearInterval(timerId).
+	The following example will show the message every 2 seconds. After 5 seconds, the output is stopped:
+		// repeat with the interval of 2 seconds
+		let timerId = setInterval(() => alert('tick'), 2000);
+		// after 5 seconds stop
+		setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
+23)Function binding:
+	The result of func.bind(context) is a special function-like “exotic object”, that is callable as function and transparently passes the call to func setting this=context.
+		The basic syntax is:
+			let boundFunc = func.bind(context);
+				let user = {
+			  firstName: "John"
+			};
+			function func(phrase) {
+			  alert(phrase + ', ' + this.firstName); //// Hello, John
+			}
+			// bind this to user
+			let funcUser = func.bind(user);
+			funcUser("Hello"); //(argument "Hello" is passed, and this=user)
+		object function:
+			let user = {
+			  firstName: "John",
+			  sayHi() {
+				alert(`Hello, ${this.firstName}!`); //hello john
+			  }
+			};
+			let sayHi = user.sayHi.bind(user);
+			sayHi();
+	Partial Function:
+		The full syntax of bind:
+			let bound = func.bind(context, [arg1], [arg2], ...);
+		We can bind not only this, but also arguments. That’s rarely done, but sometimes can be handy.Please note that we actually don’t use this here. 
+		But bind requires it, so we must put in something like null. This is called as partial function.
+			function mul(a, b) {
+			  return a * b;
+			}
+			let double = mul.bind(null, 2);
+			alert( double(3) ); // = mul(2, 3) = 6
+			alert( double(4) ); // = mul(2, 4) = 8
+			alert( double(5) ); // = mul(2, 5) = 10
+	When we fix some arguments of an existing function, the resulting (less universal) function is called partially applied or partial.
+	Partials are convenient when we don’t want to repeat the same argument over and over again. Like if we have a send(from, to) function, 
+	and from should always be the same for our task, we can get a partial and go on with it.
+24)Arrow functions:
+	Do not have this
+	Do not have arguments
+	Can’t be called with new
+	They also don’t have super
+25)Property flags:
+	https://javascript.info/property-descriptors
+26)Getters and setters:
+	https://javascript.info/property-accessors
+
+
+Advanced concepts for objects and functions
+Determining the value of 'this'
+this binding
+In-depth prototype concepts
+Indirectly invoking functions
+Closure
+Immediately Invoked Function Expressions (IIFEs)
+Namespace pattern
+Module pattern
+JSON format and how to load a JSON file

@@ -1,0 +1,229 @@
+1)Responsive web design makes your web page look good on all devices.Responsive web design is not a program or a JavaScript.
+	It is called responsive web design when you use CSS and HTML to resize, hide, shrink, enlarge, 
+	or move the content to make it look good on any screen.
+
+2)The viewport is the user's visible area of a web page.
+
+3)HTML5 introduced a method to let web designers take control over the viewport, through the <meta> tag.
+	You should include the following <meta> viewport element in all your web pages:
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	A <meta> viewport element gives the browser instructions on how to control the page's dimensions and scaling.
+	The width=device-width part sets the width of the page to follow the screen-width of the device 
+	(which will vary depending on the device).
+	The initial-scale=1.0 part sets the initial zoom level when the page is first loaded by the browser.
+	
+4)Size Content to The Viewport
+	Users are used to scroll websites vertically on both desktop and mobile devices - but not horizontally!
+	So, if the user is forced to scroll horizontally, or zoom out, to see the whole web page it results in a poor user experience.
+	Some additional rules to follow:
+	1. Do NOT use large fixed width elements - For example, if an image is displayed at a width wider than the viewport 
+	it can cause the viewport to scroll horizontally. Remember to adjust this content to fit within the width of the viewport.
+
+	2. Do NOT let the content rely on a particular viewport width to render well - Since screen dimensions 
+	and width in CSS pixels vary widely between devices, content should not rely on a particular viewport width to render well.
+
+	3. Use CSS media queries to apply different styling for small and large screens - Setting large absolute CSS widths for page 
+	elements will cause the element to be too wide for the viewport on a smaller device. Instead, consider using relative width values, such as width: 100%. Also,
+	be careful of using large absolute positioning values. It may cause the element to fall outside the viewport on small devices.
+
+5)Building a Responsive Grid-View
+	Lets start building a responsive grid-view.
+	First ensure that all HTML elements have the box-sizing property set to border-box. 
+	This makes sure that the padding and border are included in the total width and height of the elements.
+	Add the following code in your CSS:
+
+	* {
+	  box-sizing: border-box;
+	}
+	
+	The box-sizing property allows us to include the padding and border in an element's total width and height.
+	
+	By default, the width and height of an element is calculated like this:
+	width + padding + border = actual width of an element
+	height + padding + border = actual height of an element
+
+	This means: When you set the width/height of an element, the element often appears bigger 
+	than you have set (because the element's border and padding are added to the element's specified width/height).
+	
+	Since the result of using the box-sizing: border-box; is so much better, many developers want all elements on their pages to work this way.
+
+	The code below ensures that all elements are sized in this more intuitive way. Many browsers already use 
+	box-sizing: border-box; for many form elements (but not all - which is why inputs and text areas look different at width: 100%;)
+	Applying this to all elements is safe and wise:
+
+	Example
+	* {
+	  box-sizing: border-box;
+	}
+	
+	box-sizing	Defines how the width and height of an element are calculated: should they 
+				include padding and borders, or not
+				
+6)Media query is a CSS technique introduced in CSS3.
+
+	It uses the @media rule to include a block of CSS properties only if a certain condition is true.
+	
+	Example
+	If the browser window is 600px or smaller, the background color will be lightblue:
+	@media only screen and (max-width: 600px) {
+	  body {
+		background-color: lightblue;
+	  }
+	}
+
+7)Earlier in this tutorial we made a web page with rows and columns, and it was responsive, 
+	but it did not look good on a small screen.
+	Media queries can help with that. We can add a breakpoint where certain parts of the 
+	design will behave differently on each side of the breakpoint.
+	
+	When the screen (browser window) gets smaller than 768px, each column should have a width of 100%:
+
+	/* For desktop: */
+	.col-1 {width: 8.33%;}
+	.col-2 {width: 16.66%;}
+	.col-3 {width: 25%;}
+	.col-4 {width: 33.33%;}
+	.col-5 {width: 41.66%;}
+	.col-6 {width: 50%;}
+	.col-7 {width: 58.33%;}
+	.col-8 {width: 66.66%;}
+	.col-9 {width: 75%;}
+	.col-10 {width: 83.33%;}
+	.col-11 {width: 91.66%;}
+	.col-12 {width: 100%;}
+
+	@media only screen and (max-width: 768px) {
+	  /* For mobile phones: */
+	  [class*="col-"] {
+		width: 100%;
+	  }
+	}
+	
+	Always Design for Mobile First
+	Mobile First means designing for mobile before designing for desktop or any other device 
+	(This will make the page display faster on smaller devices).
+	This means that we must make some changes in our CSS.
+	Instead of changing styles when the width gets smaller than 768px, 
+	we should change the design when the width gets larger than 768px. This will make our design Mobile First:
+	
+	Example
+	/* For mobile phones: */
+	[class*="col-"] {
+	  width: 100%;
+	}
+
+	@media only screen and (min-width: 768px) {
+	  /* For desktop: */
+	  .col-1 {width: 8.33%;}
+	  .col-2 {width: 16.66%;}
+	  .col-3 {width: 25%;}
+	  .col-4 {width: 33.33%;}
+	  .col-5 {width: 41.66%;}
+	  .col-6 {width: 50%;}
+	  .col-7 {width: 58.33%;}
+	  .col-8 {width: 66.66%;}
+	  .col-9 {width: 75%;}
+	  .col-10 {width: 83.33%;}
+	  .col-11 {width: 91.66%;}
+	  .col-12 {width: 100%;}
+	}
+
+8)Typical Device Breakpoints
+	There are tons of screens and devices with different heights and widths, so it is hard to create an exact breakpoint for each device. To keep things simple you could target five groups:
+
+	Example
+	/* Extra small devices (phones, 600px and down) */
+	@media only screen and (max-width: 600px) {...}
+
+	/* Small devices (portrait tablets and large phones, 600px and up) */
+	@media only screen and (min-width: 600px) {...}
+
+	/* Medium devices (landscape tablets, 768px and up) */
+	@media only screen and (min-width: 768px) {...}
+
+	/* Large devices (laptops/desktops, 992px and up) */
+	@media only screen and (min-width: 992px) {...}
+
+	/* Extra large devices (large laptops and desktops, 1200px and up) */
+	@media only screen and (min-width: 1200px) {...}
+	
+	
+	anup: width
+	
+	mobile 360
+	
+	tablet <360 >768
+	
+	desk/Pc <768
+	
+	
+9)If the width property is set to a percentage and the height is set to "auto", 
+	the image will be responsive and scale up and down.If the max-width property is set to 100%, the video player will scale down if it has to, 
+	but never scale up to be larger than its original size.
+	
+	
+	https://www.w3schools.com/css/css3_mediaqueries.asp
+	
+	
+	
+	
+	1. Mobile
+ 
+There are two different resolutions for laptops.
+/* For 480 Resolution */  
+@media only screen   
+and (min-device-width : 320px)   
+and (max-device-width : 480px)  
+{ /* STYLES GO HERE */}  
+resolution 
+ 
+Generally, this dimension is recommended for mobile:
+/* For 640 Resolution */  
+@media only screen   
+and (min-device-width : 360px)   
+and (max-device-width : 640px)  
+{ /* STYLES GO HERE */}  
+mobile
+ 
+2. Laptop
+ 
+There are two different resolutions for laptops.
+/* For 1024 Resolution */  
+@media only screen   
+and (min-device-width : 768px)   
+and (max-device-width : 1024px)  
+{ /* STYLES GO HERE */}  
+Program
+/* For 1366 Resolution */  
+@media only screen   
+and (min-width: 1030px)   
+and (max-width: 1366px)  
+{ /* STYLES GO HERE */}  
+Code
+ 
+Generally, this dimension is recommended for laptop
+ 
+3. Desktop
+@media only screen   
+and (min-width: 1370px)  
+and (max-width: 1605px)  
+{ /* STYLES GO HERE */}  
+STYLES 
+ 
+4. iPad
+/* If you're looking to supply different graphics or choose different typography for the lower resolution iPad display, the media queries below will work. */  
+/* Orientation : Landscape */  
+@media only screen   
+and (orientation : landscape)   
+and (-webkit-min-device-pixel-ratio: 1)  
+and (min-device-width : 768px)   
+and (max-device-width : 1007px)   
+{ /* STYLES GO HERE */}  
+run
+/* Orientation : Portrait */  
+@media only screen   
+and (orientation : portrait)   
+and (-webkit-min-device-pixel-ratio: 1)   
+and (min-device-width : 768px)   
+and (max-device-width : 1007px)  
+{ /* STYLES GO HERE */} 

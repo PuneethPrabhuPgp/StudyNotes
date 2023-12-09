@@ -1,0 +1,1007 @@
+-----------------------------------imp--------------------
+In js if function is also a variable so if function nmae is same as variable 
+a)then their will b hoisting if variable is declared not intialized:
+	function a(){}
+	alert(a); //alerts: function a(){} because of hoisting
+	var a;
+	---------------------
+	function a(){}
+	alert(a); //alerts: function a(){}
+	var a=13;
+	alert(a); //alerts: 13
+	
+b)if declared then a() is error
+	function a(){}
+	var a=13
+	alert(a) //13
+	a() // (trying to call a function) Uncaught TypeError: a is not a function
+    
+
+1)when an array or null or object is assigned to a variable then the typeof that variable is OBJECT.
+	typeof "John"                 // Returns "string"
+	typeof 3.14                   // Returns "number"
+	typeof NaN                    // Returns "number"
+	typeof false                  // Returns "boolean"
+	typeof [1,2,3,4]              // Returns "object"
+	typeof {name:'John', age:34}  // Returns "object"
+	typeof new Date()             // Returns "object"
+	typeof function () {}         // Returns "function"
+	typeof myCar                  // Returns "undefined" *
+	typeof null                   // Returns "object"
+The typeof operator always returns a string
+2)variable type and value both are undefined when var x;
+3)== compares value, === compares value and datatype
+	null == undefined //true bes no value
+	null === undefined //false as data type is object for null and undefined for undefined
+	
+	Note the difference between (x==y) and (x===y) where x and y both are strig objects
+	"Comparing any two JavaScript objects will always return false"
+	ex: 1)var x = new String("John");             
+		var y = new String("John");
+		(x === y) and (x==y) is false because x and y are different objects
+		
+		2)var x = 5; var y = "5"; , x==y is true and x===y is false
+		
+		3)var x = "John"; var y = new String("John"); , x==y is true and x===y is false
+4)When a JavaScript variable is declared with the keyword "new", Avoid String, Number, and Boolean objects. They complicate your code and 
+  slow down execution speed.the variable is created as an object:
+	var x = new String();        // Declares x as a String object
+	var y = new Number();        // Declares y as a Number object
+	var z = new Boolean();       // Declares z as a Boolean object
+5)var x = "John"; // typeof x will return string
+  var y = new String("John"); // typeof y will return object
+  Don't create strings as objects. It slows down execution speed.
+6)Note that regular expressions are written without quotes.
+7)typeof NaN;      // returns "number"
+	var x = NaN;
+	var y = 5;
+	var z = x + y;         // z will be NaN
+	
+	var x = NaN;
+	var y = "5";
+	var z = x + y;         // z will be NaN5
+	
+	var x = "100";
+	var y = "10";
+	var z = x / y;       // z will be 10
+	z = x * y;       // z will be 1000
+	z = x - y;       // z will be 90
+	z = x + y;       // z will not be 110 (It will be 10010)
+	var x =  2 / 0;       // x will be Infinity
+	var y = -2 / 0;       // y will be -Infinity
+	if(myNumber != Infinity) //can be used
+	var x = 0xFF;        // hexadecimal x will be 255 
+	
+	Subtracting a string from a string, does not generate an error but returns NaN (Not a Number):
+	"Hello" - "Dolly"    // returns NaN
+8)Never write a number with a leading zero (like 07).Some JavaScript versions interpret numbers as octal if they are written with a leading zero.
+9)But you can use the toString() method to output numbers from base 2 to base 36.
+	var myNumber = 32;
+	myNumber.toString(10);  // returns 32
+	myNumber.toString(32);  // returns 10
+	myNumber.toString(16);  // returns 20
+	myNumber.toString(8);   // returns 40
+	myNumber.toString(2);   // returns 100000
+9) string methods: strings are immutable in js i.e it will not change actual variable
+  .indexOf,.lastndexOf,.search,.slice,.subString,.substr,.split,.replace,.toUpperCase,.toLowerCase,.concat,.trim,.padStart,.padEnd,.charAt,.charCodeAt
+10)Number methods:
+	Number(),parseInt(),parseFloat(),.toFixed,.toPrecision,.toExponential,.toString,.valueOf
+	Number.isSafeInteger(),Number.isInteger() //Safe integers are all integers from -(253 - 1) to +(253 - 1).
+	isFinite(),isNaN()
+11)array methods: array are mutable in js i.e we can change actual variable from all methods except slice
+	.sort,.reverse,.splice,.push,.pop,.shift,.unshift,delete keyword,.concat,.slice
+	Array.isArray(arrayName), arrayName instanceOf Array . Array.from->(check jsadvance file)
+	arrayName.indexOf(valueToBeSearched, startIndex),arrayName.lastIndexOf(valueToBeSearched, startIndex)
+	const fruits = ["Banana", "Orange", "Apple", "Mango"];fruits.includes("Mango"); // is true
+	[1, 2].forEach(alert) //alerts 1 and 2 in differnt alert box
+12)In array even a number is considered as string. so to sort numbers use compare function
+	function myFunction() {
+	  points.sort(function(a, b){return a - b}); //for decending b-a
+	  document.getElementById("demo").innerHTML = points;
+	}
+	When the sort() function compares two values, it sends the values to the compare function, 
+	and sorts the values according to the returned (negative, zero, positive) value.
+	If the result is negative a is sorted before b.
+	If the result is positive b is sorted before a.
+13)array itteration method: .forEach,.map,.filter,.reduce,.reduceRight,.every,.some,.find,.findIndex
+
+	All methods "except .reduce,.reduceRight" take 3 arguments in same order -> value,index,arrayItSelf
+	.reduce,.reduceRight will take 4 arguments -> total,value,index,arrayItSelf (totl is previously returned value)
+	.reduce is from left to right,.reduceRight is right to left
+	total at begining will be the fist or last element then if function is not returning anything other values will be undefined.
+	SYNTAX for all function : 
+		var numbers = [45, 4, 9, 16, 25];
+		numbers.forEach/map/...etc(myFunction); //myFunction is a function name which accepts 3 or 4 param
+		function myFunction(value, index, array) {
+		  return anything;	//.forEach(always returns undefined),.reduce,.reduceRight and array for map
+		  return value > 18; //test case in return for .filter(array),.every,.some,.find,.findIndex
+		}
+	.forEach cannot return anything if function returns anything then alo we cnt collect in variable.
+	.map will return an new array without modifiying original array and operates only if array has values and if function doesnt return anything the
+		new array consists of empty array values like this [,,,,]
+	.filter returns array which pases test, if no-return-statement/returns->"" then empty array like this [], 
+		if wrong/unwanted value(which is not condition) is returned then all elements of array is in new array
+	.reduce,.reduceRight will return any single value, if no return statement in function then undefined is returned.
+	.every returns "true" if all array values pass a test else "false",if nothing is returned from that function then by default value returned is false
+		if wrong/unwanted value is returned (which is not condition) then it will return true
+	.some returns "true" if aleast one array values pass a test else "false",if nothing is returned from that function then by default value returned is false
+		if wrong/unwanted value is returned (which is not condition) then it will return true
+	.find returns first value of arry which pases test,if nothing/""/null is returned from that function then by default value returned is undefined
+		if wrong/unwanted value is returned (which is not condition) then it will return first array element value
+	.findIndex returns first index of arry which pases test,if nothing/""/null is returned from that function then by default value returned is -1
+		if wrong/unwanted value is returned (which is not condition) then it will return index 0 (1st element index)
+14)Switch cases use strict comparison (===) and default clause need not be last block and last block need not have break.
+	if any block except last block dsnt hav break then it will execute al the next block computations.
+	different case same code then:
+	switch (new Date().getDay()) {
+	  case 4:
+	  case 5:
+		text = "Soon it is Weekend";   
+	}
+15)The break statement "jumps out" of a loop.The continue statement "jumps over" one iteration in the loop.
+	how to break any block or if statement: using lables
+		var cars = ["BMW", "Volvo", "Saab", "Ford"];
+		var text = "";
+		list: if("x" == "x") {
+		  text += cars[0] + "<br>"; 
+		  text += cars[1] + "<br>"; 
+		  text += cars[2] + "<br>"; 
+		  break list;
+		  text += cars[3] + "<br>"; 
+		} //output: BMW Volvo Saab
+16)Hoisting is JavaScript's default behavior of moving all declarations to the top of the current scope 
+(to the top of the current script or the current function).
+	ex: x = 5; // Assign 5 to x
+		var x; // Declare x
+	Variables defined with let and const are hoisted to the top of the block, but not initialized.
+	
+	The block of code is aware of the variable, but it cannot be used until it has been declared.
+	This will result in a ReferenceError:
+		carName = "Volvo";
+		let carName; or const carName;
+		
+	JavaScript only hoists declarations, not initializations:
+	ex: var x = 5; // Initialize x
+		elem = document.getElementById("demo"); // Find an element
+		elem.innerHTML = x + " " + y;           // Display x and y
+		var y = 7; // Initialize y
+		output: x is 5 and y is undefined
+17)"use strict"; Defines that JavaScript code should be executed in "strict mode".It is not a statement, but a literal expression.
+	The "use strict" directive is only recognized at the beginning of a script or a function.
+	
+	The this keyword in functions behaves differently in strict mode.
+	The this keyword refers to the object that called the function.
+	If the object is not specified, functions in strict mode will return undefined and functions in normal mode will return the global object (window):
+		"use strict";
+		function myFunction() {
+		  alert(this); // will alert "undefined"
+		}
+		myFunction();
+	Note that this is not a variable. It is a keyword. You cannot change the value of this.
+18)Let and const have block scope,before 2015 there was no block scope after that let and const wr introduced.
+	var x = 10;
+	{
+		var x=100
+	}
+	// x is 100 here
+--------	
+	let x = 10;
+	{
+		let x= 100
+	}
+	//x is 10 here
+-------	
+	var i = 10;
+	for(var i=0;i<=10;i++){
+	}
+	//i is 10 here
+-------
+	var i = 10;
+	for(let i=0;i<=10;i++){
+	}
+	//i is 10 here
+---------
+	let i = 10;
+	for(let i=0;i<=10;i++){
+	}
+	//i is 10 here
+-------
+	var x = 10;
+	let x = 10 //not allowed
+	const x = 10 //not allowed 
+------
+	var x =10;
+	var x = 100;//allowed
+------
+	let x = 2;       // Allowed
+	let x = 3;       // Not allowed
+
+	{
+	  let x = 4;   // Allowed
+	  let x = 5;   // Not allowed
+	}
+-------
+	const x;
+	x = "jmbh" // not allowed
+-------
+	const x = "jmbh" // allowed
+	x = "tyyy" // not allowed
+------
+19)Arrow function:
+	With a regular function this represents the object that calls the function.
+	With an arrow function this represents the owner of the function.
+	hello = () => {
+	  return "Hello World!";
+	}
+	or
+	hello = a => "Hello "+a;
+20)Class: Unlike functions, and other JavaScript declarations, class declarations are not hoisted.
+	The constructor method is a special method: It has to have the exact name "constructor",It is executed automatically when a new object is created,
+	It is used to initialize object properties.
+	If you do not define a constructor method, JavaScript will add an empty constructor method.
+	class car{
+		constructor(name,year){
+			this.name = name;
+			this.year = year
+		}
+		display(value){
+			alert(value);
+		}
+	}
+	let mycar = new car("ford",2014);
+	mycar.display(mycar.name);
+	A JavaScript class is not an object.It is a template for JavaScript objects.
+---------------
+	CLASS INHERITANCE:
+		To create a class inheritance, use the extends keyword.
+---------------
+	GETTERS and SETTERS:
+		class Car {
+		  constructor(brand) {
+			this.carname = brand;
+		  }
+		  get cnam() {
+			return this.carname;
+		  }
+		  set cnam(x) {
+			this.carname = x;
+		  }
+		}
+-------------------
+	STATIC:
+	Static class methods are defined on the class itself.You cannot call a static method on an object, only on an object class.
+		class Car {
+		  constructor(name) {
+			this.name = name;
+		  }
+		  static hello() {
+			return "Hello!!";
+		  }
+		}
+		let myCar = new Car("Ford");
+		// You can calll 'hello()' on the Car Class:
+		document.getElementById("demo").innerHTML = Car.hello();
+		// But NOT on a Car Object:
+		// document.getElementById("demo").innerHTML = myCar.hello();
+		// this will raise an error.
+21)Debugging is the process of testing, finding, and reducing bugs (errors) in computer programs.
+	The first known computer bug was a real bug (an insect) stuck in the electronics.
+22)Promise:
+	A Promise is a JavaScript object that links "Producing Code" and "Consuming Code".
+	"Producing Code" can take some time and "Consuming Code" must wait for the result.
+	
+	let myPromise = new Promise(function(myResolve, myReject) {
+	  setTimeout(function() { myResolve("I love You !!"); }, 3000);
+	});
+
+	myPromise.then(function(value) {
+	  document.getElementById("demo").innerHTML = value;
+	});// first mypromise will execute then it will allow to print value
+23)Default Parameter Values: ES6 allows function parameters to have default values.
+	function myFunction(x, y = 10) {
+	  // y is 10 if not passed or undefined
+	  return x + y;
+	}
+	myFunction(5); // will return 15
+24)Function Rest Parameter:The rest parameter (...) allows a function to treat an indefinite number of arguments as an array:
+	function sum(...args) {
+	  alert(Array.isArray(args)); //true
+	  let sum = 0;
+	  for (let arg of args) sum += arg;
+	  return sum;
+	}
+25)The JavaScript for/in statement loops through the properties of an object:
+	var person = {fname:"John", lname:"Doe", age:25};
+	var text = "";
+	var x;
+	for (x in person) {
+	  text += person[x];
+	}
+26)The JavaScript for/of statement loops through the values of an iterable objects.
+	var cars = ["BMW", "Volvo", "Mini"];
+	var x;
+	for (x of cars) {
+	  document.write(x + "<br >");
+	}
+27)Object.entries, Object.fromEntries, Object.values and delete
+	const person = {
+	  firstName : "John",
+	  lastName  : "Doe",
+	  age     : 50,
+	  eyeColor  : "blue"
+	};
+	document.getElementById("demo").innerHTML = Object.entries(person); //result: firstName,John,lastName,Doe,age,50,eyeColor,blue
+	//Object.entries(person) returns an array of array [ [firstName,John],[lastName,Doe],[age,50],[eyeColor,blue] ]
+------------------------
+	Object.fromEntries method that does the reverse: given an array of [key, value] pairs, it creates an object from them
+		let prices = Object.fromEntries([
+		  ['banana', 1],
+		  ['orange', 2],
+		  ['meat', 4]
+		]);
+		// now prices = { banana: 1, orange: 2, meat: 4 }
+		alert(prices.orange); // 2
+----------
+	Object.values are similar to Object.entries, but returns a single dimension array of the object values
+	const person = {
+	  firstName : "John",
+	  lastName  : "Doe",
+	  age     : 50,
+	  eyeColor  : "blue"
+	};
+	document.getElementById("demo").innerHTML = Object.values(person);//John,Doe,50,blue
+-------------
+	The delete keyword deletes both the value of the property and the property itself.After deletion, the property cannot be used before it is added back again.
+	The delete operator is designed to be used on object properties. It has no effect on variables or functions.The delete operator should not be used on predefined 
+	JavaScript object properties. It can crash your application.
+	var person = {firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"};
+	delete person.age;   // or delete person["age"];
+-----------
+	var person = {
+	  firstName: "John",
+	  lastName : "Doe",
+	  id     : 5566,
+	  fullName : function() {
+		return this.firstName + " " + this.lastName;
+	  }
+	};
+	document.getElementById("demo").innerHTML = person.fullName();// if person.fullName then-> function() { return this.firstName + " " + this.lastName; }
+------------
+	to merge object:
+		let user = { name: "John" };
+		let permissions1 = { canView: true };
+		let permissions2 = { canEdit: true };
+		Object.assign(user, permissions1, permissions2); // now user = { name: "John", canView: true, canEdit: true }
+	--------------------
+	to change vlues:
+		let user = { name: "John" };
+		Object.assign(user, { name: "Pete" });
+		alert(user.name); // now user = { name: "Pete" }
+	---------------------
+	to assign values:
+	let clone = Object.assign({}, user);
+28)JSON stands for JavaScript Object Notation,it is a lightweight data interchange format,it is language independent,
+	it is "self-describing" and easy to understand.
+	JSON names require double quotes. JavaScript names do not.
+	Then, use the JavaScript built-in function JSON.parse() to convert the string into a JavaScript object: var obj = JSON.parse(text);
+29)call() and apply():
+	The call(),apply() method is a predefined JavaScript method.It can be used to invoke (call) a method with an owner object as an argument (parameter).
+	With call(), an object can use a method belonging to another object.
+
+	var person = {
+	  fullName: function() {
+		return this.firstName + " " + this.lastName;
+	  }
+	}
+	var person1 = {
+	  firstName:"John",
+	  lastName: "Doe"
+	}
+	var person2 = {
+	  firstName:"Mary",
+	  lastName: "Doe"
+	}
+	person.fullName.call(person1);  // Will return "John Doe"
+	person.fullName.apply(person1);  // Will return "John Doe"
+--------------
+	The call() method can accept arguments:
+	fullName: function(city, country) {.....same as above
+	person.fullName.call(person1, "Oslo", "Norway"); 
+	
+	The difference is b/w call() and apply(): The call() method takes arguments separately.The apply() method takes arguments as an array.
+	person.fullName.apply(person1, ["Oslo", "Norway"]);
+----------------------------------------------------------
+ES2015 is ES6(ecma script).ES is a standard for js, js is name for language.
+
+The default behavior of JavaScript declarations for functions are hoisting i.e we can call function before and define it later in the code.
+class declarations are not hoisted, that means that you must declare a class before you can use it.
+
+1)JS output:
+
+a).innerHTML="" just like .text()in jquery.
+b)document.write("") will replace whole DOM.
+c)window.alert() or alert() just like alert().
+d)console.log()
+
+2)var p="krupa", d="puneeth , e="pooja";
+
+3)JS assignment operators:
+
++	Addition
+-	Subtraction
+*	Multiplication
+**	Exponentiation (ES2016)
+/	Division
+%	Modulus (Division Remainder)
+++	Increment
+--	Decrement
+
+** exponent(imp)
+
+ex:2**3=8 (2*2*2)
+
+4)JS assignment operators:
+
+==	equal to
+===	equal value and equal type
+!=	not equal
+!==	not equal value or not equal type
+>	greater than
+<	less than
+>=	greater than or equal to
+<=	less than or equal to
+?	ternary operator
+
+=== (imp)
+
+ex:var a="1".b="1",c=1;
+a==c true
+a===c false
+
+5)logical:
+
+&& || !
+
+6)type:
+typeof - Returns the type of a variable
+instanceof - Returns true if an object is an instance of an object type
+
+7)bitwise:
+
+&	AND	5 & 1	0101 & 0001	0001	 1
+|	OR	5 | 1	0101 | 0001	0101	 5
+~	NOT	~ 5	 ~0101	1010	 10
+^	XOR	5 ^ 1	0101 ^ 0001	0100	 4
+<<	Zero fill left shift	5 << 1	0101 << 1	1010	 10
+>>	Signed right shift	5 >> 1	0101 >> 1	0010	  2
+>>>	Zero fill right shift	5 >>> 1	0101 >>> 1	0010	  2
+
+First lets see the rules for XOR
+Rule 1 : If both bits are 1 then XOR’ed bit will be 0.
+Rule 2 : If both bits are 0 then XOR’ed bit will be 0.
+Rule 3 : If one bit is 0 and one bit is 1 XOR’ed bit will be 1.
+ 
+8)String Methods:
+
+a).length
+b)indexOf("")    indexOf("",starting position) if 15 then starts from 15 goes till end
+c)lastIndexOf("")  lastIndexOf("",15)  starts from 15 and goes till 0
+d)search("")
+e)slice(start, end)
+f)substr(start, end) both slice and substring are same just substring cant accept -ve values
+g)replace("","")  By default, the replace() method replaces only the first match
+f)toUpperCase()
+e)toLowerCase()
+f)concat()
+g)trim()
+h)charAt(position)
+i)charCodeAt(position) returns unicode
+j)split()
+
+9)Number methods:
+
+a)toString()
+b)toExponential()
+c)toFixed()
+eg:
+var x = 9.656;
+x.toFixed(0);           // returns 10
+x.toFixed(2);           // returns 9.66
+x.toFixed(4);           // returns 9.6560
+x.toFixed(6);           // returns 9.656000
+d)toPrecision()
+eg:
+var x = 9.656;
+x.toPrecision();        // returns 9.656
+x.toPrecision(2);       // returns 9.7
+x.toPrecision(4);       // returns 9.656
+x.toPrecision(6);       // returns 9.65600
+
+10)global JS methods:
+
+Number()	Returns a number, converted from its argument.
+parseFloat()	Parses its argument and returns a floating point number
+parseInt()	Parses its argument and returns an integer
+
+11)Array methods:
+
+a)pop() The pop() method returns the value that was "popped out":
+b)push() The push() method returns the new array length
+c)shift The shift() method returns the string that was "shifted out"
+d)unshift() The unshift() method returns the new array length
+e)delete array[0] Using delete may leave undefined holes in the array. Use pop() or shift() instead
+f)splice()
+		The splice() method can be used to add new items to an array:
+
+		Example
+		var fruits = ["Banana", "Orange", "Apple", "Mango"];
+		fruits.splice(2, 0, "Lemon", "Kiwi");
+		The first parameter (2) defines the position where new elements should be added (spliced in).
+
+		The second parameter (0) defines how many elements should be removed.
+
+		The rest of the parameters ("Lemon" , "Kiwi") define the new elements to be added.
+
+		The splice() method returns an array with the deleted items.
+
+		var fruits = ["Banana", "Orange", "Apple", "Mango"];
+		fruits.splice(0, 1);        // Removes the first element of fruits
+e)sort() 
+f)reverse()
+
+11)let
+		Variables declared with the let keyword can have Block Scope.
+
+		Variables declared inside a block {} can not be accessed from outside the block:
+
+		Example
+		{ 
+		  let x = 2;
+		}
+		
+		https://www.w3schools.com/js/js_let.asp
+12)const 
+		ES2015 introduced two important new JavaScript keywords: let and const.
+		
+		Variables defined with const behave like let variables, except they cannot be reassigned:
+		
+		Example
+		const PI = 3.141592653589793;
+		PI = 3.14;      // This will give an error
+		PI = PI + 10;   // This will also give an error
+		
+		Declaring a variable with const is similar to let when it comes to Block Scope.The x declared in the block, in this example, 
+		is not the same as the x declared outside the block.
+		
+		https://www.w3schools.com/js/js_const.asp
+
+13)Arrow function:
+
+	Arrow functions were introduced in ES6.Arrow functions allow us to write shorter function syntax:
+	
+	Before:
+		hello = function() {
+		return "Hello World!";
+		}
+	After:
+		hello = () => {
+		return "Hello World!";
+		}
+		
+	It gets shorter! If the function has only one statement, and the statement returns a value, you can remove the brackets and the return keyword:
+		Arrow Functions Return Value by Default:
+			hello = () => "Hello World!";
+			
+	If you have parameters, you pass them inside the parentheses:
+		Arrow Function With Parameters:
+			hello = (val) => "Hello " + val;
+			
+	In fact, if you have only one parameter, you can skip the parentheses as well:
+		Arrow Function Without Parentheses:
+			hello = val => "Hello " + val;
+			
+	In regular functions the this keyword represented the object that called the function, which could be the window, the document, a button or whatever.
+	With arrow functions the this keyword always represents the object that defined the arrow function.
+		
+14)class:
+	A class is a type of function, but instead of using the keyword function to initiate it, 
+	we use the keyword class, and the properties is assigned inside a constructor() method.
+
+	Class Definition : 
+		Use the keyword class to create a class, and always add a constructor method.The constructor method is called each time the class object is initialized.
+			class Car {
+			  constructor(brand) {
+				this.carname = brand;
+			  }
+			}
+
+			mycar = new Car("Ford");
+			
+	Methods:
+		The constructor method is special, it is where you initialize properties, it is called automatically when a class is initiated, and it has to have 
+		the exact name "constructor", in fact, if you do not have a constructor method, JavaScript will add an invisible and empty constructor method.
+		
+	Static Methods :
+		Static methods are defined on the class itself, and not on the prototype.
+		That means you cannot call a static method on the object (mycar), but on the class (Car)
+		
+		Example:
+
+			Create a static method and call it on the class:
+
+			class Car {
+			  constructor(brand) {
+				this.carname = brand;
+			  }
+			  static hello() {
+				return "Hello!!";
+			  }
+			}
+
+			mycar = new Car("Ford");
+
+			//Call 'hello()' on the class Car:
+			document.getElementById("demo").innerHTML = Car.hello();
+
+			//and NOT on the 'mycar' object:
+			//document.getElementById("demo").innerHTML = mycar.hello();
+			//this would raise an error.
+			
+			If you want to use the mycar object inside the static method, you can send it as a parameter:
+
+				Example
+				Send "mycar" as a parameter:
+
+				class Car {
+				  constructor(brand) {
+					this.carname = brand;
+				  }
+				  static hello(x) {
+					return "Hello " + x.carname;
+				  }
+				}
+				mycar = new Car("Ford");
+				document.getElementById("demo").innerHTML = Car.hello(mycar);
+				
+		Inheritance
+			To create a class inheritance, use the extends keyword.
+			A class created with a class inheritance inherits all the methods from another class:
+			
+			
+	https://www.w3schools.com/js/js_classes.asp
+		
+15)Array.forEach “executes a provided function once per array element.”
+
+	Array.map “creates a new array with the results of calling a provided function on every element in this array.”
+
+	So, forEach doesn’t actually return anything. It just calls the function for each array element and then it’s done. 
+	So whatever you return within that called function is simply discarded.
+
+	On the other hand, map will similarly call the function for each array element but instead of discarding its return value,
+	 it will capture it and build a new array of those return values.
+
+	This also means that you could use map wherever you are using forEach but you still shouldn’t do that so you don’t collect the return values 
+	without any purpose. It’s just more efficient to not collect them if you don’t need them.
+	
+	var txt = "";
+	var numbers = [45, 4, 9, 16, 25];
+	numbers.forEach(myFunction);
+
+	function myFunction(value, index, array) {
+	  txt = txt + value + "<br>";
+	}
+	
+16)map():
+	The map() method creates a new array with the results of calling a function for every array element.
+	The map() method calls the provided function once for each element in an array, in order.
+	Note: map() does not execute the function for array elements without values, this method does not change the original array.
+	
+	Syntax
+		array.map(function(currentValue, index, arr), thisValue)
+		
+	Argument		Description
+	-------------   ---------------------------------------------------
+	currentValue	Required. The value of the current element
+	index			Optional. The array index of the current element
+	arr				Optional. The array object the current element belongs to
+	thisValue		Optional. A value to be passed to the function to be used as its "this" value.
+					If this parameter is empty, the value "undefined" will be passed as its "this" value
+	Example 1:
+		var numbers = [65, 44, 12, 4];
+		var newarray = numbers.map(myFunction)
+
+		function myFunction(num) {
+		  return num * 10;
+		}
+		
+		var persons = [
+		  {firstname : "Malcom", lastname: "Reynolds"},
+		  {firstname : "Kaylee", lastname: "Frye"},
+		  {firstname : "Jayne", lastname: "Cobb"}
+		];
+	
+	Example 2:
+		function getFullName(item) {
+		  var fullname = [item.firstname,item.lastname].join(" ");
+		  return fullname;
+		}
+
+		function myFunction() {
+		  document.getElementById("demo").innerHTML = persons.map(getFullName);
+		}
+
+		document.getElementById("demo").innerHTML = newarray;
+
+16)filter() :
+	The filter() method creates an array filled with all array elements that pass a test (provided as a function).
+
+	Note: filter() does not execute the function for array elements without values.
+
+	Note: filter() does not change the original array.
+	
+	Syntax
+		array.filter(function(currentValue, index, arr), thisValue)
+
+	function(currentValue, index,arr)	Required. A function to be run for each element in the array.
+
+	Argument		Description
+	-------------   ---------------------------------------------------
+	currentValue	Required. The value of the current element
+	index			Optional. The array index of the current element
+	arr				Optional. The array object the current element belongs to
+	thisValue		Optional. A value to be passed to the function to be used as its "this" value.
+					If this parameter is empty, the value "undefined" will be passed as its "this" value
+
+	Example:
+		var ages = [32, 33, 16, 40];
+
+		function checkAdult(age) {
+		  return age >= 18;
+		}
+
+		function myFunction() {
+		  document.getElementById("demo").innerHTML = ages.filter(checkAdult);
+		}
+		
+17)reduce() :
+
+	The reduce() method reduces the array to a single value.
+
+	The reduce() method executes a provided function for each value of the array (from left-to-right).
+
+	The return value of the function is stored in an accumulator (result/total).
+
+	Note: reduce() does not execute the function for array elements without values.
+
+	Note: this method does not change the original array.
+	
+	Syntax
+		array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+
+		Argument		  Description
+		-------------     ---------------------------------------------------
+		total			  Required. The initialValue, or the previously returned value of the function
+		currentValue	  Required. The value of the current element
+		currentIndex	  Optional. The array index of the current element
+		arr	Optional.     The array object the current element belongs to
+		initialValue	  Optional. A value to be passed to the function as the initial value
+		
+	Example:
+	
+		var numbers = [15.5, 2.3, 1.1, 4.7];
+
+		function getSum(total, num) {
+		  return total + Math.round(num);
+		}
+
+		function myFunction(item) {
+		  document.getElementById("demo").innerHTML = numbers.reduce(getSum, 0);
+		}
+		
+18)forEach() :
+
+	The forEach() method calls a function once for each element in an array, in order.
+
+	Note: the function is not executed for array elements without values.
+	
+	Syntax
+		array.forEach(function(currentValue, index, arr), thisValue)
+		
+	Example:
+		var sum = 0;
+		var numbers = [65, 44, 12, 4];
+		numbers.forEach(myFunction);
+
+		function myFunction(item) {
+		  sum += item;
+		  document.getElementById("demo").innerHTML = sum;
+		}
+
+19)Template Literals :
+	A new and fast way to deal with strings is Template Literals.
+	
+	How we were dealing with strings before ?
+		Before we used to see strings between single ‘ ’ or double “ ” quotes , as shown below :
+		
+		var name = "Marina" ;
+		var hello = "Hello "+ name ;
+		console.log(hello); //Hello Marina
+		
+		Till now it’s good , but problem appears when you try to create a 
+		multi line template and trying to concatenate variables and expressions , and then add a quote inside string so you need to alternate 
+		between single and double quotes .. what a hustle just to generate a string ! ES6 came with a great Solution to save you , Welcome Template Literals .
+	
+		How to use Template literals ?
+			It uses a `backticks` to write string within it , so you can write single and double quotes as 
+			much as you need without thinking to alternate between them , they will show as you write them .
+			
+			var template = `Hello from "template literals" article , check previous one 'arrow functions'.` ;
+			console.log(template) // Hello from "template literals" article , check previous one 'arrow functions'.
+			
+		And finally for variables and expressions you want to concatenate to your string instead of using + to concatenate , 
+		you will use ${variable or expression} to define a variable or expression within curly braces
+		
+		let name = "Marina" ;
+		let hello = ` Hello ${name} .`
+		console.log(hello); // Hello Marina .
+		
+	Summary
+		Template literals is a way to deal with strings .
+		Template literals uses `backticks` to write a string within .
+		Better to use with templates has multi line , concatenation of variables and expressions.
+		
+	https://medium.com/javascript-in-plain-english/es6-template-literals-5ffe0e7a692a
+	
+	Template literals gives foolowing feature :
+		Multiline string: a string that can span multiple lines.
+		String formatting: the ability to substitute part of the string for the values of a variable or an expression. 
+			This feature is also called string interpolation.
+		HTML escaping: the ability to transform a string so that it is safe to include in HTML.
+		
+	new feature added Tagged templates refer:
+				https://www.javascripttutorial.net/es6/javascript-template-literals/
+	
+20)default parameter:
+
+	ES6 provides an easier way to set the default values for the parameters of a function as shown in the following syntax:
+	function function_name(param1=value1,param2=value2,..) {
+	}
+
+	function foo(bar = 10) {
+		console.log(bar);
+	}
+ 
+	foo(); // 10
+	foo(undefined); // 10
+	foo(20); //20
+	
+	How it works :
+		In the first function call, we didn’t pass any argument to the foo() function, therefore bar parameter has the default value of 10.
+		In the second function call, we passed undefined to the foo() function, hence the bar parameter also has the default value of 10.
+		In the third call, we passed the default value of 20 to the foo() function, therefore bar parameter takes 20 as the value.
+		
+	Using other parameters in default values
+	You can assign a parameter a default value that references to other default parameters as shown in the following example:
+
+		function bar(x = 1, y = x, z = x + y) {
+			return x + y + z;
+		}
+		console.log(bar()); // 4
+		
+21)rest parameters :
+
+	S6 provides a new kind of parameter so-called rest parameter that has a prefix of three dots (...).  
+	The rest parameter allows you to represent an indefinite number of arguments as an array.
+	
+	syntax:
+		function fn(a,b,...args) {
+		   //...
+		}
+	
+	he last parameter  ( args) is prefixed with the three dot ( ...) is called the rest parameter ( ...args)
+	All the arguments that you pass in the function will map to the parameter list. In the syntax above, the first argument maps to a, the second maps to b, and the third, the fourth, etc., will be stored in the rest parameter args as an array. For example:
+
+		fn(1,2,3,'A','B','C');
+		The args array stores the following values:
+		[3,'A','B','C']
+	
+	Suppose you need to filter the arguments based on a specific type such as numbers, strings, boolean, null, etc. 
+	The following function helps you achieve this.
+	function filterBy(type, ...args) {
+		return args.filter(e => typeof e === type);
+	}
+	
+	JavaScript rest parameter in dynamic function
+	JavaScript allows you to create dynamic functions through the Function constructor. And it is possible to use the rest parameter 
+	in a dynamic function.  Here is an example.
+
+	var showNumbers = new Function('...numbers', 'console.log(numbers)');
+	showNumbers(1, 2, 3); // [1,2,3]
+	
+22)Spread operators :
+
+	The spread syntax allows an iterable such as an array expression or string to be expanded in places where zero 
+	or more arguments (for function calls) or elements (for array literals) are expected, 
+	or an object expression to be expanded in places where zero or more key-value pairs (for object literals) are expected.
+	
+	Let’s say we have two arrays containing domestic and non-domestic animals.
+		const domesticAnimals = [‘Cows’, ‘Sheep’, ‘Goat’];
+		const notSoDomesticAnimals = [‘Salamander’, ‘Iguana’, ‘Moth’, ‘Sloth’];
+
+	and we need to combine two of them, we would normally use the concat array method.
+		const newAnimalsArray = domesticAnimals.concat(notSoDomesticAnimals);
+
+	Using the ES6 spread syntax, we could also write the above code like so:
+		const newAnimalsArray = [ …domesticAnimals, …notSoDomesticAnimals];
+
+	These two lines of code both do the same thing, and the latter is known as the spread syntax. While generally, you would want to stick to using array 
+	methods when working with arrays, the advantage of using spread over concat can be seen in large operations where the spread operator is significantly faster.
+	The spread syntax also enforces immutability, which is really important if you are working with data that should not be mutated. 
+	Basically, the spread syntax allows us to copy, into the new array, the values of already defined array(s).
+	
+	Create an array called middle
+	Create a second array which contains the middle array
+	
+		var middle = [3, 4];
+		var arr = [1, 2, middle, 5, 6];
+		console.log(arr);// [1, 2, [3, 4], 5, 6]
+		
+	Above, we don’t use the spread operator. By doing this, when the arr array is created, the middle array is inserted into the middle of 
+	the arr array as an array within an array.This is fine if that’s the goal, but what if we want only a single array?
+	We can use the spread operator. Again, the spread operator allows the elements of our array to expand. Take a look at the code below, 
+	everything is the same — except we’re using the spread operator:
+	
+	Voila! We have a copied array.
+		var middle = [3, 4];
+		var arr = [1, 2, ...middle, 5, 6];
+		console.log(arr);
+		// [1, 2, 3, 4, 5, 6]
+		
+		var arr = ['a', 'b', 'c'];
+		var arr2 = [...arr];
+		console.log(arr2);
+		// ['a', 'b', 'c']
+
+	If we simply create an array then set another array equal to it, here’s what it would look like:
+			var arr = ['a', 'b', 'c'];
+			var arr2 = arr;
+			console.log(arr2);
+			// ['a', 'b', 'c']
+		This means that anything we do to arr2 will also effect the original arr array.
+			arr2.push('d');
+			console.log(arr2);
+			// ['a', 'b', 'c', 'd']
+			console.log(arr);
+			// ['a', 'b', 'c', 'd'] As you can see, 
+			even though we did not explicitly add the new value to our original arr, our new value d was still pushed to the end of the arr array.
+			
+	Use the spread operator to simply convert a string to an array of characters
+	
+		var str = "hello";
+		var chars = [...str];
+		console.log(chars); 
+		// ['h', 'e',' l',' l', 'o']
+	
+23)Destructing assignment:
+	The ECMAscript 6 specification introduced a new syntax which makes it easier to get values out of arrays and objects. 
+	We call this syntax “destructuring”.The destructuring assignment syntax allows you to easily get values out of arrays and objects while using an array or object literal like syntax. 
+	This syntax is very short and very easy to read.
+
+	normal:
+	
+		const items = ['car', 'bike', 'plane'];
+		
+		const car = items[0];
+		const bike = items[1];
+		const plane = items[2];
+
+		console.log(car); // 'car'
+		console.log(bike); // 'bike'
+		
+	With the destructuring assignment syntax this can be written like this:
+		const items = ['car', 'bike', 'plane'];
+		const [car, bike, plane] = items;
+
+		console.log(car); // 'car'
+		console.log(bike); // 'bike'
+		console.log(plane); // 'plane'

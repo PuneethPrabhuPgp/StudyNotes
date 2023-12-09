@@ -1,0 +1,276 @@
+https://www.w3schools.com/jquery/
+
+1)jQuery is a lightweight, "write less, do more", JavaScript library.jQuery is a JavaScript Library which simplifies JavaScript programming.jQuery is easy to learn.
+2)$(document) - select whole document, $(document).ready(function(){}); - execute this code once document is loaded.
+3)3.6.0 version jquery
+4)$("#go").children("li") -> will select only its children not gand children
+	$("#go li") -> selects every li inside #go doesnot matter if child grandchiild ...etc
+5)All the different visitors' actions that a web page can respond to are called events.
+6)$("#button").click() - when we want to trigger click the button dynamically from code.
+	or $("#button").trigger("click"); also works. trigger will take change aand other event attribute too.
+7)Below code is executed when user clicks a button.
+	$("#button").click(function(){
+	//do somrthing
+	)}
+8)Three simple, but useful, jQuery methods for DOM manipulation are:
+	text() - Sets or returns the text content of selected elements
+	html() - Sets or returns the content of selected elements (including HTML markup) its like innerHTML
+	val() - Sets or returns the value of form fields (input,select,checkbox,radio etc)
+9)The jQuery $("#something").attr() method is used to ge/set attribute values and $("#something").removeAttr() to remove attrinute.
+10)jQuery methods that are used to add new content:
+	append() - Inserts content at the end of the selected elements
+	prepend() - Inserts content at the beginning of the selected elements
+	after() - Inserts content after the selected elements
+	before() - Inserts content before the selected elements
+11)To remove elements and content, there are mainly two jQuery methods:
+	remove() - Removes the selected element (and its child elements)
+		The jQuery remove() method also accepts one parameter, which allows you to filter the elements to be removed.
+					$("p").remove(".test"); same as $("p.test").remove();
+					$("p").remove(".test, .demo"); same as $("p.test,p.demo").remove();
+	empty() - Removes the child elements from the selected element
+12)jQuery has several methods for CSS manipulation. We will look at the following methods:
+	addClass() - Adds one or more classes to the selected elements
+	removeClass() - Removes one or more classes from the selected elements
+	toggleClass() - Toggles between adding/removing classes from the selected elements
+	css() - Sets or returns the style attribute
+13)The css() method sets or returns one or more style properties for the selected elements.
+	$("p").css("background-color"); //returns background-color of p
+	$("p").css("background-color", "yellow"); //sets background-color of p
+	$("p").css({"background-color": "yellow", "font-size": "200%"}); //sets multiple prop
+14)The width() method sets or returns the width of an element (excludes padding, border and margin).
+	The height() method sets or returns the height of an element (excludes padding, border and margin).
+	The innerWidth() method returns the width of an element (includes padding).
+	The innerHeight() method returns the height of an element (includes padding).
+	The outerWidth() method returns the width of an element (includes padding and border).
+	The outerHeight() method returns the height of an element (includes padding and border).
+15)Traversing Up the DOM Tree:
+	Three useful jQuery methods for traversing up the DOM tree are:
+		parent() - The parent() method returns the direct parent element of the selected element.
+		parents() - The parents() method returns all ancestor elements of the selected element, all the way up to the document's root element (<html>). $("span").parents("ul"); - selects all ul, if no param then all parents
+		parentsUntil() - The parentsUntil() method returns all ancestor elements between two given arguments.
+			$("span").parentsUntil("div"); 
+			<div style="width:500px;">div (great-grandparent)
+				<ul>ul (grandparent)  
+				  <li>li (direct parent)
+					<span>span</span>
+				  </li>
+				</ul>   
+			</div>
+			will select till ul not div
+16)Two useful jQuery methods for traversing down the DOM tree are:
+	children() - returns all selected direct children of the selected element.
+	find() - method returns descendant elements of the selected element, all the way down to the last descendant.
+17)There are many useful jQuery methods for traversing sideways in the DOM tree:
+	siblings() - returns all sibling elements of the selected element.
+	next() - returns the next sibling element of the selected element.
+	nextAll() - returns all next sibling elements of the selected element.
+	nextUntil() - returns all next sibling elements between two given arguments.
+		 $("h2").nextUntil("h6") - untill h5 excludes h6
+		<div>div (parent)
+		  <p>p</p>
+		  <span>span</span>
+		  <h2>h2</h2>
+		  <h3>h3</h3>
+		  <h4>h4</h4>
+		  <h5>h5</h5>
+		  <h6>h6</h6>
+		  <p>p</p>
+		</div>
+	prev(),prevAll(),prevUntil()
+		The prev(), prevAll() and prevUntil() methods work just like the methods above but with reverse functionality: they return previous sibling elements (traverse backwards along sibling elements in the DOM tree, instead of forward).
+18)The most basic filtering methods are first(), last() and eq(), which allow you to select a specific element based on its position 
+	in a group of elements.Other filtering methods, like filter() and not() allow you to select elements that match, or do not match, a certain criteria.
+		first() method returns the first element of the specified elements.
+		last() method returns the last element of the specified elements.
+		eq() method returns an element with a specific index number of the selected elements.
+			$("p").eq(1); The index numbers start at 0,hence this will give 2nd element.
+		filter() method lets you specify a criteria. Elements that do not match the criteria are removed from the selection, and those that
+			match will be returned. $("p").filter(".intro"); The following example returns all <p> elements with class name "intro"
+		not() method returns all elements that do not match the criteria.The not() method is the opposite of filter().
+			$("p").not(".intro"); returns all <p> elements that do not have class name "intro"
+19)AJAX is the art of exchanging data with a server, and updating parts of a web page - without reloading the whole page.
+	AJAX = Asynchronous JavaScript and XML.
+	In short; AJAX is about loading data in the background and display it on the webpage, without reloading the whole page.
+	$.ajax({
+	        url: 'handleAddandRemoveBkeyList.htm',
+	        type: 'POST',
+	        dataType: 'json',
+	        async: false,
+	        data: {
+	            userSessionToken: userTokenSession,
+			},
+			success: function(response) { //A function to be called if the request succeeds. 
+				console.log(response);
+			},
+			error: function(jqXHRobj, errorType) {
+				//A function to be called if the request fails. 
+			}		
+			//jqXHRobj - XMLHttpRequest , errorType - a string describing the type of error that
+				occurred and an optional exception object
+		}).done(function(){}); //accepts one or more arguments, all of which can be either a single function or an array of functions.
+		after ajax completes done callback will be made.
+20)If two different frameworks are using the same shortcut, one of them might stop working.
+	The jQuery team have already thought about this, and implemented the noConflict() method.
+	The noConflict() method releases the hold on the $ shortcut identifier, so that other scripts can use it.
+	You can of course still use jQuery, simply by writing the full name instead of the shortcut:
+		$.noConflict();
+		jQuery(document).ready(function(){
+		  jQuery("button").click(function(){
+			jQuery("p").text("jQuery is still working!");
+		  });
+		});
+	You can also create your own shortcut very easily. The noConflict() method returns a reference to jQuery, that you can save in a variable, for later use. Here is an example:
+		var jq = $.noConflict();
+		jq(document).ready(function(){
+		  jq("button").click(function(){
+			jq("p").text("jQuery is still working!");
+		  });
+		});
+		
+21)How to use kendo UI: version we used 1.12.3
+Kendo UI is a comprehensive HTML5 user interface framework for building interactive and high-performance websites and applications.
+
+		<div id="entityDashboardKendo" class="vs-mgn-16"></div>
+		//first column header and other cells have checkbox
+		//next column entityName taken from entityDashboardData
+		//next column is just id which is not displayed in kendo but used internally so hidden is true
+		//next icons for actions column
+	$("#entityDashboardKendo").kendoGrid({
+		 dataSource: {
+          data: {
+            entityDashboard: entityDashboardData,
+          },
+		  schema: {
+            data: "entityDashboard", //name inside data field
+          }
+		 },
+		 columns: [{
+			headerTemplate: "<input type='checkbox' onclick='headerCheckboxTriggered(this)' id='headerCheckbox'>",
+			template: function (dataItem) {
+                        return "<input type='checkbox' entityIdOnKendo='" + dataItem.entityId + dataItem.periodId + "' class='rowLevelKendoCheckbox' onclick='rowCheckboxTriggered(this)'>";
+            },
+			width: "50px"
+         },
+		 {
+                field: "entityName",
+				headerTemplate: "<div title='Entity Name' class='vs-text-ellipsis'>Entity Name</div>",
+				template: function (dataItem) {
+						var entityName = dataItem.entityName!= null ? dataItem.entityName : "-"
+                        return "<div class='vs-text-ellipsis entityDashboardKendoCell' title='"+entityName+"'>" + entityName + "</div>";
+				},
+				width: "180px"
+        },{
+					field: "entityId",
+					hidden: true,
+				},{
+                field: "Actions",
+                title: "Actions",
+				template: "<div>"+ 
+							"<i title='Run DQ Rules' class='icon-arrow-right-circle icon-small iconRunDq' onclick='runDqRules(this)'>"+
+							"</i><i title='Create/ Refresh Data Cache' class='icon-reset-refresh vs-left-pad-8 icon-small' onclick='createOrRefreshDataCache(this)'>"+
+						"</div>",
+				//TODO add another icon -> icon-arrow-right
+				width: "80px"
+            }],
+		groupable: false,
+        sortable: true,
+        pageable: false,
+        filterable: false,
+		height: "90%"
+		});
+		
+		entityDashboardData = [
+                {
+                    "entityId": 1,
+                    "entityName": "Business Segment Master",
+                },
+                {
+                    "entityId": 2,
+                    "entityName": "Constitution Master",
+                },
+		]
+22)How to use jqtree:
+	<div id="dimensionTree"></div>
+	
+	$('#dimensionTree").jstree({
+			'core': {
+	            'check_callback': true,
+	            'data' : [
+					'Simple root node',
+					{
+						'id' : 'node_2',
+						'text' : 'Root node with options',
+						'state' : { 'opened' : true, 'selected' : true },
+						'children' : [ { 'text' : 'Child 1' }, 'Child 2']
+					}
+				],
+	            'themes': {
+	                dots: false,
+	            },
+				"dblclick_toggle" : false,
+			},
+	        'search': {
+	            'case_insensitive': true,
+	            'show_only_matches': true,
+	            'show_only_matches_children': true
+	
+	        },
+	        'dnd': {
+	            "is_draggable": function(node) {
+					if(node[0]["children"].length==0){
+						isLastDateHiry="Y";
+					}
+					else{
+						isLastDateHiry="N";
+					}
+	                return true;
+	            }
+	        },
+	        "plugins": ["dnd", "search"/* ,"contextmenu" */,"types"],
+	    }).on('search.jstree', function(nodes, str, res) {
+	        if (str.nodes.length === 0) {
+	            $('#' + id).jstree(true).hide_all();
+	        }
+	    }).on("copy_node.jstree", function(e, data) {
+	        data.node.data = $.extend(true, {}, data.original.data);
+	    }).on("move_node.jstree", function(e, data) {
+	        data.node.data = $.extend(true, {}, data.original.data);
+	    }).on('show_contextmenu.jstree', function(e, reference, element) {
+	
+	    if ( reference.node.original.isReportColumn =="N" || reference.node.data.datatype=="Date" || reference.node.id=="Derived Fields" 
+		|| reference.node.data.hierarchicalInd=="Y") {
+	        $('.vakata-context').hide();
+	    }
+		}).on('select_node.jstree', function (e, data) {
+				if(data.node.original.isReportColumn !="N" && data.node.data.datatype!="Date" && data.node.id!="Derived Fields" 
+				&& data.node.data.hierarchicalInd!="Y" && $("#derivedMeasureAndDimPopup").css('display')!="block"){
+					 editderivedField(data);
+				}
+		});
+23)when we know what is the header of a table (i.e column name) we use kendo grid, and when we want dynamic header and also header merge(parent - child relationship) then we used DATATABLE:
+	<table id="reportTable" width="100%"></table>
+	
+	var table = $('#reportTable').DataTable({
+					"ordering":false,
+					"processing": true,
+					"serverSide": true,
+					"ajax": {
+						url: 'getDataForReports.htm',
+						type: 'POST',
+						data: {
+							//data needed by this url
+						}
+					},
+					data: [
+							[ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ],
+							[ "Garrett Winters", "Accountant", "Tokyo", "8422", "2011/07/25", "$170,750" ],
+							[ "Ashton Cox", "Junior Technical Author", "San Francisco", "1562", "2009/01/12", "$86,000" ],
+					],
+					columns: [ { title: "Name" },
+								{ title: "Position" },
+								{ title: "Office" },
+								{ title: "Extn." },
+								{ title: "Start date" },
+								{ title: "Salary" }
+							]
+				});

@@ -1,0 +1,403 @@
+https://www.w3schools.com/sql/sql_intro.asp 
+Important topics which I need is => JOIN, group by, having,procedure,view
+
+1)SQL stands for Structured Query Language
+2)SQL lets you access and manipulate databases
+3)SELECT DISTINCT column1, column2, ... FROM table_name;
+	Inside a table, a column often contains many duplicate values; and sometimes you only want to list the different (distinct) values.
+	SELECT COUNT(DISTINCT Country) FROM Customers;
+	//some db it may not work so this below will (firefox which uses microsoft access above query wont work)
+	SELECT Count(*) AS DistinctCountries FROM (SELECT DISTINCT Country FROM Customers);
+4)AND OR NOT:
+	SELECT column1, column2, ...FROM table_name WHERE condition1 AND condition2 AND condition3 ...;
+	
+	SELECT column1, column2, ...FROM table_name WHERE condition1 OR condition2 OR condition3 ...;
+	
+	SELECT column1, column2, ... FROM table_name WHERE NOT condition; 
+	(conditions=> equals: where = , not euals: where <>)
+5)order by:
+	select * from table_name order by validation_id desc, sequence_no desc
+	This query will sort table based on validation_id  in descending order and then if duplicates then order it with sequence_no desc
+	id  seq
+	64	5
+	64	4
+	64	3
+	64	2
+	64	1
+	63	2
+	63	1
+	62	1
+	
+	If i reverse then first sequence_no on that validation_id
+	select table_name from validation_master order by sequence_no desc,validation_id desc
+	id  seq
+	7	24
+	7	23
+	6	22
+	40	21
+	6	21
+6)INSERT INTO table_name (column1, column2, column3, ...)VALUES (value1, value2, value3, ...);
+OR ignore column name =>  INSERT INTO table_name VALUES (value1, value2, value3, ...);
+7)A NULL value is different from a zero value or a field that contains spaces. A field with a NULL value is one that has been left blank during record creation!
+	SELECT column_names FROM table_name WHERE column_name IS NULL;
+	SELECT column_names FROM table_name WHERE column_name IS NOT NULL;
+8)The UPDATE statement is used to modify the existing records in a table.
+	UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
+9)The DELETE statement is used to delete existing records in a table.
+	DELETE FROM table_name WHERE condition;
+10)The SELECT TOP clause is used to specify the number of records to return.
+	SELECT TOP number|percent column_name(s) FROM table_name WHERE condition;
+11)The MIN() function returns the smallest value of the selected column.The MAX() function returns the largest value of the selected column.
+	SELECT MIN(column_name) FROM table_name WHERE condition;
+	SELECT MAX(column_name) FROM table_name WHERE condition;
+12)The COUNT() function returns the number of rows that matches a specified criterion.
+	SELECT COUNT(column_name) FROM table_name WHERE condition;
+13)The AVG() function returns the average value of a numeric column. 
+	SELECT AVG(column_name) FROM table_name WHERE condition;
+14)The SUM() function returns the total sum of a numeric column. 
+	SELECT SUM(column_name) FROM table_name WHERE condition;
+15)The LIKE operator is used in a WHERE clause to search for a specified pattern in a column.
+	SELECT column1, column2, ... FROM table_name WHERE columnN LIKE pattern;
+	 '%' and '_' wildcards:
+	 
+	WHERE CustomerName LIKE 'a%'	Finds any values that start with "a"
+	WHERE CustomerName LIKE '%a'	Finds any values that end with "a"
+	WHERE CustomerName LIKE '%or%'	Finds any values that have "or" in any position
+	WHERE CustomerName LIKE '_r%'	Finds any values that have "r" in the second position
+	WHERE CustomerName LIKE 'a_%'	Finds any values that start with "a" and are at least 2 characters in length
+	WHERE CustomerName LIKE 'a__%'	Finds any values that start with "a" and are at least 3 characters in length
+	WHERE ContactName LIKE 'a%o'	Finds any values that start with "a" and ends with "o"
+	
+	The following SQL statement selects all customers with a City starting with "b", "s", or "p":
+		SELECT * FROM Customers WHERE City LIKE '[bsp]%';
+	The two following SQL statements select all customers with a City NOT starting with "b", "s", or "p":
+		SELECT * FROM Customers WHERE City LIKE '[!bsp]%';
+16)The IN operator allows you to specify multiple values in a WHERE clause.
+	SELECT column_name(s) FROM table_name WHERE column_name IN (value1, value2, ...);
+	(OR)
+	SELECT column_name(s) FROM table_name WHERE column_name IN (SELECT STATEMENT);
+	
+	The following SQL statement selects all customers that are from the same countries as the suppliers:
+	SELECT * FROM Customers WHERE Country IN (SELECT Country FROM Suppliers);
+17)The BETWEEN operator selects values within a given range. The values can be numbers, text, or dates.The BETWEEN operator is inclusive: begin and end values are included. 
+	SELECT column_name(s) FROM table_name WHERE column_name BETWEEN value1 AND value2;
+18)SQL aliases are used to give a table, or a column in a table, a temporary name.
+	SELECT column_name AS alias_name FROM table_name AS alias_name2;
+19)A JOIN clause is used to combine rows from two or more tables, based on a related column between them.
+
+	(INNER) JOIN: Returns records that have matching values in both tables (no null)
+	LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+	RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+	FULL (OUTER) JOIN: Returns all records when there is a match in either left or right table.The FULL OUTER JOIN keyword returns all matching records from 	both tables whether the other table matches or not. So, if there are rows in "Customers" that do not have matches in "Orders", or if there are rows in "Orders" that do not have matches in "Customers", those rows will be listed as well.
+	SELF JOIN : A self join is a regular join, but the table is joined with itself.
+	
+	SELECT column_name(s) FROM table1 INNER JOIN table2 ON table1.column_name = table2.column_name;
+	SELECT column_name(s) FROM table1 LEFT JOIN table2 ON table1.column_name = table2.column_name; (OR) SELECT column_name(s) FROM table1 LEFT OUTER JOIN table2 ON table1.column_name = table2.column_name;
+	SELECT column_name(s) FROM table1 RIGHT JOIN table2 ON table1.column_name = table2.column_name; (OR) SELECT column_name(s) FROM table1 RIGHT OUTER JOIN table2 ON table1.column_name = table2.column_name;
+	SELECT column_name(s) FROM table1 FULL OUTER JOIN table2 ON table1.column_name = table2.column_name;
+	
+	table1.column_name = table2.column_name;
+	Inner join : a b 
+				 d j
+	
+	LEFT JOIN : a b
+				c null
+				d j
+				l null
+				
+	RIGHT JOIN :  b   a
+				  m   null
+				  j    d
+				  n  null
+	FULL OUTER JOIN : 	a b
+						c null
+						d j
+						l null
+						m   null
+						n  null
+						
+	self join : SELECT column_name(s) FROM table1 T1, table1 T2 WHERE condition;
+	The following SQL statement matches customers that are from the same city:
+		SELECT A.CustomerName AS CustomerName1, B.CustomerName AS CustomerName2, A.City
+		FROM Customers A, Customers B
+		WHERE A.CustomerID <> B.CustomerID
+		AND A.City = B.City
+		ORDER BY A.City;
+20)The UNION operator is used to combine the result-set of two or more SELECT statements.
+		Every SELECT statement within UNION must have the same number of columns
+		The columns must also have similar data types
+		The columns in every SELECT statement must also be in the same order
+		SELECT column_name(s) FROM table1 UNION SELECT column_name(s) FROM table2;
+	The UNION operator selects only distinct values by default. To allow duplicate values, use UNION ALL:
+		SELECT column_name(s) FROM table1 UNION ALL SELECT column_name(s) FROM table2;
+		
+	UNION is used to combine result of 2 queries where as full outer join , joins the table based on conditions in single query
+21)The SQL GROUP BY Statement
+	The GROUP BY statement groups rows that have the same values into summary rows, like "find the number of customers in each country".
+	The GROUP BY statement is often used with aggregate functions (COUNT(), MAX(), MIN(), SUM(), AVG()) to group the result-set by one or more columns.
+	SELECT column_name(s) FROM table_name WHERE condition GROUP BY column_name(s) ORDER BY column_name(s);
+	
+	The following SQL statement lists the number of customers in each country sorted high to low:
+		SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country ORDER BY COUNT(CustomerID) DESC
+		 COUNT(CustomerID)	Country    
+						3	Argentina
+						2	Austria
+						2	Belgium
+						
+	In this query if Country_id is not primary key(PK) then this query will return unique result,if Country_id is a PK then no need of groupby as PK is unique.
+		SELECT Country_id FROM Customers GROUP BY Country_id
+	----------------------------------------------------------
+		SELECT Country FROM Customers GROUP BY Country_id  
+		SELECT Country_id,Country FROM Customers GROUP BY Country_id
+		
+		error: Column 'Country' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.
+		both gives this error becauce:  WHATEVER WE USE GROUP BY, SELECT CANT HAVE COLUMNS WHICH ARE NOT PRESENT IN GROUP BY ANS SELECT MUST AND SHOULD 
+		CONTAIN ATLEAST ONE COLUMN FROM GROUP BY.
+	-------------------------------------------------------------
+		SELECT Country FROM Customers GROUP BY Country_id,Country
+		no error as atleast one of the column is in select clause
+	-------------------------------------------------------------
+		SELECT count(Country_id) FROM Customers GROUP BY Country
+		no error as aggregate function can have any column , this is also valid:
+		SELECT count(Country_id),max(other_id) FROM Customers GROUP BY Country
+	-------------------------------------------------------------
+	Final thoughts: group by is used to get unique values, in normal queries we can do it by id but during JOIN there may be duplicate values that
+	time we can use group by.
+	
+22)HAVING: The HAVING clause was added to SQL because the WHERE keyword cannot be used with aggregate functions
+	THIS IS RIGHT: (where clause before group by)
+		SELECT COUNT(CustomerID), Country FROM Customers where Country = 'Argentina' GROUP BY Country ;
+	THIS IS wrong: (this will give same result as above, but y to first group by then having? when you can get result and then group by, we should use having with aggregate functions)
+		SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country HAVING Country = 'Argentina';
+	The following SQL statement lists the number of customers in each country. Only include countries with more than 5 customers:
+		SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country HAVING COUNT(CustomerID) > 5;
+23)The EXISTS operator is used to test for the existence of any record in a subquery.
+		SELECT column_name(s) FROM table_name WHERE EXISTS (SELECT column_name FROM table_name WHERE condition);
+	The following SQL statement returns TRUE and lists the suppliers with a product price less than 20:
+		SELECT SupplierName FROM Suppliers WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
+	Example:
+		SELECT SupplierName FROM Suppliers WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
+	select all supplier name which exists in sub query table.
+24)The ANY and ALL operators allow you to perform a comparison between a single column value and a range of other values.
+	The ANY operator:
+		returns a boolean value as a result
+		returns TRUE if ANY of the subquery values meet the condition
+		ANY means that the condition will be true if the operation is true for any of the values in the range.
+	SELECT column_name(s) FROM table_name WHERE column_name operator ANY (SELECT column_name FROM table_name WHERE condition);
+	operator is a logical operator(=,> etc)
+	example:
+		SELECT ProductName FROM Products WHERE ProductID = ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+	get all productname if productid in OrderDetails table has Quantity equal to 10. If it returns false then empty table.false then empty table.
+25)ALL means that the condition will be true only if the operation is true for all values in the range. 
+	The ALL operator:
+		returns a boolean value as a result
+		returns TRUE if ALL of the subquery values meet the condition
+		is used with SELECT, WHERE and HAVING statements
+	SELECT column_name(s) FROM table_name WHERE column_name operator ALL (SELECT column_name FROM table_name WHERE condition);
+	example: SELECT ALL ProductName FROM Products WHERE TRUE;
+	The following SQL statement lists ALL the product names.
+	example:
+		SELECT ProductName FROM Products WHERE ProductID = ALL (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+	The following SQL statement lists the ProductName if ALL the records in the OrderDetails table has Quantity equal to 10. This will of course return FALSE because the Quantity column has many different values
+26)HOW TO COPY DATA FROM ONE TABLE TO NEW TABLE:
+	The SELECT INTO statement copies data from one table into a new table.
+		same db: SELECT * INTO newtable FROM oldtable WHERE condition;
+		different db: SELECT * INTO newtable IN externaldb_name FROM oldtable WHERE condition;
+		few columns: SELECT column1, column2, column3, ... INTO newtable IN externaldb_name FROM oldtable WHERE condition;
+	TO TAKE BACKUP :
+		SELECT * INTO CustomersBackup2017 FROM Customers;
+27)HOW TO COPY DATA FROM ONE TABLE TO OTHER EXISTING TABLE: (The existing records in the target table are unaffected.)
+	The INSERT INTO SELECT statement copies data from one table and inserts it into another table.The INSERT INTO SELECT statement requires that the data types in source and target tables matches.
+	Copy all columns from one table1 to another table2: INSERT INTO table2 SELECT * FROM table1 WHERE condition;
+	Copy only some columns from one table1 into another table2: 
+		INSERT INTO table2 (column1, column2, column3, ...)
+		SELECT column1, column2, column3, ...
+		FROM table1
+		WHERE condition;
+28)The CASE statement goes through conditions and returns a value when the first condition is met (like an if-then-else statement). So, once a condition is     true, it will stop reading and return the result. If no conditions are true, it returns the value in the ELSE clause.If there is no ELSE part and no conditions are true, it returns NULL.
+		CASE
+			WHEN condition1 THEN result1
+			WHEN condition2 THEN result2
+			WHEN conditionN THEN resultN
+			ELSE result
+		END;
+	the following SQL goes through conditions and returns a value when the first condition is met:
+		SELECT OrderID, Quantity,
+		CASE 
+			WHEN Quantity > 30 THEN 'The quantity is greater than 30'
+			WHEN Quantity = 30 THEN 'The quantity is 30'
+			ELSE 'The quantity is under 30'
+		END AS QuantityText
+		FROM OrderDetails;
+		OrderID		Quantity	QuantityText
+			10248	12	The quantity is under 30
+			10248	10	The quantity is under 30
+			10249	40	The quantity is greater than 30
+29)SQL IFNULL(), ISNULL(), COALESCE(), and NVL() Functions
+	The MySQL IFNULL() function lets you return an alternative value if an expression is NULL:
+		SELECT ProductName, UnitPrice * (UnitsInStock + IFNULL(UnitsOnOrder, 0)) FROM Products;
+	OR we can use the COALESCE() function, like this:
+		SELECT ProductName, UnitPrice * (UnitsInStock + COALESCE(UnitsOnOrder, 0)) FROM Products;
+		The COALESCE() function returns the first non-null value in a list.
+	The SQL Server ISNULL() function lets you return an alternative value when an expression is NULL:
+		SELECT ProductName, UnitPrice * (UnitsInStock + ISNULL(UnitsOnOrder, 0)) FROM Products;
+	The Oracle NVL() function achieves the same result:
+		SELECT ProductName, UnitPrice * (UnitsInStock + NVL(UnitsOnOrder, 0)) FROM Products;
+30)Storde procedure:
+	A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.
+	So if you have an SQL query that you write over and over again, save it as a stored procedure, and then just call it to execute it.
+	You can also pass parameters to a stored procedure, so that the stored procedure can act based on the parameter value(s) that is passed.
+	syntax:
+		CREATE PROCEDURE procedure_name AS sql_statement GO;
+	execute syntax:
+		EXEC procedure_name; 
+	example:
+		CREATE PROCEDURE SelectAllCustomers @City nvarchar(30), @PostalCode nvarchar(10) AS
+		SELECT * FROM Customers WHERE City = @City AND PostalCode = @PostalCode
+		GO;
+		
+		EXEC SelectAllCustomers @City = 'London', @PostalCode = 'WA1 1DP';
+31)Single line comments start with --.
+	Any text between -- and the end of the line will be ignored (will not be executed). /**/ multi line
+32)The CREATE statement is used to create a new SQL database,table,view.
+	CREATE DATABASE databasename;
+	CREATE TABLE table_name (
+		column1 datatype,
+		column2 datatype,
+		column3 datatype,
+	   ....
+	);
+33)The DROP statement is used to drop an existing SQL database,table,view.
+	DROP DATABASE testDB;
+34)BACKUP DATABASE databasename TO DISK = 'filepath';
+35)The ALTER TABLE statement is used to add, delete, or modify columns in an existing table.
+		ALTER TABLE table_name ADD column_name datatype;
+	Alter to drop a column:
+		ALTER TABLE table_name DROP COLUMN column_name;
+	To change the data type of a column in a table, use the following syntax:
+		ALTER TABLE table_name ALTER COLUMN column_name datatype;
+36)The PRIMARY KEY constraint uniquely identifies each record in a table.Primary keys must contain UNIQUE values, and cannot contain NULL values.
+	A table can have only ONE primary key; and in the table, this primary key can consist of single or multiple columns.
+37)The FOREIGN KEY constraint is used to prevent actions that would destroy links between tables.
+38)In SQL, a view is a virtual table based on the result-set of an SQL statement.
+	A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database.
+	You can add SQL statements and functions to a view and present the data as if the data were coming from one single table.
+	UPADTING A VIEW ALSO RESULTS IN UPDATE OF MAIN TABLE BUT NOT VICE VERSA.
+	When you insert any record in a VIEW it’ll get inserted in your main table too and if you delete that record from VIEW the same record would be delete from table too.
+	Even if the table is virtual, the data in the table has no independent existence without table.
+	
+	A view is created with the CREATE VIEW statement. 
+		CREATE VIEW view_name AS
+		SELECT column1, column2, ...
+		FROM table_name
+		WHERE condition;
+	A view always shows up-to-date data! The database engine recreates the view, every time a user queries it.
+		CREATE VIEW Products_Above AS
+		SELECT ProductName, Price
+		FROM Products
+		WHERE Price > (SELECT AVG(Price) FROM Products);
+	A view can be updated with the CREATE OR REPLACE VIEW statement
+		CREATE OR REPLACE VIEW [Brazil Customers] AS
+		SELECT CustomerName, ContactName, City
+		FROM Customers
+		WHERE Country = 'Brazil';
+	The following SQL drops the "Brazil Customers" view:
+		DROP VIEW [Brazil Customers];
+39)MySQL has many built-in functions.This reference contains string, numeric, date, and some advanced functions in MySQL.
+	lowercase and all check in website (https://www.w3schools.com/sql/sql_ref_mysql.asp)
+	
+	
+------------------------------------------------------------------------------------------	
+	create procedure myPro @m varchar(64),@n int
+	as
+	select * from table_name where entityname=@m and columnuuid=@n
+	go;
+	
+	exec myPro;	
+-------------------------------------------------------------------------------------------
+https://dotnettutorials.net/course/ms-sql-server/
+Scalar Function in SQL Server :
+	The function which returns only a single value (scalar value) from the table is known as the scalar value function. Scalar value functions may or may not have parameters that are optional, but always return a single (scalar) value which is mandatory. The returned value which is return by the SQL Server Scalar Function can be of any data type, except text, ntext, image, cursor, and timestamp.
+
+	create function fun_cal (@m int,@n int)
+	Returns int
+	as
+	begin
+		Return @m * @n
+	end
+	
+	select dbo.fun_cal(1,2)
+---------------------------------------------------------------------------------------------	
+https://dotnettutorials.net/course/ms-sql-server/
+able-valued Function, we can return a table as an output from the function. These are again of two types.
+
+1)Inline Table-valued Function
+2)Multi-statement table value function
+In the case of the Inline Table-Valued Function, the body of the function will have only a single select statement prepared with the “RETURN” statement.
+
+	create function fun_calTab (@m int,@n int)
+	Return table
+	as
+	Return (select statement where clause can use param)
+	
+	select * from fun_calTab(1,2)
+	
+The Multi-Statement Table Valued Function in SQL Server is the same as the Inline Table values Function in SQL Server means it also returns a table as an output but with the following differences.
+
+Multi-Statement Table-Valued Function body can contain more than one statement.
+The structure of the table is returned from the function that can be defined by us.
+
+			-- Inline Table Valued function:
+			CREATE FUNCTION ILTVF_GetEmployees()
+			RETURNS Table
+			AS
+			RETURN (SELECT ID, Name, Cast(DOB AS Date) AS DOB
+					FROM Employee)
+			-- Multi-statement Table Valued function:
+			CREATE FUNCTION MSTVF_GetEmployees()
+			RETURNS @Table Table (ID int, Name nvarchar(20), DOB Date)
+			AS
+			BEGIN
+			  INSERT INTO @Table
+				SELECT ID, Name, Cast(DOB AS Date)
+				FROM Employee
+			  Return
+			End
+			-- Calling the Inline Table Valued Function:
+			SELECT * FROM ILTVF_GetEmployees()
+			-- Calling the Multi-statement Table Valued Function:
+			SELECT * FROM MSTVF_GetEmployees()
+	
+---------------------------------------------------------------------------------------------------------
+https://www.tutorialspoint.com/sql/sql-constraints.htm
+	Constraints are the rules enforced on the data columns of a table. These are used to limit the type of data that can go into a table. This ensures the accuracy and reliability of the data in the database.
+	
+	NOT NULL Constraint − Ensures that a column cannot have NULL value.
+
+	DEFAULT Constraint − Provides a default value for a column when none is specified.
+
+	UNIQUE Constraint − Ensures that all values in a column are different.
+
+	PRIMARY Key − Uniquely identifies each row/record in a database table.
+
+	FOREIGN Key − Uniquely identifies a row/record in any of the given database table.
+
+	CHECK Constraint − The CHECK constraint ensures that all the values in a column satisfies certain conditions.
+
+	INDEX − Used to create and retrieve data from the database very quickly.
+	
+--------------------------------------------------------------------------------------------------------------------
+Normalization:
+
+	https://www.edureka.co/blog/normalization-in-sql/
+	
+	1st Normal Form (1NF)
+		In this Normal Form, we tackle the problem of atomicity. Here atomicity means values in the table should not be further divided. In simple terms, a single cell cannot hold multiple values. If a table contains a composite or multi-valued attribute, it violates the First Normal Form.  
+	2nd Normal Form (2NF)
+		The first condition in the 2nd NF is that the table has to be in 1st NF. partial dependency  should be removed.
+	3rd Normal Form (3NF)
+		The same rule applies as before i.e, the table has to be in 2NF before proceeding to 3NF. The other condition is there should be no transitive dependency for non-prime attributes.
+		
+-------------------------------------------------------------------------------------------------------------------------
+Add keys in this notes => TODO
+	https://www.analyticsvidhya.com/blog/2020/07/difference-between-sql-keys-primary-key-super-key-candidate-key-foreign-key/

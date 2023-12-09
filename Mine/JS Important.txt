@@ -1,0 +1,6 @@
+
+	alert("parent: "+document.getElementById("1").parentElement.outerHTML); //to fetch parent and outerHTML
+	alert("child: "+document.getElementById("1").parentElement.children[0].innerHTML); //to fetch child of a parent
+	alert("next sibling: "+document.getElementById("1").nextElementSibling.innerHTML); //to fetch next sibling
+	alert("privious sibling: "+document.getElementById("1").nextElementSibling.nextElementSibling.previousElementSibling.innerHTML.trim()); //to fetch privious sibling
+	alert("innertext: "+document.getElementById("1").parentElement.innerText);//innerTest only returns text not tags like innerHTMl
