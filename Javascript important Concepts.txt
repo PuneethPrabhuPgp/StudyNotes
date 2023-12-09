@@ -1,0 +1,51 @@
+//Refrence Udemy marcus schwazmuller course
+
+1) function - code on demand
+   Rest parameters ...params
+   bind(), call(), apply()
+
+3 types of iterables in js
+
+1) arrays - 0rdered, retrieve from index, can have duplicate 
+ Push(), unshift(), pop(), shift(), splice(), slice(),
+for each(), map(), filter(), reduce(), split(), join(),include()
+Spread operator ..., array destructiring [] = array,
+Sort(), reverse()
+
+2) sets - no order guarantee, no retrieve from index, duplicate not allowed 
+Add(), delete(), has(), values(), entries()
+WeakSet()
+
+3) maps - order guarantee, retribal through keys, duplicate not allowed 
+set(), get(), entries(), keys(), values(), clear(), delete(), delete()
+WeakMap()
+ _----------
+2) Objects
+Object.assign(), object destructiring, this with normal function, arrow function, call(), apply(), bind()
+
+3) classes - blueprint of an object
+Constructor(), inheritance extends, instance creating with new, static properties and methods,
+Prototypes - fallback object that each and every object in js will have (_proto_ and prototype property)
+
+4) Events
+AddeventListner(), removeeventlistner(), preventDefault(), event propagation (bubbling, capturing), stopPropogation(), stopImmediatePropagation(), eventDelegation()
+
+5) Advanced functions
+Pure function - function which takes same input and produces same output without side-effects
+Impure function - vice versa of pure function 
+Clousers - Function with its lexical environment + outer lexical environment, all functions by default are clousers , recursive function 
+
+6) Asynchronous JS
+Event loop, callback, callback hell, promise, promise chaining with then() catch(), finally(), promise states(pending,resolved,rejected,setteled), async ,await. Asyn await can only be applied to a function, try catch with async and await, why promise is always better to use then async and await, Promise.race([]), Promise.all([]), Promise setteled ([])
+
+7) http request
+Fetch(), xmlhttprequest()
+
+8) Browser Storage
+localStorage, sessionStorage, Cookie, indexedDb
+
+9) Meta programming
+Symbol, Iterators, Generators, Reflect API, Proxy API
+
+10) Programming Paradigm
+Procedural programming, OOP, Functional Programming

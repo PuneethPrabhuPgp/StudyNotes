@@ -1,0 +1,1018 @@
+Reference - https://www.tektutorialshub.com/angular-tutorial/
+ ----------------------------
+
+Angular Key Components
+
+1) Modules
+2) Components
+3) Templates
+4) Metadata
+5) Data Binding
+6) Directives
+7) Services and Dependency Injection
+8) Router
+9) HttpModule
+10) Forms (reactive and tempalte)
+ ----------------------------
+
+Angular commands
+1) ng new myApp
+2) ng serve --open
+3) ng run build-custom or ng build
+4) ng g c newomponent
+ ----------------------------
+
+
+Bootstraping in angular
+1) loads the index.html
+2) loads angular and third party libraries
+3) loads and executes the entry point (main.ts)
+4) loads and executes root module (app.module)
+5) loads and executes root component(app.component)
+6) displays the template
+ ----------------------------
+
+Angular Component
+
+@component({
+selector : 'app-selector',
+template / templateurl : '',
+styles/styleUrls : ['']
+})
+export class helloWorld {}
+ ----------------------------
+
+Data Binding -> keeps the data in sync b/w component and view
+
+1) One way data binding
+from component to view 
+a) String interpolation -> {{ }}
+b) Property Binding -> [binding-target] = 'bindingSource'
+from view to component 
+a) event binding -> (event) = 'methode()'
+
+2) Two way data binding
+a) ngModel -> included in FormsModule
+[(ngModel)] = 'value'
+
+ngNonBindable
+
+Attribute Binding -> main use for binding arias and SVG
+[attr.aria] = "name"
+
+Class Bindings
+
+1) by using [className] = "'class'"
+2) by using [class.className] = "true or false"
+3) by using [ngClass] = "{ 'background-color' : 'red', ....}";
+
+Style Bindings
+1) by using style attribute bindig [style.color] = "red"
+2) by using [ngStyle] = "styles object"
+
+Custom event bindings using @input , @output, EvenEmitter
+
+@input() -> retrieves the data from parent component
+
+@input customer: customer
+<input [customer] = "value">
+
+2) @Output() -> used to bass data from child component to parent componet
+@Output customerChange : EventEmitter<Customer> = new EventEmitter<Customer>();
+update(){
+this.customerChange.emit(customer);
+}
+<input (customerChange) = "update($event)">
+
+By default ngModel makes use use of @input() and @output() r to set values property of form elements
+
+[(ngModel)] -> [ngModel] as property binding and (ngModelChange) ="value" as event binding internally
+
+instead of ngModel we can specify our own two way binding by using input and output refer the example above
+
+ ----------------------------
+
+Directives -> It is used for extending and manipulating the dom by changing appearance, behaviour or layout of the dom elements
+
+1) Component Directive -> changes the template or view
+2) structural directives -> changes the layout of dom elements *
+1) *ngFor
+local variables provided by ngFor 
+index, count, first, last, even, odd
+special property trackBy: trackByFn
+tranckByFn(index, item)
+ 2) *ngSwith along with *ngSwitchCase and *ngSwitchDefault 3) *ngIf
+3) Attribute Directives -> changes the appearance or behavior of dom elements
+a) ngModel b) ngClass c) ngStyle
+
+4) Custom Directives
+@Directive({
+selector: 'custom'
+})
+export class customDirective{}
+ ----------------------------
+
+
+Pipes -> Takes the data as input and formats or transforms the data to show it to user
+
+1) Built in pipes
+a) Date Pipe b) Number and Decimal Pipe c) Currency pipe 
+d) Async pipe -> async pipe input data must be an observable or promise
+async pipe will subscribe to an observable when component loads and unsubscribes when component gets destroyed
+async pipe can be used with ngif and ngFor
+e) keyValue pipe -> we can use this to convert an object or map to an array of key value pipe to loop through it
+
+2) Custom Pipe
+we can build our custom pipes by implementing PipeTransform interface
+ ----------------------------
+
+Component Communication
+
+Using parent child Relationship
+1) From parent to child using input property
+@input() customer : Customer;
+<chid-componet [count] = Customer></child-Component>
+
+2) from child to parent
+
+a) By responding to child events using @Output()
+
+b) by using template rference variables on child comonent in parent tempalte
+
+c) using @ViewChild()
+@VewChild(childCompnent) child : ChildCompnent
+th
+3) Component communication with Routers
+ ----------------------------
+
+Component life Cycle Hooks
+
+Change Detection mechanism -> this is the mechanism by which angular detects the bound properties of template with a component. then it starts the componeet life cycle hook.
+By using the component life cycle hook we can finely tune the components.
+
+Like Cycle hooks:
+1) ngOnChanges() -> gets invoked when changes on @input() property 
+2) ngOnInit() -> gets invoked after onchanges and it the step to ontialize the component fields and to get data from db
+3) ngDoCheck() -> gets invoked for each change or without change detection, use this for custom checking where ngonchanges couldn't for @input() properties
+4) ngAfterContentInit() -> gets invoked for each content projection from parent to child using <ng-content> and after updating contentChild and contentChildren
+5) ngAfterContentChecked() -> same as above but gets invoked for every change
+6) ngAfterViewInit() -> gets invoked for each view and its children  and after updating viewChild and viewChildren
+7) ngAfterviewChecked() ->  same as above but gets invoked for every change
+8) ngDestroy() -> gets invoked when angular destroys the insatnce of the component -> used to unsubscribe from the observables
+
+-----------------------------
+
+Constructor vs ngOnInIt
+
+1) Constructor gets executed when the class gets instantiated
+- ngOnInit hooks gets called when component class gets initialized with all @input() properties
+
+2) @input() properties are not available under Constructor it will be shown as undefined
+- @Input() properties will be available since it gets instantiated under ngOninIt()
+
+---------------------------------
+
+why ngOnchanges() does not get fired for all changes on objects/arrays then the primitive types?
+
+Onchanges makes use of stricty equality check (===)
+
+for primitive values, strict equality check is checked by value so here no problem
+but for complex types like objects/arrays -> strict equality check is checked by reference
+if few property of object changes => will not change the refernce of the object so it will not get detecetd
+
+so for complex types we have to specify the custom change detection under doCheck() hook by using differ Services
+
+Differ services are of two types
+1) InterableDiffers to use on array like structrue
+2) key-valueDiffer to use on object like structure
+
+----------------------------------------------
+
+Angular Forms
+
+1) template Driven Forms  -> logic is defined in template
+2) Reactive/model driven forms -> logic is defined in a component model as an object and then bound to html elements
+
+Build blocks of angular Forms are
+1) Form Array -> used for each input element and checks for values (value) and validations ()dirty, touched, valid,error) on it
+fName = new FormControl()
+
+2) Form Group -> all form controls of each input elements can be groped together to check values (value and get()) and validations (errors,dirty,touched, valid) where form control names will be key
+
+address = new FormGroup({
+city : new FormControl(''),
+street : new FormControl('')
+});
+
+3) FormArray -> It is a array of formControls.
+
+contactForm = new FormGroup( {
+    name: new FormControl(''),
+    cities:new FormArray([
+      new FormControl('Mumbai'),
+      new FormControl('Delhi')
+    ])
+  });
+  
+  ----------------------------------------------------
+  
+  Reactive forms
+
+1) Import ReactiveFormsModule
+2) Create Form Model in component class using FormGroup, FormControl & FormArrays
+ex: contactForm  = new FormGroup({
+   fName : new FormControl('',[Validators.required, Validators.minLength(10)],
+   address : new FormGroup({
+        street : new FormControl('churchgate'),
+         city : new FormControl(default: 'Mumbai', disabled : true)
+   })
+});
+3) Create the HTML Form resembling the Form Model.
+4) Bind the Form Model to the Html template by using [formgroup] = contactForm, formControlName, formGroupName
+
+----------------------
+setValue(data, {onlySelf : true, emitEvent : false}) -> updates entire formControl, formGroup, FormArray. It should exactly match its structure
+patchvalue(data, {onlySelf : true, emitEvent : false}) -> updates subset of formControl, formGroup, FormArray. we can ignore few properties of the structure
+
+onlySelf -> by default whenever and controls value changes validation starts happeing on that form control and bubbles tills its parent we can stop that by setting onlySelf to true
+
+emitEvent -> emits two events 
+a) statusChanges -> emitted whenever the validation status of the field changes and we can subscribe to it 
+b) valueChanges -> emitted whenever the value of the field changes and we can subscribe to it
+we can stop emitting events by setting emitEvents : false.
+
+setValidators() / setAsyncValidators() -> replaces previously validators with new one
+clearValidators()/ clearAsyncvalidators() -> clears all validators
+updateValueAndValidity() -> forces to perform validation whenever values on the field gets changed
+reset() -> clears all the form fields
+setError(), getError(), hasError(), errors()
+--------------------------------
+
+Dependency Injection -> mechanisim by which consumer class recives it dependencies from external resource rather than creating it
+
+Key Components of Dependency Injection are
+1) Consumer -> class that is responsible to get depencies
+2) Dependency -> services that are injecatble
+3) DI Token -> unique token created for services to uniquley identify by Injector
+4) providers -> all injectable services needs to be registered here
+5) Injector -> is responsible for creating an instance of the service by using DI token looking into providers array and then injects the dependency into consumer class
+
+@Injectable({
+providedIn : 'root'                    or  providers :[AppService]
+})
+export class AppService{}
+
+in consumer class:
+@Injectable()
+constructor(private appservice : AppService){}
+or
+constructor ( @Inject(Appservice) private appservice){}
+Angular create two injector tree when application bootstraps
+a) moduleInjectorTree b) elementInjectorTree
+
+
+---------------------------------------------
+
+Angular Providers -> We can register our dependencies in the Providers array by specifying the Provide/DI Token and Provider. Then the Injector looks for the token and create a type of depencency instance by looking into provider.
+
+Providers :[{ provide: token , provider: true  }]
+
+Tokens are of 3 types
+1) Type token -> type name should be same as that of className
+Providers : [{ provide: ProductService, useClass : ProductService }] or Providers : [ productService]
+
+2) String token -> we can use string as a token
+const app_urlProvider= Object.freeze( { API_URL : 'htt://test.com' } );
+
+Providers: [ { provide: 'USE_FAKE', use_value : true} 
+{ provide : 'app_url', use_value : app_urlProvider } 
+]
+Problem with string token if multiple are using the same token then the one who use the last will overide the others stuff.
+3) Injection Token -> we can resolve the disadvantage of string token by using this as it creates unique token for each consumer
+
+const token : InjectionToken<string> = new InjectionToken<string>('');
+providers: [ { provide: token, use_value :'hi' }]
+
+Provider can be four type
+
+1) Use class -> where we use the class same as class name
+Providers : [{ provide: ProductService, useClass : ProductService }] or Providers : [ productService]
+
+2) use value -> we can pass string, array, function, object as value
+
+if we pass function as a value then the entire will be returned as a instance to the consumer
+
+Providers : [ { provide: 'func', useValue : (hi} => {return "I am a function"} ]
+
+3) useFactory : useFactory accepts a function that creates an object of that type and returns it to consumer
+here the entire function will not be sent rather it will send only the return value to the dependencies and we have to pass the optional args as DEPS 
+
+It is used if we want to return instance based on environments
+
+Providers : [ { Provide: "dev" , useValue : true },
+{ provide : ProductService , useFactory :  (dev, Logger_Service) => dev ? new ProductService() : new Fake_ProductService(LoggerService), deps : [dev, Logger_Service]}
+]
+
+4) useExisting -> if we want to send old Provider instead of new provider
+
+Providers : [ { provide : 'NewProduct_Service' , useExisting : productService },
+                     { provide: productService, useClass: ProductService}
+ ]
+
+Scope of providers
+we can register same depencies in the providers at root module or at component level so scope is very important
+
+1) always component scope has higher precedency then module scope i.e: if dependencies is registered in component then it is available to that component and its children only
+2) if dependencies is registered at eagerly loaded module level then the dependencies  are available throughout the application
+3) if dependencies is registered at lazy loaded module level then the dependencies are only available to components of the lazy loaded module.
+
+----------------------------------------------
+
+Working of angular dependency Injection :
+
+When application starts it create two dependency tree to resolve the dependencies
+
+1) module tree
+
+null Injector (@Optional) -> Platform Injector -> Module Injector -> lazy Module A -> lazy module B
+
+2) Element Injector
+
+Root Component -> parent A -> child a1 -> child a2 -> parent b -> child b1 -> child b2
+
+always first preference is for element injector then is for module injector
+
+-------------------------------
+
+ProvidedIn and Dependency resolution Modifiers
+
+ProvidedIn : 'root' -> at module level -> creates singelton instance throughout the application for eagerly loaded module, creates singelton instance only in its lazy loaded module
+providedIn : 'any' -> creates each seprate instance for each user components
+provideIn : 'platform' -> creates seprate instance for each users browsers components
+
+Resolution Modifiers helps angular DI system to know how and in which tree to solve the dependencies
+
+resolution modifiers are of 4 types
+1) @Self() -> Looks for the dependency in its component only, it will not bubble up to its parent. If not found will throw error
+2) @SkipSelf() -> Looks for the dependency from it parent, but skips the current component. If not found will throw error
+3) @Optional() -> if dependencies is not found any level then it will not throw error instead it returns null
+4) @Host() -> looks for the dependency in the element tree only and that too only in viewProviders array
+
+Difference b/w providers and viewProviders
+
+providers resolve the dependencies in all child  view components as well as in the content projections as well
+but view Providers will resolve the dependencies in the view components only
+
+
+--------------------------------------
+
+Angular Forms Validation
+
+Validator -> Validator is a function that checks the instance of form control, form array, form group and then return null if all validations get passed or else return a list of errors.
+
+Two types of validators (import reactiveFormsModule)
+1) Sync Validators -> which will automatically validate the elements and returns the value null or errors.
+2) async validators -> which will return a promise or observable , and in turn return the value null or errors.
+
+disabling by checking -> !contactForm.isValid
+checking for errors -> !fname.isValid && ( fname.isDirty && fname.isTouched)
+checking for specific errors -> !fname.errors.minlength
+
+-------------------------------------
+
+Custom Validators -> must impelement a ValidatorFn , abstarctConstrol and must return ValidationErrors or null
+Validation errrs are objects with key value pair where key must be string
+1) import Validationerrors and abstarctControl from @Angular/forms
+2) export function gte(val: number): ValidatorFn {
+ 
+  return (control: AbstractControl): ValidationErrors | null => {
+//used for injecting service
+   let injector = Injector.create([ { provide: gteService, useClass:gteService,deps: []}])
+    let service = injector.get(gteService);
+
+
+    let v: number = +control.value;
+ 
+    if (isNaN(v)) {
+      return { 'gte': true, 'requiredValue': val }
+    }      
+ 
+    if (!service.gte(v, val)) {
+      return { 'gte': true, 'requiredValue': val }
+    } 
+      
+    return null;
+    
+  }
+ 
+}
+----------------------------------------------
+
+Custom async validators - it
+ must implement asynValidator function, abstract control and must return null or observable<validationErrors>
+
+Same as validation but return with of() observable function
+
+------------------------------------------------------
+
+CrossField Validation - validating two or more form input fields at a time
+This we can do by adding validator to a form group
+
+Ex password and confirm password fields
+
+---------------------------------------------
+
+HTTPClient Module -> import it from @angular/common/http
+
+We can use this module to make a http request to server. It returns an observable so the consumer needs to subscribe to it by 3 callback methods next(), error() , complete()
+
+1) import the module and add it to imports array in module
+2) Inject the HttpClient in constructor 
+constructor( private http : HttpClient)
+3) make http method calls with get, put, post , patch and delete
+
+this.http.get<any[]>('url', options).subscribe( );
+this.http.post<any[]>('url', body, options).subscribe();
+this.http.put<any[]>('url', body, options).subscribe();
+this.http.patch<any[]>('url', body, options).subscribe();
+this.http.delete<any[]>('url',options).subscribe();
+
+options : {
+  headers : { header1: value1 , header2: value2},
+  params : {parm1, ...},
+  observe : body | response | events,
+   response-type : JSON | blob | text | arrayBuffer,
+   reportProgress : boolean -> if true retruns the progress everytime,
+   getcredentials : boolean => if true gets the cookies   
+}
+----------------------------------------
+
+const params = new HttpParams()
+  .set('page', PageNo)
+  .set('sort', SortOn);
+
+const headers= new HttpHeaders()
+  .set('content-type', 'application/json')
+  .set('Access-Control-Allow-Origin', '*');
+
+Http Interceptors -> are useful as we can modify the incoming request before sending to back end and we can modify the outgoing response brfore sjowing it to user. 
+to impelemnt Interceptor we need to implement HTTpInterceptor
+@Injectable()
+class appInterceptor implemenst HTTpInterceptor{
+   intercept ( req : httpreq<any> , next | HttpHandler ) : Observable<HttpEvent<any>>{
+    return next.handle(req);
+}
+}
+
+---------------------------------------------------
+
+Angular Router -> Router is a service which helps us to navigate from one component to another.
+@angular/route
+
+Uses of Router:
+1) when user changes the url it will navigate to a view
+2) pass query params to a view
+3) mange back and forward browser buttons
+4) we can use routerlink to bind to html elements
+5) dynamically load a view
+
+Key components of router module:
+
+1) Router -> enables us to move from one component to another
+2) route -> it consists of a path and a component. Router looks each route and builds a url to navigate
+3) Routes -> array of routes
+4) RouterOutlet -> placeholder which tells router where to display the route view
+5) RouterLink -> attached to html element to enable routing
+6) RouterLinkActive -> used to add router class active or deactive
+7) ActivatedRoute -> gives the current active route in a list of routes on a loaded component
+8) RouteState -> allows to traverse through the current loaded route tree
+9) RouterLinkParamsArray -> allows us to specify parameters to router link
+
+-----------------------------------------------------------
+
+Configuring Routes:
+
+1) Specify <base href ="/"> in index.html right after head tag -> since router makes use of html's location stratergy to navigate back and forward and to get history stuff
+2) defines routes for each component
+
+const routes : Routes = [
+{ path : 'home' , Component : Homecomponent},
+{ path: ' ' , redirect : 'home', patchMatch : full } -> default route,
+{path : ' **' , Component: noaccessComponent } -> wildcard route when noen of the route matches it falls here
+];
+3) Registering routes with RouterModule in imports array
+
+imports: [ RouterModule.forRoot(routes)) ]
+
+4) mapping routes to html element using RouterLink
+
+<a [routerLink] = "['home']"> 
+
+5) specifiying where to display route using Router outlet
+<roterOutlet></routerOutlet>
+
+----------------------------------------
+
+Location Stratergies
+
+Angular is used for building single page application. That means when user requests through browers url then angular mimics the request it sent to web server by updating browsers history but actually it is not.
+
+Location stratergy is a mechanisim by which our application responds to client's request to move from one view to another without reloading the page entierly.
+
+Angular uses two location stratergies:
+1) Hash Location stratergy
+https:/api/getProduct/#/contact
+2) path location stratergy
+https:/api/getProduct/contact
+
+Client Side rendering : is a mechanisim by which the browser mimics that it has a sent a request to web server by updating browser history but actualy it doesnt sent any request to web server.
+
+Server side rendering: is a mechanisim where we send time consuming request to web server to run the data in the server and return back.
+
+Hash Location stratergy : makes use of hash routing in angular
+as we know it html to move from one label to another we mark the label as <a #contact> this is the concept which angular uses for hashLocation stretgy
+
+in the same component page it loads the #product by going into #products
+https://api/#/products 
+
+PathLocationStratergy or HTML5 stratergy : angular makes use of html5routing 
+
+it mimics by updating browsers history location by using history.pushState( object , title, path)
+
+ex history.pushState( {"product" :"productList"} , "product api" , "/product")
+
+by default angular uses this stratergy and when we change the path in browser is pushes the stuff to history by using history.pushState(...) fot this we have to set base href after head tag
+
+By default locationStaretgy needs support of server side Rendering:
+because when we refresh page it says 404 not found to resolve this we have to send a request to backend and somehow return back to index.html so that angular then takes care of routing
+
+
+Difference between Hash and -Path location stratergy
+
+Hash url is not clean to read 
+- path is clean to read
+hash doesnt use server side rendering
+- path use server side rendering
+
+hash supported by all browsers
+-  path supported by only html5 enabled browsers
+
+By default angular uses Path stratergy
+but we can be hash stratergy by setting in the route as shown below
+routes: [  { path: 'home' , Component : homeComponent, { useHash : true }}]
+
+----------------------------------------------------------------
+
+Passing parameters to route
+
+1) making routes to accept parameter
+routes: [ { path : 'Home/:id' ,  Component: HomeComponent }]
+
+2) adding parameter to html element using routerLink and route Params
+
+<a [router-link] = "['/Product', '2']"></a>
+constructor( private _route : Router)
+or we can use this._route.navigate([{  '/product', '2' }]) 
+
+3) to retrieve the parameters in component class we can use activateRoute Service
+
+Constructor( private activatedService : activatedRouteService)
+
+Activate routes stores parameters in two ways 
+1) params array -> params are stored with name as key
+2) ParamMap -> to get parameters it provides following method get('value'), getall(), has()
+
+We can read properties from the above params using snapshot and Subscribe technique
+
+1) snapshot technique
+
+this.id = this.ActivateRoute.Snapshot.params["id"]
+this.id = this.ActivateRoute.Snapshot.ParamMap.get(id)
+
+2) Subscribe technique
+
+this.ActivatedRoute.Subscribe( data => this.id = this.paramMap.get(id))
+
+this.ActivatedRoure.Subscrible( data => this.id = this.params[id])
+
+better to use paramMap as we can subscribe and listen to nt whenever the component is reloaded everytime
+
+
+-----------------------------------------------
+
+Child/Nested Routes: 
+
+Routes: [
+{ 
+path: 'product', component: ProductComponent,
+  children: [
+     { path: 'detail/:id', component: ProductDetailComponent }
+  ],
+}
+]
+is like product/detail/2
+
+to display the view of child component we have to set router outlet placeholder in parent Component
+<router-outlet></router-outlet>
+
+------------------------------------------------
+
+Query Params in routes
+
+we can add query paremaetre to the following
+
+1) routerLink
+<a [router-link] = "[ '/Product']" , [queryParams] = " { page: 2 }"
+
+2) router.navigate
+
+this.router.navigate( ['/products'], { queryparams : { page : 2, sort : name}} )
+
+3) this.router.navigateUrl(/products/details/1 ?page =2  and sort = name)
+
+Reading usimg QueryParams and QueryParamsMap and activateService functionality is same as above
+
+Commiunication b/wmultoiple compoenets can be done using
+
+1) router-link
+2) this.route.navigate()
+3) this.route.navigateByUrl()
+
+---------------------------------------------------
+
+Route Guards -> Route Guards helps us to perform some actions before navigating to the route and also allows us to perform some actions after getting the response before navigating to the next route.
+
+Use cases of Route Guards:
+
+1) Navigating to a route
+2) Checking whether the user can access a route
+3) Performing some actions before making a route
+4) If the current route is not authorized, redirecting to other route
+5) Before navigating informing the user if their are any pending changes 
+
+Type of Route Guards
+1) CanActivate  -> It is used to check whether the user can navigate to a particular route. Basically is used for authentication purpose by making a call to backend.
+2) CanDeactivate -> this guard gets triggered when user tries to leave current guard by navigating to other route.
+This guard is used to ask the user to save his changes before moving to other route.
+3) Resolve -> this guard is used to pre fetech some data from backend before navigating to a route.
+4) CanLoad -> It is similar to CanActivate guard. The only change is it stops loading of the entire lazy loaded module irrespective of checking each route in that module.
+5) canActivateChild -> It is applied to parent route. If the parent route tries navigate to child we can use this route to check whether then can or not.
+
+Routes are executed in following order from deepest children to its parent
+
+1) canDeactivate , canActivateChild
+2) CanACtivate
+3) canLoad
+4) resolve
+
+Configuring route guards
+1) Guards are similar to service, define a guard as we define a service 
+@Injectable()
+class productServiceGuard implements canACtivate {
+constructor( private _route : Router)
+}
+2) class should implement the specific guard and must implement its method with same name
+
+canActivate(  activate : ActivateRouteSnapshot , routeState : RouteStateSnapshot ) : boolean {
+
+}
+
+3) Register the guards in the providers array at module level so that it can be used by Injector
+providers : { ProductServiceGuard }
+
+4) Adding the guards to a route
+Routes : [
+  { path : 'product' ,  Component : 'ProductComponent' , canActivate : [ ProductServiceGuard ]}
+ ]
+-------------------------------
+
+Passing data through Routes
+
+we can pass data through routes in the following ways
+1) Passing params data b/w routes by using activateRoute 's praamMap and params
+2) passing queryParams data b/w routes bu using activatedRoute's queryParamMop and queryParams
+3) passing fragment b/w routes
+4) passing static data using routers data property and accessing it by subscribing to activatedRoute 's data property
+5) passing dynamic data like objects by storing it in browsers history state and accessing it with Location service's location.geState() or by using history.state property or by using router.NavigateByUrl()
+
+passing Static Data b/w routes
+
+1) sending date from Routes
+
+Routes : [
+  { path :'product' , component : 'ProductComponent' , data : { id : 1, string : 'Angular' } }
+]
+
+2) accessing the data in component 
+
+ngOnInIT() {
+this.activatedroute.data.subscribe(data => {
+          this.product=data;
+      })
+}
+
+Passing dynamic data b/w routes
+
+1) sending data through routes 
+we can passs dynamic data b/w routes using history's state object and we can do this in two ways
+
+a) NavigateByUrl
+this.router.navigateByUrl('/dynamic', { state: { id:1 , name:'Angular' } });
+
+b) using routerLink 
+<a [routerLink]="['dynamic']" [state]="{ id:1 , name:'Angular'}">Dynamic Data</a>
+
+2) Accessing the state value in component class 
+
+a) using navigatebyUrl
+this.router.getCurrentNavigation().extras.state this can only be possible inside the constructor out of constructor it will throw error
+
+b) using historys state property
+
+this.dynamic = history.state
+
+c) using location service's getState()
+this.dynamicData = locationService.getState()
+
+-------------------------------------------
+
+RouterLinkActive -> it is used to add classes to route , to highlighting the current route
+we can add this buy using [routerlinkactive] directive as shown below
+
+<a [routerLink]="/product" [routerLinkActive]="class1 class1" [routerLinkActiveOptions]="{exact:
+true}">Product</a>
+
+Router active link exact param matching
+
+without exact: true
+A subset of the queryParams is matched.
+The URL is a subtree of the URL tree.
+Matrix params are ignored
+with exact: true
+A queryParams must match exactly
+The URL must match exactly
+Matrix params are ignored
+
+-------------------------------------------------
+
+Router Events -> Router will fire the events when router navigates from one path to another
+router events gets triiiger befor route guards some of the events are
+navigationSTart, NavigationEnd, navigationCancel, Navigationerror, etc...
+
+we can listen to this by subscribing to the router event as follows
+
+constructor ( private router :  router){}
+
+this.router.events
+  .subscribe(
+    (event: NavigationEvent) => {
+      if(event instanceof NavigationStart) {
+        console.log(event);
+      }
+    });
+	
+------------------------------------
+
+Angular modules -> angular modules helps us to organize the code as per the features that we implement in angular by using seperate logic of concerns pattern 
+
+@NgModule({
+     declerations : [] -> it is for components, directives, pipes,
+     providers : [] -> it is for services so that Injector can look into,
+     imports : [] -> third party module that needs to be used in this module,
+     exports : [] -> components, pipes, directive that need to exported so that it can used in another other module by importing this module their
+      bootsrtarp : [] -> component that needs to be loaded, if this is the roor module,
+     entryComponents : [] -> 
+
+The components are loaded when angular
+
+Finds the Component Selector in the HTML
+Declared in the bootstrap array
+Declared in the root definition
+If your component is not listed any of the above, then it needs to be declared in EntryComponent so that Angular knows where to find them and compile them.
+})
+
+
+-------------------------------------------------
+
+Routing b/w modules is similar to that of routing b/w components except we register the routes here in the child module with Router.ForChild(routes) in the imports array of the module
+
+---------------------------------------------
+
+Lazy Loading of Modules -> loading modules on demand
+
+in angular we can't lazy laod each component instead we need to lazy load a module by using routers loadChildern() method
+
+Creation of lazy loaded module
+1) add routes of a module that needs to be lazily loaded in app.routing.module in the routes as shown below
+
+routes : [
+{ path : admin, loadChildren : () => import(',/admin/admin.module').then( m =>  m.AdminModule) }
+]
+
+2) to remove import of lazy loaded module from imports array in rootModule. if we don't remove then it will be eagerly loaded
+
+3) remove the  path and its children from routes in a lazy loaded module
+
+routes of admin lazy loaded module
+
+before 
+
+routes : [
+path : 'admin',
+children :[
+{ path : '/manageUser' , compoenent : UserComponent},
+{ path : '/.manageControl}' , component : ControlComponent}
+]
+]
+
+after:
+routes : [
+{ path : '/manageUser' , compoenent : UserComponent},
+{ path : '/.manageControl}' , component : ControlComponent}
+]
+
+-----------------------------------------
+
+Preloading Modules -> Preloading is a stratergy of loading a lazy loaded modules asynchrounosly when user is interacting with application after some delay
+
+by implementing preloading stratergy it significantly improves the performance as the module is downliaded async fashion
+Note: preloading only works on lazy loaded modules so it is is important specifiy loadChildren in app.routing module
+Implementing pre loading stratergy
+1) In routes of app.routing module while registering the routes we can specify preload stratergy as follows
+RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }) 
+
+Preloading statergy takes the following values 
+1) PreLoad all modules 2) noPreload
+
+Preloading all modules will cause bootleneck as all modules will be downloaded at a time
+
+better way is
+1) implement eager modules that is required
+2) lazy load the modules that is not frequently used
+3) preload a module which is frequently used by using custom preload stratergy
+
+Custom PreLoad stratergy
+
+to define a custom preload stratergy define a class that iplements PreLoadStratergy
+
+steps to create a custom preload stratergy
+1) define preload static data in routes
+const routes: Routes = [
+  {path: "admin", loadChildren:'./admin/admin.module#AdminModule',data: { preload: true, delay:5000 }},
+  {path: "test", loadChildren:'./test/test.module#TestModule',data: { preload: true, delay:10000 }},
+];
+ 
+2) define a class that implenents PreloadingStrategy  and define a preload method
+
+@Injectable()
+export class CustomPreloadingStrategy implements PreloadingStrategy {
+ 
+    preload(route: Route, loadMe: () => Observable<any>): Observable<any> {
+    
+    if (route.data && route.data['preload']) { // check if preload data is true
+      var delay:number=route.data['delay']
+      console.log('preload called on '+route.path+' delay is '+delay);
+      return timer(delay).pipe( // start delay and return
+        flatMap( _ => { 
+          console.log("Loading now "+ route.path);
+          return loadMe() ;
+        }));
+    } else {
+      console.log('no preload for the path '+ route.path);
+      return of(null);
+    }
+  }
+
+3) finally we need to provide the appstarergy class in providers array o app module so that injector can use it
+
+providers : [appStratergyClass]
+
+
+------------------------------------------------
+
+
+Difference b/w canACtivate and CanLoad route Guards
+
+canActivate download the lazy loaded modules even if the user is restricted to navigate to a path
+canLoad guards does not downloads the lazy loaded modules when the user is restricted to navigate to a path
+
+------------------------------------------------------
+
+Content projection ( <ng-content>, <ng- contect select="header"> , <ng-container> , ngProject as) -> for more details refrer advanced components of tekhub tutorial
+
+---------------------------------------------------
+
+Tempalate refrence variable ( #templatereference , exportAs, <ng-template> )
+
+---------------------------------------------
+
+<ng-container> -> it acts a dummy placeholder in template. It is removed when it is parsed but the content defined inside it will not be removed.
+it is mainly used while working with structural directives (*ngIF, *ngfor , *ngSwithch)
+
+----------------------------------------------
+
+ng-template, ng-templateOutlet, ngtemplateOutletCOntext, elemRef, viewContainerRef, viewContainerRef.createEmbededView(), $implicit
+---------------------------------------------
+
+Host decorators on host element @HostListiner() and @HostBinding()
+
+-------------------------------------------------
+
+viewChild(), viewChildren(), QueryList
+-----------------------------------------
+
+ElemRef , nativeElement, viewContainerRef is used to mainpulate Dom elements in component class.
+
+disadvantage of using elemerf directly means
+1) it is directly coupled with thedom element
+2) and it can also lead to xxs attach
+
+so to Overcome this we can use rendere2
+
+rednder2 is a service which we can use to manipulate dom in component class using its methods and we can also listen to events
+by using its methods like setAttribute(), setStyle(), removestyle()....
+
+---------------------------------------------------
+
+@contentChild(), @contentChildren()
+
+---------------------------------------------
+
+decorators -> decorators are simply a javascript function which provides metadata which can be applied on classes, methods, or properties
+
+building of custom decorator with parameter  (use factory function) and without parameters (normal function)
+
+---------------------------------------------------
+
+RxJs observables -> allows us to do reactive programming with js by working with asynchronous data streams.
+
+for more info check tekhubtutorials
+
+-----------------------------------------------------
+
+Angular's location service -> location service allows us to work with browsers url , back and forward buttons ..etc.
+It doesn't navigate to a view but it only changes the browsers history
+
+to use location service
+import it from @angular/core
+constructor(private location : LocationService){}
+
+this,location.back()
+this.location.forward()
+this.location.path()
+this.location.go('new url', query params) -> ads new url and updates the browsers history
+this.location.replaceState('new url', query params) -> similar to that of go but its replaces the latest browsers history url with this one
+this.location.state() -> used with angular router to pass dynamic data b/w routes
+this.location.UrlChange() -> subscribe to it to listen when url on the browser changes
+this.location.subscribe(  (value: Postate) =>  ) : subscribing to pop state helps us to track when users click back and forward buutons of browser
+
+------------------------------------------------------------------
+
+Error Handling in angular
+
+In angular errors can occur of two types
+1) client side errors -> where angular code comes in play
+which globally is handeled by handleError class but it not sufficient custom global class
+2) Http errors -> http thrown are wrapped into HttpException class
+but we can handle http errors by customly creating httpInterceptor
+
+to know more see tekhubtutorials
+
+---------------------------------------------------------------
+
+Search Engine Optimization, Angular Universal for server side rendering, 404 page not found issue when refreshing the page -> to get all the details on this topics please refer tekhub tutorials
+
+-----------------------------------------------------------------------------
+Custom creation : very important
+
+1) custom directives
+2) custom pipes
+3) custom form sync validator, custom form async validator
+4) custom service creation using httpInterceptor
+5) creating guards using Route guards
+6) custom decorators
+7) custom client side error handling
+8) custom http error handling
+
+---------------------------------------------------------------
+
+Design pattern that angular uses by default:
+
+1) Dependency Injection
+2) Observer design pattern for Observables
+3) factory design pattern for to select routes or app Intializer
+4) singelton design pattern
+5) modular design pattern by modules
+6) Oops principle enacapsulation in view Encapsulation, abstarction , and Inheritence
+
+-----------------------------------------------------------------
+
+Third Party packages used by angular
+
+1) Zone.js or Signals from solid.js to build context
+2) Axior library to build http module
+3) babel compiler to support polyfills to support in other browsers
+4) RxJS library for observables
+5) Jasmine and jest for testing
+
+
