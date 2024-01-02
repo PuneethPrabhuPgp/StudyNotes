@@ -1,7 +1,7 @@
 ------------Udemy Course by Academind Schawze Muller----->
-Fundamental concepts of docker includes 
+Fundamental concepts of docker includes
 1) Docker Conatiners
-2) DOcker Images 
+2) DOcker Images
 
 A docker is a tool for creating and managing containers.
 
@@ -16,7 +16,7 @@ Why docker containers?
 - clashing tools /versions between different projects
 
 Virtual Machines/ Virutal os -> OS installed on top our host os system
-Pros: 
+Pros:
 1) Seprated Environments
 2) Environment-specific configurations are possible
 3) Environment configurations can be shared and reproduced reliably
@@ -37,13 +37,13 @@ Containers vs Virutual Machines
 
 1) Low impact on OS, Very Fast and minimal disk space required
  - Bigger impact on os, slower and higher disk space required
- 
+
 2) Sharing, re-building and distribution is easy
 	- Sharing, re-building and distribution is challenging
-	
+
 3) Encapsultae apps/environments instead of whole machines
 	- Encapuslate whole machines instead of apps/environments.
-	
+
 Installing Docker
 1) For windows and machines
 Docker desktop or Docker Toolbook
@@ -91,10 +91,13 @@ Stopping and restarting Containers:
 11) to list all images -> docker images
 12) remove/deleting images -> docker rmi [imageid imageid imageid] -> to remove images we need to ensure container is removed first (images will not be reomoved if containers are stopped or running]
 13) to remove a stopped conatiner automatically when conatiner is no longer needed -> docker run -p 3000:80 --rm [imageid]
-
-
-
-
+14) we can inspect an image to get full details -> docker inspect image
+15) copying files into/from a container -> docker cp [srcpath] [conatinername/destinationpath] ex: docker cp dummy/. boring_container:/test
+16) Naming a conatiner -> docker run --name mycontainer [imageid]
+17) Naming and tagging a image -> docker build -t [imagename]:[tagname] . ex : docker build -t node:latest .
+18) to change image tag that is already created -> docker tag [odimagename:tag] [newimagename:tag]
+ex: docker tag nodeapp:latest academind/node-hello-world:latest
+19) to delete all images -> docker image prune -a
 
 
 Note: docker run command runs in attached mode and docker start will run in detached mode
@@ -106,3 +109,13 @@ By default, if you run a Container without -d, you run in "attached mode".
 If you started a container in detached mode (i.e. with -d), you can still attach to it afterwards without restarting the Container with the following command:
 docker attach CONTAINER
 attaches you to a running Container with an ID or name of CONTAINER.
+--------------------------------------------------
+Sharing images via docker hub or private registry
+----------------------------------------------
+docker login command to login into docker hub account and docker logout command to logout from dockerhub account
+
+1) Push images to docker hub
+docker push path/file
+
+2) Pulling and using images from docker-hub
+docker pull [path/file]
