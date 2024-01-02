@@ -654,7 +654,7 @@ Advanced concepts for objects and functions
 Determining the value of 'this'
 this binding
 In-depth prototype concepts
-Indirectly invoking functions
+Indirectly invoking functions -> callback functions
 Closure
 Immediately Invoked Function Expressions (IIFEs)
 Namespace pattern

@@ -199,7 +199,7 @@ OR ignore column name =>  INSERT INTO table_name VALUES (value1, value2, value3,
 	example:
 		SELECT ProductName FROM Products WHERE ProductID = ALL (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
 	The following SQL statement lists the ProductName if ALL the records in the OrderDetails table has Quantity equal to 10. This will of course return FALSE because the Quantity column has many different values
-26)HOW TO COPY DATA FROM ONE TABLE TO NEW TABLE:
+26)HOW TO COPY DATA FROM ONE TABLE TO NEW TABLE: it creates a new table and copies data
 	The SELECT INTO statement copies data from one table into a new table.
 		same db: SELECT * INTO newtable FROM oldtable WHERE condition;
 		different db: SELECT * INTO newtable IN externaldb_name FROM oldtable WHERE condition;
@@ -329,7 +329,7 @@ Scalar Function in SQL Server :
 	select dbo.fun_cal(1,2)
 ---------------------------------------------------------------------------------------------	
 https://dotnettutorials.net/course/ms-sql-server/
-able-valued Function, we can return a table as an output from the function. These are again of two types.
+table-valued Function, we can return a table as an output from the function. These are again of two types.
 
 1)Inline Table-valued Function
 2)Multi-statement table value function

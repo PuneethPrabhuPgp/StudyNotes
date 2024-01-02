@@ -1,3 +1,4 @@
+
 Reference - https://www.tektutorialshub.com/angular-tutorial/
  ----------------------------
 
@@ -32,7 +33,7 @@ Bootstraping in angular
 6) displays the template
  ----------------------------
 
-Angular Component
+Angular Component -> provides data to display in the view
 
 @component({
 selector : 'app-selector',
@@ -84,7 +85,7 @@ this.customerChange.emit(customer);
 }
 <input (customerChange) = "update($event)">
 
-By default ngModel makes use use of @input() and @output() r to set values property of form elements
+By default ngModel makes use use of @input() and @output() to set values property of form elements
 
 [(ngModel)] -> [ngModel] as property binding and (ngModelChange) ="value" as event binding internally
 
@@ -92,7 +93,7 @@ instead of ngModel we can specify our own two way binding by using input and out
 
  ----------------------------
 
-Directives -> It is used for extending and manipulating the dom by changing appearance, behaviour or layout of the dom elements
+Directives -> It is used for extending and manipulating the dom by changing appearance, behaviour of dom element or layout of the dom elements
 
 1) Component Directive -> changes the template or view
 2) structural directives -> changes the layout of dom elements *
@@ -101,7 +102,8 @@ local variables provided by ngFor
 index, count, first, last, even, odd
 special property trackBy: trackByFn
 tranckByFn(index, item)
- 2) *ngSwith along with *ngSwitchCase and *ngSwitchDefault 3) *ngIf
+ 2) [ngSwith]="val" along with *ngSwitchCase and *ngSwitchDefault 
+ 3) *ngIf
 3) Attribute Directives -> changes the appearance or behavior of dom elements
 a) ngModel b) ngClass c) ngStyle
 
@@ -133,19 +135,24 @@ Using parent child Relationship
 @input() customer : Customer;
 <chid-componet [count] = Customer></child-Component>
 
+we can listen when input changes by using ngOnChanges(change: SimpleChanges) life cycle hook
+
 2) from child to parent
 
 a) By responding to child events using @Output()
 
-b) by using template rference variables on child comonent in parent tempalte
+b) by using template reference variables on child comonent in parent tempalte
 
 c) using @ViewChild()
+
 @VewChild(childCompnent) child : ChildCompnent
-th
+
 3) Component communication with Routers
  ----------------------------
 
 Component life Cycle Hooks
+
+life cycle events are the callback function that angular provides during the life cycle of the component
 
 Change Detection mechanism -> this is the mechanism by which angular detects the bound properties of template with a component. then it starts the componeet life cycle hook.
 By using the component life cycle hook we can finely tune the components.
@@ -154,9 +161,9 @@ Like Cycle hooks:
 1) ngOnChanges() -> gets invoked when changes on @input() property 
 2) ngOnInit() -> gets invoked after onchanges and it the step to ontialize the component fields and to get data from db
 3) ngDoCheck() -> gets invoked for each change or without change detection, use this for custom checking where ngonchanges couldn't for @input() properties
-4) ngAfterContentInit() -> gets invoked for each content projection from parent to child using <ng-content> and after updating contentChild and contentChildren
+4) ngAfterContentInit() -> gets invoked only once when the intialization of content projection in the child component is done and after updating the properties of @contentChild() and @contentChildrean()
 5) ngAfterContentChecked() -> same as above but gets invoked for every change
-6) ngAfterViewInit() -> gets invoked for each view and its children  and after updating viewChild and viewChildren
+6) ngAfterViewInit() -> gets invoked only once after intializing the child view and after updating the properties of @viewChild() and @ViewChildren()
 7) ngAfterviewChecked() ->  same as above but gets invoked for every change
 8) ngDestroy() -> gets invoked when angular destroys the insatnce of the component -> used to unsubscribe from the observables
 
@@ -183,7 +190,7 @@ if few property of object changes => will not change the refernce of the object 
 so for complex types we have to specify the custom change detection under doCheck() hook by using differ Services
 
 Differ services are of two types
-1) InterableDiffers to use on array like structrue
+1) IterableDiffers to use on array like structrue
 2) key-valueDiffer to use on object like structure
 
 ----------------------------------------------
@@ -221,10 +228,10 @@ contactForm = new FormGroup( {
 1) Import ReactiveFormsModule
 2) Create Form Model in component class using FormGroup, FormControl & FormArrays
 ex: contactForm  = new FormGroup({
-   fName : new FormControl('',[Validators.required, Validators.minLength(10)],
+   fName : new FormControl('',[Validators.required, Validators.minLength(10)],[])
    address : new FormGroup({
         street : new FormControl('churchgate'),
-         city : new FormControl(default: 'Mumbai', disabled : true)
+         city : new FormControl({default: 'Mumbai', disabled : true})
    })
 });
 3) Create the HTML Form resembling the Form Model.
@@ -267,6 +274,7 @@ in consumer class:
 constructor(private appservice : AppService){}
 or
 constructor ( @Inject(Appservice) private appservice){}
+
 Angular create two injector tree when application bootstraps
 a) moduleInjectorTree b) elementInjectorTree
 
@@ -374,8 +382,8 @@ Two types of validators (import reactiveFormsModule)
 1) Sync Validators -> which will automatically validate the elements and returns the value null or errors.
 2) async validators -> which will return a promise or observable , and in turn return the value null or errors.
 
-disabling by checking -> !contactForm.isValid
-checking for errors -> !fname.isValid && ( fname.isDirty && fname.isTouched)
+disabling by checking -> !contactForm.valid
+checking for errors -> !fname.valid && ( fname.isDirty && fname.isTouched)
 checking for specific errors -> !fname.errors.minlength
 
 -------------------------------------
@@ -455,11 +463,11 @@ const headers= new HttpHeaders()
   .set('content-type', 'application/json')
   .set('Access-Control-Allow-Origin', '*');
 
-Http Interceptors -> are useful as we can modify the incoming request before sending to back end and we can modify the outgoing response brfore sjowing it to user. 
+Http Interceptors -> are useful as we can modify the incoming request before sending to back end and we can modify the outgoing response brfore showing it to user. 
 to impelemnt Interceptor we need to implement HTTpInterceptor
 @Injectable()
 class appInterceptor implemenst HTTpInterceptor{
-   intercept ( req : httpreq<any> , next | HttpHandler ) : Observable<HttpEvent<any>>{
+   intercept ( req : httpreq<any> , next : HttpHandler ) : Observable<HttpEvent<any>>{
     return next.handle(req);
 }
 }
@@ -572,11 +580,11 @@ routes: [ { path : 'Home/:id' ,  Component: HomeComponent }]
 
 <a [router-link] = "['/Product', '2']"></a>
 constructor( private _route : Router)
-or we can use this._route.navigate([{  '/product', '2' }]) 
+or we can use this._route.navigate([ '/product', '2']) 
 
 3) to retrieve the parameters in component class we can use activateRoute Service
 
-Constructor( private activatedService : activatedRouteService)
+Constructor( private activatedService : activatedRoute)
 
 Activate routes stores parameters in two ways 
 1) params array -> params are stored with name as key
@@ -591,11 +599,11 @@ this.id = this.ActivateRoute.Snapshot.ParamMap.get(id)
 
 2) Subscribe technique
 
-this.ActivatedRoute.Subscribe( data => this.id = this.paramMap.get(id))
+this.ActivatedRoute.params.Subscribe( paramMap=> this.id = paramMap.get(id))
 
-this.ActivatedRoure.Subscrible( data => this.id = this.params[id])
+this.ActivatedRoure.paramMap.Subscrible( params => this.id = params[id])
 
-better to use paramMap as we can subscribe and listen to nt whenever the component is reloaded everytime
+and both has to be done in ngonit better is to subscribe to n event
 
 
 -----------------------------------------------
@@ -622,17 +630,17 @@ Query Params in routes
 we can add query paremaetre to the following
 
 1) routerLink
-<a [router-link] = "[ '/Product']" , [queryParams] = " { page: 2 }"
+<a [router-link] = "[ '/Product']" , [queryParams] = " { page: 2, sort :'name' }"
 
 2) router.navigate
 
-this.router.navigate( ['/products'], { queryparams : { page : 2, sort : name}} )
+this.router.navigate( ['/products'], { queryparams : { page : 2, sort : 'name'}} )
 
 3) this.router.navigateUrl(/products/details/1 ?page =2  and sort = name)
 
 Reading usimg QueryParams and QueryParamsMap and activateService functionality is same as above
 
-Commiunication b/wmultoiple compoenets can be done using
+Commiunication b/w multiple compoenets can be done using
 
 1) router-link
 2) this.route.navigate()
@@ -693,7 +701,7 @@ we can pass data through routes in the following ways
 2) passing queryParams data b/w routes bu using activatedRoute's queryParamMop and queryParams
 3) passing fragment b/w routes
 4) passing static data using routers data property and accessing it by subscribing to activatedRoute 's data property
-5) passing dynamic data like objects by storing it in browsers history state and accessing it with Location service's location.geState() or by using history.state property or by using router.NavigateByUrl()
+5) passing dynamic data like objects by storing it in browsers history state and accessing it with Location service's location.getState() or by using history.state property or by using router.NavigateByUrl()
 
 passing Static Data b/w routes
 
@@ -1000,7 +1008,7 @@ Design pattern that angular uses by default:
 
 1) Dependency Injection
 2) Observer design pattern for Observables
-3) factory design pattern for to select routes or app Intializer
+3) factory design pattern for to select providers or app Intializer
 4) singelton design pattern
 5) modular design pattern by modules
 6) Oops principle enacapsulation in view Encapsulation, abstarction , and Inheritence

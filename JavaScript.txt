@@ -106,7 +106,7 @@ The typeof operator always returns a string
 13)array itteration method: .forEach,.map,.filter,.reduce,.reduceRight,.every,.some,.find,.findIndex
 
 	All methods "except .reduce,.reduceRight" take 3 arguments in same order -> value,index,arrayItSelf
-	.reduce,.reduceRight will take 4 arguments -> total,value,index,arrayItSelf (totl is previously returned value)
+	.reduce,.reduceRight will take 4 arguments -> accumlator,value,index,arrayItSelf (accumlator is previously returned value)
 	.reduce is from left to right,.reduceRight is right to left
 	total at begining will be the fist or last element then if function is not returning anything other values will be undefined.
 	SYNTAX for all function : 

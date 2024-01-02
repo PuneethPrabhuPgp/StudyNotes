@@ -1,0 +1,108 @@
+------------Udemy Course by Academind Schawze Muller----->
+Fundamental concepts of docker includes 
+1) Docker Conatiners
+2) DOcker Images 
+
+A docker is a tool for creating and managing containers.
+
+Container is a package of code and set of sependencies to run that code.
+Eg: Node Js code and node js runtime
+
+Why docker containers?
+- Different Development and production environments -> ex: latest version we used in development but on server we have older version installed to cope with this use docker container so it runs as is
+
+- Different development environments within a team
+
+- clashing tools /versions between different projects
+
+Virtual Machines/ Virutal os -> OS installed on top our host os system
+Pros: 
+1) Seprated Environments
+2) Environment-specific configurations are possible
+3) Environment configurations can be shared and reproduced reliably
+
+cons:
+1)Redundant duplication, waste of memory
+2)Perfoemance can be slow, boot times can be long
+3)Reproducing on another computer/server is possible but may still be tricky.
+
+How docker helps us by overcoming the cons of virtual machines?
+
+--- Container A, Container B, Container C
+---- Docker Engine
+---- OS built-in /emulated Container Support
+---- our OS
+
+Containers vs Virutual Machines
+
+1) Low impact on OS, Very Fast and minimal disk space required
+ - Bigger impact on os, slower and higher disk space required
+ 
+2) Sharing, re-building and distribution is easy
+	- Sharing, re-building and distribution is challenging
+	
+3) Encapsultae apps/environments instead of whole machines
+	- Encapuslate whole machines instead of apps/environments.
+	
+Installing Docker
+1) For windows and machines
+Docker desktop or Docker Toolbook
+
+2) For Linux Docker has inbuilt support so need to install docker engine
+
+
+Docker Commands
+
+1) docker build . -> builds our environment project with required dependencies
+2) docker run -p 3000:3000 [imageid]
+3) docker ps -a -> lists all running containers
+4) docker stop [containerName]
+5) docker-machine ip to get ip address of virtual machine running only useful if u build docker using docker toolbox
+
+Docker Images are the temaplates/blueprints for conatiner (contains code + run time dependencies).
+
+By using an image we can build multiple containers which satifies the image
+
+Docker Hub is a tool from where we can get official built-in third party images to build our container
+https://hub.docker.com/
+
+docker run node
+to run node in docker to use repl use command docker run -it node
+
+to create your own image create a Dockerfile in ur project
+and run command docker build . -> this builds the image
+
+Note: images are read-only that means changes made in code will not be reflected until you build that image again
+Note: Docker images are layer based and cache the changes if their are no file chnages
+
+
+Stopping and restarting Containers:
+
+1) List of all running conatiner -> docker ps
+2) list of all running and non-running containers -> docker ps -a
+3) to run a new container -> docker run -p 3000:80 [imageid]  -> p specifies port to run
+4) restarting a stopped container -> docker start [containername]
+5) to stop conatiner ->  docker stop [containername]
+6) to attach back again -> docker attach [containername]
+7) to dettach ->  docker dettach [containername]
+8) to fetch logs of a container -> docker logs [containername]
+9) to interact with terminal while running a docker ->  docker run -it [docakerimageid]
+10) remove/delete containers  -> docker rm [conatinername1 containername2 conatinername3] note: only stopped conatiners can be removed
+11) to list all images -> docker images
+12) remove/deleting images -> docker rmi [imageid imageid imageid] -> to remove images we need to ensure container is removed first (images will not be reomoved if containers are stopped or running]
+13) to remove a stopped conatiner automatically when conatiner is no longer needed -> docker run -p 3000:80 --rm [imageid]
+
+
+
+
+
+
+Note: docker run command runs in attached mode and docker start will run in detached mode
+Attached mode means no command can be entered - it runs in foreground mode and dettached means we can run command - it runs in background mode
+attached means listening to container.
+
+Note:
+By default, if you run a Container without -d, you run in "attached mode".
+If you started a container in detached mode (i.e. with -d), you can still attach to it afterwards without restarting the Container with the following command:
+docker attach CONTAINER
+attaches you to a running Container with an ID or name of CONTAINER.
