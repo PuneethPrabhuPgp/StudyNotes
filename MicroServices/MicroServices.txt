@@ -1,0 +1,75 @@
+Source Udemy -- stephen Grider Microservices with node js
+
+---MOnolithic
+We know that in MOnolithic
+has a auth module + router + service a + service B + service C + single database
+
+The above structure fails if any part of the application fails while running
+
+To Oversome this we can use Microservices
+
+---------------------
+Microservice structure
+
+Auth Module for A + router for A + Business logic Service A + Database A
+
+Interacts with
+
+Auth Module for B + router for B + Business logic Service B + Database B
+
+interacts with
+
+Auth Module for C + router for C + Business logic Service C + Database c
+
+In microservice arch, the main challenge will be how will each service will communicate with each other which is called data mangement b/w services
+
+-------------------------------------
+
+Why each Microservice has its own db ?
+
+1) we want each service to run independently of other service.
+2) Database schema/structure might change unexcpectedly
+3) Some services might function more efficiently with different types of DB's (sql vs nosql)
+
+-----------------------------
+
+Data management b/w services
+
+1) Sync -> Services communicate with each other with direct request
+2) async communication -> services communicate with other through events
+
+
+------------------
+
+Sync Communication downsides (not good, better to use async communication)
+
+1) Conceptually easy to understand
+2) Introduces a dedendency b/w services
+3) If any inter-service request fails overall service fails
+4) entire request is only as fast as the slowest request
+5) can easily introduce web of requests
+6) new srvice wont need its own db to intreact with other db.
+
+-----------------------
+
+async communication downsides with events (here events means message broker)
+
+it carries all downsides of sync as as all services will denpent on single service called event bus to look for events.
+
+-----------------
+
+async communication with events and db for a new service can sole all the above problems mentioned
+
+let say we have a service d now that needs info from a , b and c along with service d we create a db and got that db data populated whenever service a hits , or b hits we will make internall calll to d and store data in db of d. that is the idea behind using message broker and db.
+
+-----------------------
+
+Pros and cons of async communication with message broker + db
+
+Pros
+1) New service created since has its own db with required data, it has zero dependencies with other services.
+2) new service will be very faster
+
+Cons
+1) Data duplication + Paying for extra storage + extra db
+2) Harder to understand
