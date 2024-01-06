@@ -1,0 +1,5 @@
+Kubernetes is a tool for running a bunch of different containers.
+
+We give it some configuration to describe how we want our containers to run and interact with each other
+
+Kubernets Cluster is a clollection of differenet virtual machine called nodes

@@ -1,0 +1,15 @@
+--- source Akshay Saini Namaste dev
+
+basics of vs code
+
+Emmet -> vs code uses emmet by default which help us to quickly write html
+
+1) html:5
+2) div#root
+3)
+
+
+Live Server -> for easily running our code in local server
+
+
+1) We can use react using cdn or by downloading files

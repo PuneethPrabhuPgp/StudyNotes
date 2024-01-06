@@ -5,7 +5,7 @@ Fundamental concepts of docker includes
 
 A docker is a tool for creating and managing containers.
 
-Container is a package of code and set of sependencies to run that code.
+Container is a package of code and set of dependencies to run that code.
 Eg: Node Js code and node js runtime
 
 Why docker containers?
