@@ -58,7 +58,7 @@ it carries all downsides of sync as as all services will denpent on single servi
 
 -----------------
 
-async communication with events and db for a new service can sole all the above problems mentioned
+async communication with events and db for a new service can solvse all the above problems mentioned
 
 let say we have a service d now that needs info from a , b and c along with service d we create a db and got that db data populated whenever service a hits , or b hits we will make internall calll to d and store data in db of d. that is the idea behind using message broker and db.
 
@@ -73,3 +73,183 @@ Pros
 Cons
 1) Data duplication + Paying for extra storage + extra db
 2) Harder to understand
+
+MicroServices Architecture:
+------------------
+1) Database Per Service
+2) Shared Database b/w different services
+
+Services communication takes place in two ways
+
+1) Synchronous communication -> Where communication b/w services takes place through http calls b/w services
+2) Asynchrouns communication -> 1) Communication b./w services takes place through message broker like RabbitMQ, KAkfa or NATS.
+2) to implement client -server communication we use api-gateway
+
+Downfall of Sync communication:
+
+Since http protocol supports synchronous communication the followind are cons:
+
+1) Blocking and low perforamace:
+  HTTP is synchronous and the original request doesn’t get a response until all multiple HTTP service calls are finished.
+
+2) Loss of automony -> since each service depends on another they can't work asynchrounosly
+3) Complex failure management -> lets says in multiple service call if a ny service call gets failed and other service which depends on the failed service will fail as it never gets a call
+
+To solve above issues of Synchronous we can use message brokers to deal with async pattern
+as async pattern makes use of AMQP (Advanced Message Queuing protocol) protocal to communicate with each other
+------------------------------------
+1) Async communication client-server with api-gateway
+
+What is API Gateway?
+
+API gateway is a service commnly called as reverse proxy service which sits b/w client and server and acts a single point of contact means it internally makes calll to other services reuested by client and it hides the implementation details of services.
+
+Note: APi gateway or reverse proxy is similar to data abstarction and encapsulation in programming. i.e: it hides implementation details of services and makes a single point of contcat to call these services.
+
+responsibilities of API gateway:
+API Gateway is used for implementing the following
+
+1) Routing
+2) Security -> authenication , authorization, threat protection and versioning
+3) Traffic control -> Load balancing, caching and rate limiting
+4) Orchestration -> service discovery and failure handling like retries and circuit breaking
+5) Observability -> Logging, monitoring and tracing
+6) Transformattion -> Request and response formatting
+
+to handle api gateway we can make use of packages like aws serverless gateway.
+
+In microservices, can one service make a call to another service via api gateway?
+yes, but it is not a good way to make a service call internally as it needs to all the implementation steps mentioned above of api gateway which may degrade a Perfoemance
+
+-----------------------------------------
+2) async communication service-service using message broker which is also called as service mesh
+
+We can implement service mesh to communicate b/w different services via service mesh.
+
+other name for message broker is service mesh, event bus, event broker and advanced message queeue protocol (amqp) based inetraction
+
+Service mesh
+---------------------
+
+1) A service mesh is a component that manages the commmuincation b/w mutiples services by helping them to share data b/w them
+
+Difference b/w api gateway and service mesh
+---------------------------
+
+1) - api gateway is used for external communication i.e: Client to service communication
+  - service mesh is used for service to service communication
+
+Source: https://www.techtarget.com/searchapparchitecture/tip/Service-mesh-vs-API-gateway-Where-why-and-how-to-use-them#:~:text=An%20API%20gateway%20may%20forward,service%20mesh%2C%20and%20vice%20versa.
+
+-----------------------------------
+
+Sync communication b/w services
+------------------------------
+
+Please refer my git hub project
+source: https://www.turing.com/kb/how-to-build-microservices-with-node-js
+--------------------------------------
+Async communication via api-gateway
+
+1) custom api gateway
+
+we can create our custom api-gateway please refer api-gateway project created by me in git.
+source: https://www.plusdev.net/2023/03/17/building-a-custom-api-gateway-nodejs
+
+
+2) async communication using message broker rabbit RabbitMQ
+
+refer to the project created by me in git.
+source: https://www.turing.com/kb/how-to-build-microservices-with-node-js
+
+---------------------------------------------
+Message Broker-RabbitMQ (VIMP)
+--------------------------------------------------------------------
+
+Message broker is a tool that helps different services to communicate with each other by loose coupling (decoupling).
+
+RabbitMQ is a message broker that helps in decoupling the application by using a advanced message queue protocol (AMQP) mechanisim b/w different services.
+RabbitMQ offers temporary storage of data, and helps in preventing data loss b/w services.
+
+It runs on Erlang runtime environement and developed by VMware.
+RabbitMQ makes use of producer consumer pattern to communicate b/w different services.
+
+Features of RabbitMQ:
+1) Distributed deployment : allows to deploy in different container/clusters
+2) Tools and plugin -> provide lot of tools to manage the depoyed conatiners
+3) Cloud ready deployment
+4) Async messaging
+
+Key concepts of RabbitMQ:
+
+1) Producer: A producer is the one who sends messages to a queue based on the queue name.
+2) Consumer: A consumer is the one who subscribes to and receives messages from the broker and uses that message for other defined operations.
+3) Exchange: An exchange is an entry point for the broker because it takes messages from a publisher and routes those messages to the appropriate queue.
+4) Queue: A Queue is a sequential data structure that is a medium through which messages are transferred and stored.
+5) Bindings -> Bindings is used for binding queue with broker using a key called Routing Key
+6) Create User
+7) Virtual Host
+8) connection: A tcp connection b/w a producer and message broker or b/w a consumer and message broker
+9) Channel: Channels is a virtual connection inside a tcp connection through which message will be sent to queue by producer or message will be consumed by consumer.
+
+
+
+Install rabitMQ server on your local machine
+Source: https://www.tutlane.com/tutorial/rabbitmq/rabbitmq-exchanges
+https://www.rabbitmq.com/download.html
+
+
+RabbitMQ Excahnges ->
+In rabbitmq, when producer creates a message that will not directly sent to a queue, instead first the message will be send to exchanges, then after that a routing agent reads and sends it to the appropriate queue with help of header attributes, bindings, and routing keys.
+
+Exchanges are of 4 types
+
+1) direct Excahanges through Routing keys
+2) Header Exchange
+3) Topic exchange
+4) Fanout exchange
+
+
+RabbitMQ Queues -> Queue is a buffer that stores a messages that are sent from the exchanges to queues.
+
+
+ RabbitMQ bindings -> Bindings allows to bind the quue to an excahnge by using routing key
+
+ RabbitMQ create User -> we can create user who can access the server by specificinga virtual host and path
+
+ RabbitMQ virtual Host -> Similar to virtual box we can create virtual host. Virtual host is a collection of exchanges, quesues, connections by which we can give acces to specific users.
+
+ Rabbit MQ Connections -> connection is a TCP connection between our application and the rabbitmq broker.
+
+Rabbit MQ Channels -> channel is a virtual connection inside a connection and publishing or consuming a message from queue will happen over a channel.
+
+we can manage all the stuff bu using rabbing mq web management portal
+http://localhost:15672/
+
+source: https://www.tutlane.com/tutorial/rabbitmq/rabbitmq-exchanges
+
+Working examples of RabbitMQ please look into my git project
+
+Source: https://www.rabbitmq.com/tutorials/tutorial-one-javascript.html
+
+Important methods of RabbitMQ
+Both Publisher and consumer
+
+1) amqp.connect()
+2) amqp.createChannel()
+3) channel.assertQueue(queue, {durable: true, exclusive : true}) -> assert queue to create a queue and durable to store teh msg even if connection is lost or message broker is restarted, by default it makes use of default queue, exclusive tells the queue to delete when the connect is closed
+9) channel.assetExchange('logs', 'fanout', {durable : true}) -> to create an exchange of type fanout
+
+Only at publisher side.
+8) chaneel.sendToQueue(queue, Buffer.from(msg), {persistent: true}) -> to store the msg
+10) chaneel.pusblish('logs', binding_key, Buffer.from(msg), {persistent: true}) -> is used to pusblish msg to logs exchange and The empty string as second parameter means that we don't want to send the message to any specific queue. We want only to publish it to our 'logs' exchange.
+6) connection.close() -> to close the connection
+12) Procees.exit(0) -> to exit the process
+
+
+only at consumer side
+
+4) chaneel.ack() -> to ackowledge that we have recieved a message and tellling message broker to delete the message
+5) channel.prefetch(1) -> tells RabbitMQ not to give more than one msg to me (consumer) at a time
+7) channel.consume(queue, () => {}, { noack : true} ) -> to consue a msg and set noack
+11) channel.bindQueue(queue_name, 'logs', binding_key) -> used to bind a queue to logs exchange
