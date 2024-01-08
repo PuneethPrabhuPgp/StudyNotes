@@ -119,3 +119,37 @@ docker push path/file
 
 2) Pulling and using images from docker-hub
 docker pull [path/file]
+
+------------------------------------------------------------
+Docker from Geek Of Geeks
+---------------------------------------------
+
+Docker is a tool for developing and managing containers.
+Docker is a set of PAAS (platform as a service) providers that provides os system-level virtualization to run our code in a package called COntainers.
+All containers can communicate with each other through well known chnannels. SInce docker needs only one Kernel server to run all the conatiners so it overcomes all the drawbacks that we have with virtual machines
+
+PAAS is a cloud computing model where some third party tool provides us the environment to run and deploy our code.
+
+Container = Code + run time dependencies and evnvironment.
+
+Features of Docker
+Docker reduces the size of development by providing a smaller part of the OS via containers.
+It is easier to work on the same project by different teams with the help of Containers.
+Docker containers can be deployed anywhere, on any physical, or virtual machines and on the cloud.
+Docker containers are lightweight so, it becomes east to scale them.
+
+Advantages of Docker
+Docker uses less memory.
+The full operating system is not required to run an application.
+Containers run faster than the other Virtual Machines.
+It is lightweight.
+It allows us to use a remote repository to share your containers with other teams.
+To reduce the risks, it uses dependencies.
+
+Disadvantages of Docker
+Complexity will increase due to layering.
+It is difficult to manage a large number of containers.
+For an application that needs better graphics, Docker is not suitable for it.
+Cross-platform compatibility is not allowed.
+
+Docker file contains a set of instructions to genrate a docker image.

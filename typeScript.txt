@@ -1,0 +1,57 @@
+Typescript Source: https://www.typescripttutorial.net/typescript-tutorial/what-is-typescript/
+
+
+As we know Js is a dynamci language, to make it static type we can use TypeScript.
+
+Typescript is built on top of javascript, and it has to be compiled to JS to run it.
+
+To convert typescript to JS it makes use of TSC compiler.
+
+Features of Typescript:
+
+1) Typescript makes javascript variables type specific so it helps us avoiding potenial bugs that occurs during runtime.
+2) TypeScript also allows feature implementation of Javascript.
+
+to install typescript we need node environment
+npm install -g typescript ts-node
+
+Primitive types -> string , number, bigint, boolean, null, undefined, symbol, any, unknown, void, never, union , intersection
+Object types -> array, classes , functions, tuples,  etc.
+
+-----------------------------------
+Unknown vs any
+-------------------------------------
+
+any value can be assigned to unknown and any
+
+Diiference :
+
+the value of any can be assigned to an other variable and we can call the method of other type
+the value of unknown cannot be assigned to other variable type and we cannot call the methiod of other type
+
+Ex:
+let vAny: any = 10;          // We can assign anything to any
+let vUnknown: unknown =  10; // We can assign anything to unknown just like any
+
+
+let s1: string = vAny;     // Any is assignable to anything
+let s2: string = vUnknown; // Invalid; we can't assign vUnknown to any other type (without an explicit assertion)
+
+vAny.method();     // Ok; anything goes with any
+vUnknown.method(); // Not ok; we don't know anything about this variable
+
+Source: https://stackoverflow.com/questions/51439843/unknown-vs-any
+
+---------------------------------
+Different ways to create multiple inheritence in typescript
+------------------------------------------
+
+class A implements InterfaceA , InterfaceB
+
+1) through interfaces
+
+2) through mixins
+
+source: https://www.digitalocean.com/community/tutorials/typescript-mixins
+https://www.typescriptlang.org/docs/handbook/mixins.html#alternative-pattern
+https://www.digitalocean.com/community/tutorials/typescript-interface-declaration-merging
