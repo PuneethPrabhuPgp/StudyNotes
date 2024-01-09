@@ -124,7 +124,7 @@ docker pull [path/file]
 Docker from Geek Of Geeks
 ---------------------------------------------
 
-Docker is a tool for developing and managing containers.
+Docker is a tool for building, running and deploying/managing docker containers.
 Docker is a set of PAAS (platform as a service) providers that provides os system-level virtualization to run our code in a package called COntainers.
 All containers can communicate with each other through well known chnannels. SInce docker needs only one Kernel server to run all the conatiners so it overcomes all the drawbacks that we have with virtual machines
 
@@ -153,3 +153,67 @@ For an application that needs better graphics, Docker is not suitable for it.
 Cross-platform compatibility is not allowed.
 
 Docker file contains a set of instructions to genrate a docker image.
+
+Docker image is a set of instruction to genrate a docker container. Docker image consists all dependencies to run a project in a virtual machine.
+
+Docker container is a runtime instance of a docker image. Containers contain the whole kit required for an application to run, so that the application can run in an isolated way.
+
+Docker Hub is a cloud based docker container images repository where we can push our container images fetch it and reuse it.
+
+Docker compose is a set of instruction written in YAML file which runs along with docker swarm which helps in providing direction for building and deploying multiple containers.
+
+
+Docker Commands:
+
+1) docker run
+2) docker pull
+3) docker ps
+4) docker start
+5) docker stop
+6) docker rm
+7) docker rmi
+8) docker images
+9) docker exec
+10) docker login
+11) docker build
+12) docker push
+
+--------------
+Docker Engine and docker architecture
+-----------------
+
+Docker engine is a software which is responsible for building, running and deploying/maintaining docker containers. It is also called as daemon process.
+
+Docker engine uses client-server architecture. so 3 import  stuff of docker engine is
+
+1) CLient -> docker cli is a client where we are able to run docker commands to interact with docker engine/server/daemon.
+2) Server -> Calles as Daemon process whose responibility is to build , run and manage docker conatiners, iamges , networks and volumes of docker.
+3) Rest API -> which helps in communicating b/w client and server.
+
+Why docker?
+In microservices architecture, we know we will create mutliples services which may run on its own run time , own dependencies and own code.To run all this we need a os. SO instead of creating creating different os for each services to run we can use docker which provides dependencies tied with docker stuff.
+
+docker reduces the following
+1) need of os to run a service
+2) no need of extra memory to manage each os
+3) docker helps in as is deploynment -> meaning it ensures that if the code is running on my system that means it will definetly run on host machine as well without any issues.
+
+
+---------------
+Docker for allows
+----------------
+
+AWS provides its ECS (Elastic Container Service) for managing, deploying and mainting docker containers on cloud and it can also interact with other aws services such as load balancing, service discovery and container heath monitoring.
+
+--------------------
+Docker commands
+------------------
+
+https://www.geeksforgeeks.org/docker-instruction-commands/?ref=lbp
+
+docker file commands
+https://docs.docker.com/engine/reference/builder/
+https://dev.to/aws-builders/understanding-the-dockerfile-format-3cc6
+
+
+for others go through all the topics mentioned in the source link
