@@ -238,7 +238,7 @@ Both Publisher and consumer
 1) amqp.connect()
 2) amqp.createChannel()
 3) channel.assertQueue(queue, {durable: true, exclusive : true}) -> assert queue to create a queue and durable to store teh msg even if connection is lost or message broker is restarted, by default it makes use of default queue, exclusive tells the queue to delete when the connect is closed
-9) channel.assetExchange('logs', 'fanout', {durable : true}) -> to create an exchange of type fanout
+9) channel.assertExchange('logs', 'fanout', {durable : true}) -> to create an exchange of type fanout
 
 Only at publisher side.
 8) chaneel.sendToQueue(queue, Buffer.from(msg), {persistent: true}) -> to store the msg
